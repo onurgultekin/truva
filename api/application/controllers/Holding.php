@@ -49,4 +49,19 @@ class Holding extends REST_Controller {
 		$message = $this->holding_model->getHoldinglist($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function addHolding_post(){
+		$this->load->model("holding_model");
+		$message = $this->holding_model->addHolding($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function updateHolding_post(){
+		$this->load->model("holding_model");
+		$message = $this->holding_model->updateHolding($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function deleteHolding_post(){
+		$this->load->model("holding_model");
+		$message = $this->holding_model->deleteHolding($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 }
