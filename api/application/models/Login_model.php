@@ -15,7 +15,7 @@ class Login_model extends CI_Model {
                         }
                 } 
                 if($k>0){
-                        $response = $this->globalfunctions->returnMessage(1000,"Invalid request. Mandatory parameter missing.",true);
+                        $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
                 }else{
                         $availableParameters = array("email","password");
                         foreach ($parameters as $key => $parameter) {
@@ -24,7 +24,7 @@ class Login_model extends CI_Model {
                                 }
                         }
                         if($i>0){
-                                $response = $this->globalfunctions->returnMessage(1001,"Invalid request. You have entered unknown parameters",true);
+                                $response = $this->globalfunctions->returnMessage(1001,"Geçersiz istek. Bilinmeyen parametre girdiniz.",true);
                         }else{
                                 $email = $parameters["email"];
                                 $password = $parameters["password"];
@@ -41,17 +41,7 @@ class Login_model extends CI_Model {
                                                 $response["accessToken"] = $result->accessToken;
                                                 $response["userId"] = $result->userId;
                                                 $response["username"] = $result->userfullname;
-                                                $response["currency"] = $result->currency;
-                                                $response["currencyIso"] = $result->currencyIso;
                                                 $response["userType"] = $result->userType;
-                                                $response["age"] = $result->age;
-                                                $response["mobileNumber"] = $result->mobileNumber;
-                                                $response["userType"] = $result->address;
-                                                if(@$result->language==null){
-                                                        $response["language"] = "en";        
-                                                }else{
-                                                        $response["language"] = $result->language;
-                                                }
                                         }
                                 }
                         }

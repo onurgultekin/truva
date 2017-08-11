@@ -16,13 +16,13 @@ class Login extends REST_Controller {
 			$userId = 0;
 		}
 		$responseTime = date("Y-m-d H:i:s.u",round(microtime(true)));
-		$this->insertLogs($message,$userIp,$url,$userId,$this->requestTime,$responseTime);
+		$this->insertLogs($message,$url,$userId,$this->requestTime,$responseTime);
 	}
-	function insertLogs($message,$userIp,$method,$userId,$requestTime,$responseTime){
+	function insertLogs($message,$method,$userId,$requestTime,$responseTime){
 		$this->db->close();
 		$message = json_decode($message);
 		$message = json_encode($message,JSON_UNESCAPED_UNICODE);
-		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$userIp."','".$this->input->ip_address()."','".json_encode($this->post(),JSON_UNESCAPED_UNICODE)."','".$message."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
+		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".json_encode($this->post(),JSON_UNESCAPED_UNICODE)."','".$message."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
 	public function index_post(){
 		$this->load->model("login_model");
