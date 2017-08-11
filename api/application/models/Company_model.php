@@ -1,11 +1,11 @@
 <?php 
-class Holding_model extends CI_Model {
+class Company_model extends CI_Model {
 
         public function __construct()
         {
                 parent::__construct();
         }
-        public function getHoldingByCountry($parameters){
+        public function getCompanyByCountry($parameters){
                 $i = 0;
                 $k = 0;
                 $mandatoryParameters = array("accessToken","userId","countryId"); 
@@ -35,7 +35,7 @@ class Holding_model extends CI_Model {
                                 if(!is_numeric($countryId)){
                                         $response = $this->globalfunctions->returnMessage(1003,"Country Id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL GET_HOLDING_BY_COUNTRY_ID('".$accessToken."',".$userId.",".$countryId.")");
+                                        $query = $this->db->query("CALL GET_COMPANY_BY_COUNTRY_ID('".$accessToken."',".$userId.",".$countryId.")");
                                         $result = $query->row();
                                         if(@$result->isError == 1){
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
@@ -49,7 +49,7 @@ class Holding_model extends CI_Model {
                 }
                 return $response;
         }
-        public function getHoldingByCity($parameters){
+        public function getCompanyByCity($parameters){
                 $i = 0;
                 $k = 0;
                 $mandatoryParameters = array("accessToken","userId","cityId"); 
@@ -79,7 +79,7 @@ class Holding_model extends CI_Model {
                                 if(!is_numeric($cityId)){
                                         $response = $this->globalfunctions->returnMessage(1004,"City Id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL GET_HOLDING_BY_CITY_ID('".$accessToken."',".$userId.",".$cityId.")");
+                                        $query = $this->db->query("CALL GET_COMPANY_BY_CITY_ID('".$accessToken."',".$userId.",".$cityId.")");
                                         $result = $query->row();
                                         if(@$result->isError == 1){
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
@@ -93,7 +93,7 @@ class Holding_model extends CI_Model {
                 }
                 return $response;
         }
-        public function getHoldingByCounties($parameters){
+        public function getCompanyByCounties($parameters){
                 $i = 0;
                 $k = 0;
                 $mandatoryParameters = array("accessToken","userId","countyId"); 
@@ -123,7 +123,7 @@ class Holding_model extends CI_Model {
                                 if(!is_numeric($countyId)){
                                         $response = $this->globalfunctions->returnMessage(1005,"County Id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL GET_HOLDING_BY_COUNTY_ID('".$accessToken."',".$userId.",".$countyId.")");
+                                        $query = $this->db->query("CALL GET_COMPANY_BY_COUNTY_ID('".$accessToken."',".$userId.",".$countyId.")");
                                         $result = $query->row();
                                         if(@$result->isError == 1){
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
@@ -137,7 +137,7 @@ class Holding_model extends CI_Model {
                 }
                 return $response;
         }
-        public function getHoldingByAreas($parameters){
+        public function getCompanyByAreas($parameters){
                 $i = 0;
                 $k = 0;
                 $mandatoryParameters = array("accessToken","userId","areaId"); 
@@ -167,7 +167,7 @@ class Holding_model extends CI_Model {
                                 if(!is_numeric($areaId)){
                                         $response = $this->globalfunctions->returnMessage(1006,"Area Id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL GET_HOLDING_BY_AREA_ID('".$accessToken."',".$userId.",".$areaId.")");
+                                        $query = $this->db->query("CALL GET_COMPANY_BY_AREA_ID('".$accessToken."',".$userId.",".$areaId.")");
                                         $result = $query->row();
                                         if(@$result->isError == 1){
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
@@ -181,7 +181,7 @@ class Holding_model extends CI_Model {
                 }
                 return $response;
         }
-        public function getHoldinglist($parameters){
+        public function getCompanylist($parameters){
                 $i = 0;
                 $k = 0;
                 $mandatoryParameters = array("accessToken","userId"); 
@@ -193,7 +193,7 @@ class Holding_model extends CI_Model {
                 if($k>0){
                         $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
                 }else{
-                        $availableParameters = array("accessToken","userId","holdingId");
+                        $availableParameters = array("accessToken","userId","companyId");
                         foreach ($parameters as $key => $parameter) {
                                 if(!in_array($key,$availableParameters)){
                                         $i++;
@@ -204,17 +204,17 @@ class Holding_model extends CI_Model {
                         }else{
                                 $accessToken = $parameters["accessToken"];
                                 $userId = $parameters["userId"];
-                                $holdingId = @$parameters["holdingId"];
-                                if(!$holdingId){
-                                        $holdingId = "NULL";
+                                $companyId = @$parameters["companyId"];
+                                if(!$companyId){
+                                        $companyId = "NULL";
                                 }
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
                                 }else
-                                if($holdingId!="NULL" && !is_numeric($holdingId)){
-                                        $response = $this->globalfunctions->returnMessage(1006,"Holding Id parametresi numeric olmalıdır.",true);
+                                if($companyId!="NULL" && !is_numeric($companyId)){
+                                        $response = $this->globalfunctions->returnMessage(1006,"Company Id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL GET_HOLDINGS('".$accessToken."',".$userId.",".$holdingId.")");
+                                        $query = $this->db->query("CALL GET_COMPANIES('".$accessToken."',".$userId.",".$companyId.")");
                                         $result = $query->row();
                                         if(@$result->isError == 1){
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
@@ -228,10 +228,10 @@ class Holding_model extends CI_Model {
                 }
                 return $response;
         }
-        public function addHolding($parameters){
+        public function addCompany($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","HoldingName","HoldingAdress","InvoiceAddress","TaxNo","TaxAdministrationName","InvoiceTelephone","InvoiceMobile","InvoiceEmail","HoldingTelephone","HoldingMobile","HoldingFax","HoldingEmail","HoldingSign","CountryID","CityID","CountyID","AreaID"); 
+                $mandatoryParameters = array("accessToken","userId","CompanyName","CompanyAdress","InvoiceAddress","TaxNo","TaxAdministrationName","InvoiceTelephone","InvoiceMobile","InvoiceEmail","CompanyTelephone","CompanyMobile","CompanyFax","CompanyEmail","CompanySign","CountryID","CityID","CountyID","AreaID"); 
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -240,7 +240,7 @@ class Holding_model extends CI_Model {
                 if($k>0){
                         $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
                 }else{
-                        $availableParameters = array("accessToken","userId","HoldingName","HoldingAdress","InvoiceAddress","TaxNo","TaxAdministrationName","InvoiceTelephone","InvoiceMobile","InvoiceEmail","HoldingTelephone","HoldingMobile","HoldingFax","HoldingEmail","HoldingSign","CountryID","CityID","CountyID","AreaID");
+                        $availableParameters = array("accessToken","userId","CompanyName","CompanyAdress","InvoiceAddress","TaxNo","TaxAdministrationName","InvoiceTelephone","InvoiceMobile","InvoiceEmail","CompanyTelephone","CompanyMobile","CompanyFax","CompanyEmail","CompanySign","CountryID","CityID","CountyID","AreaID");
                         foreach ($parameters as $key => $parameter) {
                                 if(!in_array($key,$availableParameters)){
                                         $i++;
@@ -251,19 +251,19 @@ class Holding_model extends CI_Model {
                         }else{
                                 $accessToken = $parameters["accessToken"];
                                 $userId = $parameters["userId"];
-                                $HoldingName = $parameters["HoldingName"];
-                                $HoldingAdress = $parameters["HoldingAdress"];
+                                $CompanyName = $parameters["CompanyName"];
+                                $CompanyAdress = $parameters["CompanyAdress"];
                                 $InvoiceAddress = $parameters["InvoiceAddress"];
                                 $TaxNo = $parameters["TaxNo"];
                                 $TaxAdministrationName = $parameters["TaxAdministrationName"];
                                 $InvoiceTelephone = $parameters["InvoiceTelephone"];
                                 $InvoiceMobile = $parameters["InvoiceMobile"];
                                 $InvoiceEmail = $parameters["InvoiceEmail"];
-                                $HoldingTelephone = $parameters["HoldingTelephone"];
-                                $HoldingMobile = $parameters["HoldingMobile"];
-                                $HoldingFax = $parameters["HoldingFax"];
-                                $HoldingEmail = $parameters["HoldingEmail"];
-                                $HoldingSign = $parameters["HoldingSign"];
+                                $CompanyTelephone = $parameters["CompanyTelephone"];
+                                $CompanyMobile = $parameters["CompanyMobile"];
+                                $CompanyFax = $parameters["CompanyFax"];
+                                $CompanyEmail = $parameters["CompanyEmail"];
+                                $CompanySign = $parameters["CompanySign"];
                                 $CountryID = $parameters["CountryID"];
                                 $CityID = $parameters["CityID"];
                                 $CountyID = $parameters["CountyID"];
@@ -286,10 +286,10 @@ class Holding_model extends CI_Model {
                                 if(!filter_var($InvoiceEmail, FILTER_VALIDATE_EMAIL)){
                                         $response = $this->globalfunctions->returnMessage(1007,"Fatura mail adresi uygun formatta değil.",true);
                                 }else
-                                if(!filter_var($HoldingEmail, FILTER_VALIDATE_EMAIL)){
-                                        $response = $this->globalfunctions->returnMessage(1008,"Holding mail adresi uygun formatta değil.",true);
+                                if(!filter_var($CompanyEmail, FILTER_VALIDATE_EMAIL)){
+                                        $response = $this->globalfunctions->returnMessage(1008,"Company mail adresi uygun formatta değil.",true);
                                 }else{
-                                        $query = $this->db->query("CALL ADD_OR_UPDATE_HOLDING('".$accessToken."',".$userId.",NULL,'".$HoldingName."','".$HoldingAdress."','".$InvoiceAddress."','".$TaxNo."','".$TaxAdministrationName."','".$InvoiceTelephone."','".$InvoiceMobile."','".$InvoiceEmail."','".$HoldingTelephone."','".$HoldingMobile."','".$HoldingFax."','".$HoldingEmail."','".$HoldingSign."',".$CountryID.",".$CityID.",".$CountyID.",".$AreaID.")");
+                                        $query = $this->db->query("CALL ADD_OR_UPDATE_COMPANY('".$accessToken."',".$userId.",NULL,'".$CompanyName."','".$CompanyAdress."','".$InvoiceAddress."','".$TaxNo."','".$TaxAdministrationName."','".$InvoiceTelephone."','".$InvoiceMobile."','".$InvoiceEmail."','".$CompanyTelephone."','".$CompanyMobile."','".$CompanyFax."','".$CompanyEmail."','".$CompanySign."',".$CountryID.",".$CityID.",".$CountyID.",".$AreaID.")");
                                         $result = $query->row();
                                         $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
                                 }
@@ -297,10 +297,10 @@ class Holding_model extends CI_Model {
                 }
                 return $response;
         }
-        public function updateHolding($parameters){
+        public function updateCompany($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","HoldingID","HoldingName","HoldingAdress","InvoiceAddress","TaxNo","TaxAdministrationName","InvoiceTelephone","InvoiceMobile","InvoiceEmail","HoldingTelephone","HoldingMobile","HoldingFax","HoldingEmail","HoldingSign","CountryID","CityID","CountyID","AreaID"); 
+                $mandatoryParameters = array("accessToken","userId","CompanyID","CompanyName","CompanyAdress","InvoiceAddress","TaxNo","TaxAdministrationName","InvoiceTelephone","InvoiceMobile","InvoiceEmail","CompanyTelephone","CompanyMobile","CompanyFax","CompanyEmail","CompanySign","CountryID","CityID","CountyID","AreaID"); 
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -309,7 +309,7 @@ class Holding_model extends CI_Model {
                 if($k>0){
                         $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
                 }else{
-                        $availableParameters = array("accessToken","userId","HoldingID","HoldingName","HoldingAdress","InvoiceAddress","TaxNo","TaxAdministrationName","InvoiceTelephone","InvoiceMobile","InvoiceEmail","HoldingTelephone","HoldingMobile","HoldingFax","HoldingEmail","HoldingSign","CountryID","CityID","CountyID","AreaID");
+                        $availableParameters = array("accessToken","userId","CompanyID","CompanyName","CompanyAdress","InvoiceAddress","TaxNo","TaxAdministrationName","InvoiceTelephone","InvoiceMobile","InvoiceEmail","CompanyTelephone","CompanyMobile","CompanyFax","CompanyEmail","CompanySign","CountryID","CityID","CountyID","AreaID");
                         foreach ($parameters as $key => $parameter) {
                                 if(!in_array($key,$availableParameters)){
                                         $i++;
@@ -320,26 +320,26 @@ class Holding_model extends CI_Model {
                         }else{
                                 $accessToken = $parameters["accessToken"];
                                 $userId = $parameters["userId"];
-                                $HoldingID = $parameters["HoldingID"];
-                                $HoldingName = $parameters["HoldingName"];
-                                $HoldingAdress = $parameters["HoldingAdress"];
+                                $CompanyID = $parameters["CompanyID"];
+                                $CompanyName = $parameters["CompanyName"];
+                                $CompanyAdress = $parameters["CompanyAdress"];
                                 $InvoiceAddress = $parameters["InvoiceAddress"];
                                 $TaxNo = $parameters["TaxNo"];
                                 $TaxAdministrationName = $parameters["TaxAdministrationName"];
                                 $InvoiceTelephone = $parameters["InvoiceTelephone"];
                                 $InvoiceMobile = $parameters["InvoiceMobile"];
                                 $InvoiceEmail = $parameters["InvoiceEmail"];
-                                $HoldingTelephone = $parameters["HoldingTelephone"];
-                                $HoldingMobile = $parameters["HoldingMobile"];
-                                $HoldingFax = $parameters["HoldingFax"];
-                                $HoldingEmail = $parameters["HoldingEmail"];
-                                $HoldingSign = $parameters["HoldingSign"];
+                                $CompanyTelephone = $parameters["CompanyTelephone"];
+                                $CompanyMobile = $parameters["CompanyMobile"];
+                                $CompanyFax = $parameters["CompanyFax"];
+                                $CompanyEmail = $parameters["CompanyEmail"];
+                                $CompanySign = $parameters["CompanySign"];
                                 $CountryID = $parameters["CountryID"];
                                 $CityID = $parameters["CityID"];
                                 $CountyID = $parameters["CountyID"];
                                 $AreaID = $parameters["AreaID"];
-                                if(!is_numeric($HoldingID)){
-                                        $response = $this->globalfunctions->returnMessage(1009,"Holding Id parametresi numeric olmalıdır.",true);
+                                if(!is_numeric($CompanyID)){
+                                        $response = $this->globalfunctions->returnMessage(1009,"Company Id parametresi numeric olmalıdır.",true);
                                 }else
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
@@ -359,10 +359,10 @@ class Holding_model extends CI_Model {
                                 if(!filter_var($InvoiceEmail, FILTER_VALIDATE_EMAIL)){
                                         $response = $this->globalfunctions->returnMessage(1007,"Fatura mail adresi uygun formatta değil.",true);
                                 }else
-                                if(!filter_var($HoldingEmail, FILTER_VALIDATE_EMAIL)){
-                                        $response = $this->globalfunctions->returnMessage(1008,"Holding mail adresi uygun formatta değil.",true);
+                                if(!filter_var($CompanyEmail, FILTER_VALIDATE_EMAIL)){
+                                        $response = $this->globalfunctions->returnMessage(1008,"Company mail adresi uygun formatta değil.",true);
                                 }else{
-                                        $query = $this->db->query("CALL ADD_OR_UPDATE_HOLDING('".$accessToken."',".$userId.",".$HoldingID.",'".$HoldingName."','".$HoldingAdress."','".$InvoiceAddress."','".$TaxNo."','".$TaxAdministrationName."','".$InvoiceTelephone."','".$InvoiceMobile."','".$InvoiceEmail."','".$HoldingTelephone."','".$HoldingMobile."','".$HoldingFax."','".$HoldingEmail."','".$HoldingSign."',".$CountryID.",".$CityID.",".$CountyID.",".$AreaID.")");
+                                        $query = $this->db->query("CALL ADD_OR_UPDATE_COMPANY('".$accessToken."',".$userId.",".$CompanyID.",'".$CompanyName."','".$CompanyAdress."','".$InvoiceAddress."','".$TaxNo."','".$TaxAdministrationName."','".$InvoiceTelephone."','".$InvoiceMobile."','".$InvoiceEmail."','".$CompanyTelephone."','".$CompanyMobile."','".$CompanyFax."','".$CompanyEmail."','".$CompanySign."',".$CountryID.",".$CityID.",".$CountyID.",".$AreaID.")");
                                         $result = $query->row();
                                         $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
                                 }
@@ -370,10 +370,10 @@ class Holding_model extends CI_Model {
                 }
                 return $response;
         }
-        public function deleteHolding($parameters){
+        public function deleteCompany($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","holdingId"); 
+                $mandatoryParameters = array("accessToken","userId","companyId"); 
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -382,7 +382,7 @@ class Holding_model extends CI_Model {
                 if($k>0){
                         $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
                 }else{
-                        $availableParameters = array("accessToken","userId","holdingId");
+                        $availableParameters = array("accessToken","userId","companyId");
                         foreach ($parameters as $key => $parameter) {
                                 if(!in_array($key,$availableParameters)){
                                         $i++;
@@ -393,14 +393,14 @@ class Holding_model extends CI_Model {
                         }else{
                                 $accessToken = $parameters["accessToken"];
                                 $userId = $parameters["userId"];
-                                $holdingId = $parameters["holdingId"];
+                                $companyId = @$parameters["companyId"];
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($holdingId)){
-                                        $response = $this->globalfunctions->returnMessage(1006,"Holding Id parametresi numeric olmalıdır.",true);
+                                if(!is_numeric($companyId)){
+                                        $response = $this->globalfunctions->returnMessage(1006,"Company Id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL DELETE_HOLDING('".$accessToken."',".$userId.",".$holdingId.")");
+                                        $query = $this->db->query("CALL DELETE_COMPANY('".$accessToken."',".$userId.",".$companyId.")");
                                         $result = $query->row();
                                         $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
                                 }

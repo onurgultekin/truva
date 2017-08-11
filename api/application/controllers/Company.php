@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . '/libraries/REST_Controller.php';
-class Holding extends REST_Controller {
+class Company extends REST_Controller {
 
 	function __construct(){
 		parent::__construct();
@@ -24,44 +24,44 @@ class Holding extends REST_Controller {
 		$message = json_encode($message,JSON_UNESCAPED_UNICODE);
 		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".json_encode($this->post(),JSON_UNESCAPED_UNICODE)."','".$message."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
-	public function getHoldingByCountry_post(){
-		$this->load->model("Holding_model");
-		$message = $this->Holding_model->getHoldingByCountry($this->post());
+	public function getCompanyByCountry_post(){
+		$this->load->model("Company_model");
+		$message = $this->Company_model->getCompanyByCountry($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
-	public function getHoldingByCity_post(){
-		$this->load->model("Holding_model");
-		$message = $this->Holding_model->getHoldingByCity($this->post());
+	public function getCompanyByCity_post(){
+		$this->load->model("Company_model");
+		$message = $this->Company_model->getCompanyByCity($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
-	public function getHoldingByCounties_post(){
-		$this->load->model("Holding_model");
-		$message = $this->Holding_model->getHoldingByCounties($this->post());
+	public function getCompanyByCounties_post(){
+		$this->load->model("Company_model");
+		$message = $this->Company_model->getCompanyByCounties($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
-	public function getHoldingByAreas_post(){
-		$this->load->model("Holding_model");
-		$message = $this->Holding_model->getHoldingByAreas($this->post());
+	public function getCompanyByAreas_post(){
+		$this->load->model("Company_model");
+		$message = $this->Company_model->getCompanyByAreas($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
-	public function getHoldinglist_post(){
-		$this->load->model("Holding_model");
-		$message = $this->Holding_model->getHoldinglist($this->post());
+	public function getCompanylist_post(){
+		$this->load->model("Company_model");
+		$message = $this->Company_model->getCompanylist($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
-	public function addHolding_post(){
-		$this->load->model("Holding_model");
-		$message = $this->Holding_model->addHolding($this->post());
+	public function addCompany_post(){
+		$this->load->model("Company_model");
+		$message = $this->Company_model->addCompany($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
-	public function updateHolding_post(){
-		$this->load->model("Holding_model");
-		$message = $this->Holding_model->updateHolding($this->post());
+	public function updateCompany_post(){
+		$this->load->model("Company_model");
+		$message = $this->Company_model->updateCompany($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
-	public function deleteHolding_post(){
-		$this->load->model("Holding_model");
-		$message = $this->Holding_model->deleteHolding($this->post());
+	public function deleteCompany_post(){
+		$this->load->model("Company_model");
+		$message = $this->Company_model->deleteCompany($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 }
