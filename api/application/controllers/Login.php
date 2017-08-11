@@ -28,5 +28,6 @@ class Login extends REST_Controller {
 		$this->load->model("login_model");
 		$message = $this->login_model->login_user($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
+		
 	}
 }
