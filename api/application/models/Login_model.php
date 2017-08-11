@@ -29,10 +29,10 @@ class Login_model extends CI_Model {
                                 $email = $parameters["email"];
                                 $password = $parameters["password"];
                                 if(!$email){
-                                        $response = $this->globalfunctions->returnMessage(1,"Please enter your e-mail",true);
+                                        $response = $this->globalfunctions->returnMessage(1,"E-posta adresinizi giriniz.",true);
                                 }else
                                 if(!$password){
-                                        $response = $this->globalfunctions->returnMessage(2,"Please enter your password",true);
+                                        $response = $this->globalfunctions->returnMessage(2,"Şifrenizi giriniz.",true);
                                 }else{
                                         $query = $this->db->query("CALL USER_LOGIN('".$email."','".$password."')");
                                         $result = $query->row();
