@@ -22,7 +22,7 @@ class Company extends REST_Controller {
 		$this->db->close();
 		$message = json_decode($message);
 		$message = json_encode($message,JSON_UNESCAPED_UNICODE);
-		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".json_encode($this->post(),JSON_UNESCAPED_UNICODE)."','".$message."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
+		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".json_encode($this->post(),JSON_UNESCAPED_UNICODE)."','".addslashes($message)."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
 	public function getCompanyByCountry_post(){
 		$this->load->model("Company_model");
@@ -42,6 +42,11 @@ class Company extends REST_Controller {
 	public function getCompanyByAreas_post(){
 		$this->load->model("Company_model");
 		$message = $this->Company_model->getCompanyByAreas($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getCompanyByHolding_post(){
+		$this->load->model("Company_model");
+		$message = $this->Company_model->getCompanyByHolding($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function getCompanylist_post(){

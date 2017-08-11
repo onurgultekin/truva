@@ -181,6 +181,7 @@ class Holding_model extends CI_Model {
                 }
                 return $response;
         }
+        
         public function getHoldinglist($parameters){
                 $i = 0;
                 $k = 0;

@@ -181,6 +181,56 @@ class Company_model extends CI_Model {
                 }
                 return $response;
         }
+        public function getCompanyByHolding($parameters){
+                $i = 0;
+                $k = 0;
+                $mandatoryParameters = array("accessToken","userId","holdingId"); 
+                foreach ($mandatoryParameters as $mandatoryParameter) {
+                        if(!array_key_exists($mandatoryParameter,$parameters)){
+                                $k++;
+                        }
+                } 
+                if($k>0){
+                        $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
+                }else{
+                        $availableParameters = array("accessToken","userId","holdingId");
+                        foreach ($parameters as $key => $parameter) {
+                                if(!in_array($key,$availableParameters)){
+                                        $i++;
+                                }
+                        }
+                        if($i>0){
+                                $response = $this->globalfunctions->returnMessage(1001,"Geçersiz istek. Bilinmeyen parametre girdiniz.",true);
+                        }else{
+                                $accessToken = $parameters["accessToken"];
+                                $userId = $parameters["userId"];
+                                $holdingId = $parameters["holdingId"];
+                                if(!is_numeric($userId)){
+                                        $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($holdingId)){
+                                        $response = $this->globalfunctions->returnMessage(1006,"Holding Id parametresi numeric olmalıdır.",true);
+                                }else{
+                                        $query = $this->db->query("CALL GET_COMPANY_BY_HOLDING_ID('".$accessToken."',".$userId.",".$holdingId.")");
+                                        $result = $query->row();
+                                        if(@$result->isError == 1){
+                                                $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
+                                        }else{
+                                                if($query->num_rows() > 0){
+                                                        $response["result"] = true;
+                                                        $response["resultCode"] = 0;
+                                                        $response["message"] = $query->result();
+                                                }else{
+                                                        $response["result"] = false;
+                                                        $response["resultCode"] = 17;
+                                                        $response["message"] = "Bu holding'e ait şirket bulunmamaktadır.";
+                                                }
+                                        }
+                                }
+                        }
+                }
+                return $response;
+        }
         public function getCompanylist($parameters){
                 $i = 0;
                 $k = 0;
@@ -231,7 +281,7 @@ class Company_model extends CI_Model {
         public function addCompany($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","CompanyName","CompanyAdress","InvoiceAddress","TaxNo","TaxAdministrationName","InvoiceTelephone","InvoiceMobile","InvoiceEmail","CompanyTelephone","CompanyMobile","CompanyFax","CompanyEmail","CompanySign","CountryID","CityID","CountyID","AreaID"); 
+                $mandatoryParameters = array("accessToken","userId","CompanyName","CompanyAdress","InvoiceAddress","TaxNo","TaxAdministrationName","InvoiceTelephone","InvoiceMobile","InvoiceEmail","CompanyTelephone","CompanyMobile","CompanyFax","CompanyEmail","CompanySign","CountryID","CityID","CountyID","AreaID","HoldingID","CompanyTypeID"); 
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -240,7 +290,7 @@ class Company_model extends CI_Model {
                 if($k>0){
                         $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
                 }else{
-                        $availableParameters = array("accessToken","userId","CompanyName","CompanyAdress","InvoiceAddress","TaxNo","TaxAdministrationName","InvoiceTelephone","InvoiceMobile","InvoiceEmail","CompanyTelephone","CompanyMobile","CompanyFax","CompanyEmail","CompanySign","CountryID","CityID","CountyID","AreaID");
+                        $availableParameters = array("accessToken","userId","CompanyName","CompanyAdress","InvoiceAddress","TaxNo","TaxAdministrationName","InvoiceTelephone","InvoiceMobile","InvoiceEmail","CompanyTelephone","CompanyMobile","CompanyFax","CompanyEmail","CompanySign","CountryID","CityID","CountyID","AreaID","HoldingID","CompanyTypeID");
                         foreach ($parameters as $key => $parameter) {
                                 if(!in_array($key,$availableParameters)){
                                         $i++;
@@ -268,6 +318,8 @@ class Company_model extends CI_Model {
                                 $CityID = $parameters["CityID"];
                                 $CountyID = $parameters["CountyID"];
                                 $AreaID = $parameters["AreaID"];
+                                $HoldingID = $parameters["HoldingID"];
+                                $CompanyTypeID = $parameters["CompanyTypeID"];
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
                                 }else
@@ -283,13 +335,19 @@ class Company_model extends CI_Model {
                                 if(!is_numeric($AreaID)){
                                         $response = $this->globalfunctions->returnMessage(1006,"Area Id parametresi numeric olmalıdır.",true);
                                 }else
+                                if(!is_numeric($HoldingID)){
+                                        $response = $this->globalfunctions->returnMessage(1009,"Holding Id parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($CompanyTypeID)){
+                                        $response = $this->globalfunctions->returnMessage(1010,"Company Type Id parametresi numeric olmalıdır.",true);
+                                }else
                                 if(!filter_var($InvoiceEmail, FILTER_VALIDATE_EMAIL)){
                                         $response = $this->globalfunctions->returnMessage(1007,"Fatura mail adresi uygun formatta değil.",true);
                                 }else
                                 if(!filter_var($CompanyEmail, FILTER_VALIDATE_EMAIL)){
                                         $response = $this->globalfunctions->returnMessage(1008,"Company mail adresi uygun formatta değil.",true);
                                 }else{
-                                        $query = $this->db->query("CALL ADD_OR_UPDATE_COMPANY('".$accessToken."',".$userId.",NULL,'".$CompanyName."','".$CompanyAdress."','".$InvoiceAddress."','".$TaxNo."','".$TaxAdministrationName."','".$InvoiceTelephone."','".$InvoiceMobile."','".$InvoiceEmail."','".$CompanyTelephone."','".$CompanyMobile."','".$CompanyFax."','".$CompanyEmail."','".$CompanySign."',".$CountryID.",".$CityID.",".$CountyID.",".$AreaID.")");
+                                        $query = $this->db->query("CALL ADD_OR_UPDATE_COMPANY('".$accessToken."',".$userId.",NULL,'".$CompanyName."','".$CompanyAdress."','".$InvoiceAddress."','".$TaxNo."','".$TaxAdministrationName."','".$InvoiceTelephone."','".$InvoiceMobile."','".$InvoiceEmail."','".$CompanyTelephone."','".$CompanyMobile."','".$CompanyFax."','".$CompanyEmail."','".$CompanySign."',".$CountryID.",".$CityID.",".$CountyID.",".$AreaID.",".$HoldingID.",".$CompanyTypeID.")");
                                         $result = $query->row();
                                         $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
                                 }
@@ -300,7 +358,7 @@ class Company_model extends CI_Model {
         public function updateCompany($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","CompanyID","CompanyName","CompanyAdress","InvoiceAddress","TaxNo","TaxAdministrationName","InvoiceTelephone","InvoiceMobile","InvoiceEmail","CompanyTelephone","CompanyMobile","CompanyFax","CompanyEmail","CompanySign","CountryID","CityID","CountyID","AreaID"); 
+                $mandatoryParameters = array("accessToken","userId","CompanyID","CompanyName","CompanyAdress","InvoiceAddress","TaxNo","TaxAdministrationName","InvoiceTelephone","InvoiceMobile","InvoiceEmail","CompanyTelephone","CompanyMobile","CompanyFax","CompanyEmail","CompanySign","CountryID","CityID","CountyID","AreaID","HoldingID","CompanyTypeID"); 
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -309,7 +367,7 @@ class Company_model extends CI_Model {
                 if($k>0){
                         $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
                 }else{
-                        $availableParameters = array("accessToken","userId","CompanyID","CompanyName","CompanyAdress","InvoiceAddress","TaxNo","TaxAdministrationName","InvoiceTelephone","InvoiceMobile","InvoiceEmail","CompanyTelephone","CompanyMobile","CompanyFax","CompanyEmail","CompanySign","CountryID","CityID","CountyID","AreaID");
+                        $availableParameters = array("accessToken","userId","CompanyID","CompanyName","CompanyAdress","InvoiceAddress","TaxNo","TaxAdministrationName","InvoiceTelephone","InvoiceMobile","InvoiceEmail","CompanyTelephone","CompanyMobile","CompanyFax","CompanyEmail","CompanySign","CountryID","CityID","CountyID","AreaID","HoldingID","CompanyTypeID");
                         foreach ($parameters as $key => $parameter) {
                                 if(!in_array($key,$availableParameters)){
                                         $i++;
@@ -338,6 +396,8 @@ class Company_model extends CI_Model {
                                 $CityID = $parameters["CityID"];
                                 $CountyID = $parameters["CountyID"];
                                 $AreaID = $parameters["AreaID"];
+                                $HoldingID = $parameters["HoldingID"];
+                                $CompanyTypeID = $parameters["CompanyTypeID"];
                                 if(!is_numeric($CompanyID)){
                                         $response = $this->globalfunctions->returnMessage(1009,"Company Id parametresi numeric olmalıdır.",true);
                                 }else
@@ -356,13 +416,19 @@ class Company_model extends CI_Model {
                                 if(!is_numeric($AreaID)){
                                         $response = $this->globalfunctions->returnMessage(1006,"Area Id parametresi numeric olmalıdır.",true);
                                 }else
+                                if(!is_numeric($HoldingID)){
+                                        $response = $this->globalfunctions->returnMessage(1009,"Holding Id parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($CompanyTypeID)){
+                                        $response = $this->globalfunctions->returnMessage(1010,"Company Type Id parametresi numeric olmalıdır.",true);
+                                }else
                                 if(!filter_var($InvoiceEmail, FILTER_VALIDATE_EMAIL)){
                                         $response = $this->globalfunctions->returnMessage(1007,"Fatura mail adresi uygun formatta değil.",true);
                                 }else
                                 if(!filter_var($CompanyEmail, FILTER_VALIDATE_EMAIL)){
                                         $response = $this->globalfunctions->returnMessage(1008,"Company mail adresi uygun formatta değil.",true);
                                 }else{
-                                        $query = $this->db->query("CALL ADD_OR_UPDATE_COMPANY('".$accessToken."',".$userId.",".$CompanyID.",'".$CompanyName."','".$CompanyAdress."','".$InvoiceAddress."','".$TaxNo."','".$TaxAdministrationName."','".$InvoiceTelephone."','".$InvoiceMobile."','".$InvoiceEmail."','".$CompanyTelephone."','".$CompanyMobile."','".$CompanyFax."','".$CompanyEmail."','".$CompanySign."',".$CountryID.",".$CityID.",".$CountyID.",".$AreaID.")");
+                                        $query = $this->db->query("CALL ADD_OR_UPDATE_COMPANY('".$accessToken."',".$userId.",".$CompanyID.",'".$CompanyName."','".$CompanyAdress."','".$InvoiceAddress."','".$TaxNo."','".$TaxAdministrationName."','".$InvoiceTelephone."','".$InvoiceMobile."','".$InvoiceEmail."','".$CompanyTelephone."','".$CompanyMobile."','".$CompanyFax."','".$CompanyEmail."','".$CompanySign."',".$CountryID.",".$CityID.",".$CountyID.",".$AreaID.",".$HoldingID.",".$CompanyTypeID.")");
                                         $result = $query->row();
                                         $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
                                 }
