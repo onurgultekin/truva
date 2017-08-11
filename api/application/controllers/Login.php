@@ -27,7 +27,6 @@ class Login extends REST_Controller {
 	public function index_post(){
 		$this->load->model("login_model");
 		$message = $this->login_model->login_user($this->post());
-		$this->set_response($message, REST_Controller::HTTP_OK);
-		
+		$this->set_response($message, REST_Controller::HTTP_OK);		
 	}
 }
