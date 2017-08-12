@@ -44,4 +44,9 @@ class Helper extends REST_Controller {
 		$message = $this->Helper_model->getTotalActiveTap($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function getTotalActiveTapByHoldingID_post(){
+		$this->load->model("Helper_model");
+		$message = $this->Helper_model->getTotalActiveTapByHoldingID($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 }
