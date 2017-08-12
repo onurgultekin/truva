@@ -69,4 +69,9 @@ class Helper extends REST_Controller {
 		$message = $this->Helper_model->getAlcoholTypePercentage($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function getTotalBarGroupByHoldingID_post(){
+		$this->load->model("Helper_model");
+		$message = $this->Helper_model->getTotalBarGroupByHoldingID($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 }
