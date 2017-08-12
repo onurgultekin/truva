@@ -34,4 +34,14 @@ class Helper extends REST_Controller {
 		$message = $this->Helper_model->getTotalCompany($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function getTotalTap_post(){
+		$this->load->model("Helper_model");
+		$message = $this->Helper_model->getTotalTap($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getTotalActiveTap_post(){
+		$this->load->model("Helper_model");
+		$message = $this->Helper_model->getTotalActiveTap($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 }
