@@ -5,6 +5,7 @@ class Company extends REST_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->requestTime = date("Y-m-d H:i:s.u",round(microtime(true)));
+		$this->load->model("Company_model");
 	}
 	function __destruct(){
 		parent::__destruct();
@@ -25,47 +26,38 @@ class Company extends REST_Controller {
 		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".json_encode($this->post(),JSON_UNESCAPED_UNICODE)."','".addslashes($message)."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
 	public function getCompanyByCountry_post(){
-		$this->load->model("Company_model");
 		$message = $this->Company_model->getCompanyByCountry($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function getCompanyByCity_post(){
-		$this->load->model("Company_model");
 		$message = $this->Company_model->getCompanyByCity($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function getCompanyByCounties_post(){
-		$this->load->model("Company_model");
 		$message = $this->Company_model->getCompanyByCounties($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function getCompanyByAreas_post(){
-		$this->load->model("Company_model");
 		$message = $this->Company_model->getCompanyByAreas($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function getCompanyByHolding_post(){
-		$this->load->model("Company_model");
 		$message = $this->Company_model->getCompanyByHolding($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function getCompanylist_post(){
-		$this->load->model("Company_model");
 		$message = $this->Company_model->getCompanylist($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function addCompany_post(){
-		$this->load->model("Company_model");
 		$message = $this->Company_model->addCompany($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function updateCompany_post(){
-		$this->load->model("Company_model");
 		$message = $this->Company_model->updateCompany($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function deleteCompany_post(){
-		$this->load->model("Company_model");
 		$message = $this->Company_model->deleteCompany($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}

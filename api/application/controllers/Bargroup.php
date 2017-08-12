@@ -5,6 +5,7 @@ class Bargroup extends REST_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->requestTime = date("Y-m-d H:i:s.u",round(microtime(true)));
+		$this->load->model("BarGroup_model");
 	}
 	function __destruct(){
 		parent::__destruct();
@@ -25,22 +26,18 @@ class Bargroup extends REST_Controller {
 		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".json_encode($this->post(),JSON_UNESCAPED_UNICODE)."','".addslashes($message)."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
 	public function getBarGrouplist_post(){
-		$this->load->model("BarGroup_model");
 		$message = $this->BarGroup_model->getBarGrouplist($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function addBarGroup_post(){
-		$this->load->model("BarGroup_model");
 		$message = $this->BarGroup_model->addBarGroup($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function updateBarGroup_post(){
-		$this->load->model("BarGroup_model");
 		$message = $this->BarGroup_model->updateBarGroup($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function deleteBarGroup_post(){
-		$this->load->model("BarGroup_model");
 		$message = $this->BarGroup_model->deleteBarGroup($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}

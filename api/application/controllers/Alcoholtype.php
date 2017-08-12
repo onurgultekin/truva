@@ -5,6 +5,7 @@ class Alcoholtype extends REST_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->requestTime = date("Y-m-d H:i:s.u",round(microtime(true)));
+		$this->load->model("AlcoholType_model");
 	}
 	function __destruct(){
 		parent::__destruct();
@@ -25,27 +26,22 @@ class Alcoholtype extends REST_Controller {
 		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".json_encode($this->post(),JSON_UNESCAPED_UNICODE)."','".addslashes($message)."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
 	public function getAlcoholTypelist_post(){
-		$this->load->model("AlcoholType_model");
 		$message = $this->AlcoholType_model->getAlcoholTypelist($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function getAlcoholTypeByAlcoholGroup_post(){
-		$this->load->model("AlcoholType_model");
 		$message = $this->AlcoholType_model->getAlcoholTypeByAlcoholGroup($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function addAlcoholType_post(){
-		$this->load->model("AlcoholType_model");
 		$message = $this->AlcoholType_model->addAlcoholType($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function updateAlcoholType_post(){
-		$this->load->model("AlcoholType_model");
 		$message = $this->AlcoholType_model->updateAlcoholType($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function deleteAlcoholType_post(){
-		$this->load->model("AlcoholType_model");
 		$message = $this->AlcoholType_model->deleteAlcoholType($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}

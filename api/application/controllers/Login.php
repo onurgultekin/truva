@@ -5,6 +5,7 @@ class Login extends REST_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->requestTime = date("Y-m-d H:i:s.u",round(microtime(true)));
+		$this->load->model("login_model");
 	}
 	function __destruct(){
 		parent::__destruct();
@@ -25,7 +26,6 @@ class Login extends REST_Controller {
 		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".json_encode($this->post(),JSON_UNESCAPED_UNICODE)."','".$message."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
 	public function index_post(){
-		$this->load->model("login_model");
 		$message = $this->login_model->login_user($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}

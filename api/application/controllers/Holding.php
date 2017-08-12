@@ -5,6 +5,7 @@ class Holding extends REST_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->requestTime = date("Y-m-d H:i:s.u",round(microtime(true)));
+		$this->load->model("Holding_model");
 	}
 	function __destruct(){
 		parent::__destruct();
@@ -25,42 +26,34 @@ class Holding extends REST_Controller {
 		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".json_encode($this->post(),JSON_UNESCAPED_UNICODE)."','".$message."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
 	public function getHoldingByCountry_post(){
-		$this->load->model("Holding_model");
 		$message = $this->Holding_model->getHoldingByCountry($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function getHoldingByCity_post(){
-		$this->load->model("Holding_model");
 		$message = $this->Holding_model->getHoldingByCity($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function getHoldingByCounties_post(){
-		$this->load->model("Holding_model");
 		$message = $this->Holding_model->getHoldingByCounties($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function getHoldingByAreas_post(){
-		$this->load->model("Holding_model");
 		$message = $this->Holding_model->getHoldingByAreas($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function getHoldinglist_post(){
-		$this->load->model("Holding_model");
 		$message = $this->Holding_model->getHoldinglist($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function addHolding_post(){
-		$this->load->model("Holding_model");
 		$message = $this->Holding_model->addHolding($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function updateHolding_post(){
-		$this->load->model("Holding_model");
 		$message = $this->Holding_model->updateHolding($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function deleteHolding_post(){
-		$this->load->model("Holding_model");
 		$message = $this->Holding_model->deleteHolding($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}

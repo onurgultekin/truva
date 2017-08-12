@@ -5,6 +5,7 @@ class Totaldailyguest extends REST_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->requestTime = date("Y-m-d H:i:s.u",round(microtime(true)));
+		$this->load->model("TotalDailyGuest_model");
 	}
 	function __destruct(){
 		parent::__destruct();
@@ -25,22 +26,18 @@ class Totaldailyguest extends REST_Controller {
 		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".json_encode($this->post(),JSON_UNESCAPED_UNICODE)."','".addslashes($message)."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
 	public function getTotalDailyGuestlist_post(){
-		$this->load->model("TotalDailyGuest_model");
 		$message = $this->TotalDailyGuest_model->getTotalDailyGuestlist($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function addTotalDailyGuest_post(){
-		$this->load->model("TotalDailyGuest_model");
 		$message = $this->TotalDailyGuest_model->addTotalDailyGuest($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function updateTotalDailyGuest_post(){
-		$this->load->model("TotalDailyGuest_model");
 		$message = $this->TotalDailyGuest_model->updateTotalDailyGuest($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function deleteTotalDailyGuest_post(){
-		$this->load->model("TotalDailyGuest_model");
 		$message = $this->TotalDailyGuest_model->deleteTotalDailyGuest($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}

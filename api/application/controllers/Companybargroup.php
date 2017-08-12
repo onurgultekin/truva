@@ -5,6 +5,7 @@ class Companybargroup extends REST_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->requestTime = date("Y-m-d H:i:s.u",round(microtime(true)));
+		$this->load->model("CompanyBarGroup_model");
 	}
 	function __destruct(){
 		parent::__destruct();
@@ -25,12 +26,10 @@ class Companybargroup extends REST_Controller {
 		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".json_encode($this->post(),JSON_UNESCAPED_UNICODE)."','".addslashes($message)."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
 	public function getCompanyBarGrouplist_post(){
-		$this->load->model("CompanyBarGroup_model");
 		$message = $this->CompanyBarGroup_model->getCompanyBarGrouplist($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function updateCompanyBarGroup_post(){
-		$this->load->model("CompanyBarGroup_model");
 		$message = $this->CompanyBarGroup_model->updateCompanyBarGroup($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
