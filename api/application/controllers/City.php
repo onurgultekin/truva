@@ -25,22 +25,24 @@ class City extends REST_Controller {
 		$message = json_encode($message,JSON_UNESCAPED_UNICODE);
 		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".addslashes(json_encode($this->post(),JSON_UNESCAPED_UNICODE))."','".addslashes($message)."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
-
-
-
 	public function getCityListByCountry_post(){
 		$message = $this->City_model->getCityListByCountry($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
-
-
- 
-
-
-
-
-
-
-
-
+	public function getCity_post(){
+		$message = $this->City_model->getCity($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function addCity_post(){
+		$message = $this->City_model->addCity($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function updateCity_post(){
+		$message = $this->City_model->updateCity($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+ 	public function deleteCity_post(){
+		$message = $this->City_model->deleteCity($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 }
