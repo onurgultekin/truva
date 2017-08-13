@@ -1,11 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . '/libraries/REST_Controller.php';
-class County extends REST_Controller {
+class Area extends REST_Controller {
 
 	function __construct(){
 		parent::__construct();
 		$this->requestTime = date("Y-m-d H:i:s.u",round(microtime(true)));
-		$this->load->model("County_model");
+		$this->load->model("Area_model");
 	}
 	function __destruct(){
 		parent::__destruct();
@@ -25,24 +25,25 @@ class County extends REST_Controller {
 		$message = json_encode($message,JSON_UNESCAPED_UNICODE);
 		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".addslashes(json_encode($this->post(),JSON_UNESCAPED_UNICODE))."','".addslashes($message)."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
-	public function getCountyListByCity_post(){
-		$message = $this->County_model->getCountyListByCity($this->post());
+	public function getAreaListByCounty_post(){
+		$message = $this->Area_model->getAreaListByCounty($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
-	public function getCounty_post(){
-		$message = $this->County_model->getCounty($this->post());
+	public function getArea_post(){
+		$message = $this->Area_model->getArea($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
-	public function addCounty_post(){
-		$message = $this->County_model->addCounty($this->post());
+	public function addArea_post(){
+		$message = $this->Area_model->addArea($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
-	public function updateCounty_post(){
-		$message = $this->County_model->updateCounty($this->post());
+	public function updateArea_post(){
+		$message = $this->Area_model->updateArea($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function deleteCounty_post(){
 		$message = $this->County_model->deleteCounty($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+
 }
