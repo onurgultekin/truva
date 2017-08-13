@@ -41,8 +41,8 @@ class Area extends REST_Controller {
 		$message = $this->Area_model->updateArea($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
-	public function deleteCounty_post(){
-		$message = $this->County_model->deleteCounty($this->post());
+	public function deleteArea_post(){
+		$message = $this->Area_model->deleteArea($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 

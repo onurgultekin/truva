@@ -218,5 +218,4 @@ class Area_model extends CI_Model {
                 return $response;
    }
 }
-}
 ?>
