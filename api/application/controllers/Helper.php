@@ -25,6 +25,10 @@ class Helper extends REST_Controller {
 		$message = json_encode($message,JSON_UNESCAPED_UNICODE);
 		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".json_encode($this->post(),JSON_UNESCAPED_UNICODE)."','".addslashes($message)."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
+	public function getLastTapData_post(){
+		$message = $this->Helper_model->getLastTapData($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 	public function getLeftSideMenu_post(){
 		$message = $this->Helper_model->getLeftSideMenu($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
@@ -75,6 +79,14 @@ class Helper extends REST_Controller {
 	}
 	public function getTotalBarGroupByTapID_post(){
 		$message = $this->Helper_model->getTotalBarGroupByTapID($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getTotalDailyCostForDailyByHoldingID_post(){
+		$message = $this->Helper_model->getTotalDailyCostForDailyByHoldingID($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getTotalDailyCostForDailyByCompanyID_post(){
+		$message = $this->Helper_model->getTotalDailyCostForDailyByCompanyID($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 }
