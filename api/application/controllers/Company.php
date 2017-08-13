@@ -23,7 +23,7 @@ class Company extends REST_Controller {
 		$this->db->close();
 		$message = json_decode($message);
 		$message = json_encode($message,JSON_UNESCAPED_UNICODE);
-		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".json_encode($this->post(),JSON_UNESCAPED_UNICODE)."','".addslashes($message)."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
+		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".addslashes(json_encode($this->post(),JSON_UNESCAPED_UNICODE))."','".addslashes($message)."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
 	public function getCompanyByCountry_post(){
 		$message = $this->Company_model->getCompanyByCountry($this->post());

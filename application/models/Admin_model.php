@@ -251,47 +251,39 @@ class Admin_model extends CI_Model
 	}
 
 	public function addNewCountry($data){
-		$token = $this->session->userdata("token");
 		$BinaryCode = $_POST["BinaryCode"];
 		$TripleCode = $_POST["TripleCode"];
 		$CountryName = $_POST["CountryName"];
 		$PhoneCode = $_POST["PhoneCode"];
-		$data = array("postData" => array("BinaryCode" => $BinaryCode,"TripleCode"=>$TripleCode,"CountryName"=>$CountryName,"PhoneCode"=>$PhoneCode));
-		$data_string = json_encode($data);
-		$ch = curl_init(API_ENDPOINT.'country/addCountry');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"BinaryCode"=>$BinaryCode,"TripleCode"=>$TripleCode,"CountryName"=>$CountryName,"PhoneCode"=>$PhoneCode);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'country/addCountry',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 
 	public function updateCountry($data){
-		$token = $this->session->userdata("token");
 		$CountryID = $_POST["CountryID"];
 		$BinaryCode = $_POST["BinaryCode"];
 		$TripleCode = $_POST["TripleCode"];
 		$CountryName = $_POST["CountryName"];
 		$PhoneCode = $_POST["PhoneCode"];
-		$data = array("countryID" => $CountryID,"postData" => array("BinaryCode" => $BinaryCode,"TripleCode"=>$TripleCode,"CountryName"=>$CountryName,"PhoneCode"=>$PhoneCode));
-		$data_string = json_encode($data);
-		$ch = curl_init(API_ENDPOINT.'country/updateCountry');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"CountryID"=>$CountryID,"BinaryCode"=>$BinaryCode,"TripleCode"=>$TripleCode,"CountryName"=>$CountryName,"PhoneCode"=>$PhoneCode);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'country/updateCountry',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 

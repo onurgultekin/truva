@@ -23,7 +23,7 @@ class Login extends REST_Controller {
 		$this->db->close();
 		$message = json_decode($message);
 		$message = json_encode($message,JSON_UNESCAPED_UNICODE);
-		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".json_encode($this->post(),JSON_UNESCAPED_UNICODE)."','".$message."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
+		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".addslashes(json_encode($this->post(),JSON_UNESCAPED_UNICODE))."','".addslashes($message)."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
 	public function index_post(){
 		$message = $this->login_model->login_user($this->post());

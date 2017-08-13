@@ -23,7 +23,7 @@ class Helper extends REST_Controller {
 		$this->db->close();
 		$message = json_decode($message);
 		$message = json_encode($message,JSON_UNESCAPED_UNICODE);
-		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".json_encode($this->post(),JSON_UNESCAPED_UNICODE)."','".addslashes($message)."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
+		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".addslashes(json_encode($this->post(),JSON_UNESCAPED_UNICODE))."','".addslashes($message)."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
 	public function getLastTapData_post(){
 		$message = $this->Helper_model->getLastTapData($this->post());
