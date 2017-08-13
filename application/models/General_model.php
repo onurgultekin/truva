@@ -148,40 +148,43 @@ class General_model extends CI_Model
 		return $response->message;
 	}
 	public function getHoldings(){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'holding/getHoldinglist');
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'holding/getHoldinglist',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
 	public function getHoldingById($holdingId){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'holding/getHoldinglist/'.$holdingId);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"holdingId"=>$holdingId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'holding/getHoldinglist',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
 	public function getHoldingByCountryId($countryId){
 		if($countryId != 0){
-			$token = $this->session->userdata("token");
-			$ch = curl_init(API_ENDPOINT.'holding/getHoldingByCountry/'.$countryId);
-			curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-			curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-			    'token:'.$token.'',
-			    'ipaddress:'.$this->input->ip_address().'',
-			    'identity:'.$this->session->userdata("identity").'')
-			);
-			$response = json_decode(curl_exec($ch));
+			$accessToken = $this->session->userdata("accessToken");
+			$userId = $this->session->userdata("userId");
+			$data = array("accessToken" => $accessToken, "userId" => $userId,"countryId"=>$countryId);
+			$curl = curl_init();
+			curl_setopt_array($curl, array(
+			CURLOPT_RETURNTRANSFER => 1,
+			CURLOPT_URL => NEW_API_ENDPOINT.'holding/getHoldingByCountry',
+			CURLOPT_POSTFIELDS => http_build_query($data)
+			));
+			$response = json_decode(curl_exec($curl));
 			return $response->message;
 		}else{
 			return $this->getHoldings();
@@ -189,42 +192,45 @@ class General_model extends CI_Model
 	}
 	public function getHoldingByCityId($cityId){
 		if($cityId!=0){
-			$token = $this->session->userdata("token");
-			$ch = curl_init(API_ENDPOINT.'holding/getHoldingByCity/'.$cityId);
-			curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-			curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-			    'token:'.$token.'',
-			    'ipaddress:'.$this->input->ip_address().'',
-			    'identity:'.$this->session->userdata("identity").'')
-			);
-			$response = json_decode(curl_exec($ch));
+			$accessToken = $this->session->userdata("accessToken");
+			$userId = $this->session->userdata("userId");
+			$data = array("accessToken" => $accessToken, "userId" => $userId,"cityId"=>$cityId);
+			$curl = curl_init();
+			curl_setopt_array($curl, array(
+			CURLOPT_RETURNTRANSFER => 1,
+			CURLOPT_URL => NEW_API_ENDPOINT.'holding/getHoldingByCity',
+			CURLOPT_POSTFIELDS => http_build_query($data)
+			));
+			$response = json_decode(curl_exec($curl));
 			return $response->message;
 		}else{
 			return $this->getHoldings();
 		}
 	}
 	public function getHoldingByCountyId($countyId){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'holding/getHoldingByCounties/'.$countyId);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"countyId"=>$countyId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'holding/getHoldingByCounties',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
 	public function getHoldingByAreaId($areaId){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'holding/getHoldingByAreas/'.$areaId);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"areaId"=>$areaId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'holding/getHoldingByAreas',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
 	
@@ -253,51 +259,55 @@ class General_model extends CI_Model
 		return $response->message;
 	}
 	public function getLeftSideMenu(){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'helper/getLeftSideMenu');
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getLeftSideMenu',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
 	public function getTotalCompanyCount(){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'helper/getTotalCompany');
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"holdingId"=>"");
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getTotalCompany',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
 	public function getTotalTapCount(){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'helper/getTotalTap');
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getTotalTap',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
 	public function getTotalActiveTapCount(){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'helper/getTotalActiveTap');
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getTotalActiveTap',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
 	
@@ -370,15 +380,16 @@ class General_model extends CI_Model
 	}
 
 	public function getAlcoholTypePercentage(){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'helper/getalcoholtypepercentage');
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getalcoholtypepercentage',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
 
@@ -396,15 +407,16 @@ class General_model extends CI_Model
 	}
 
 	public function getLastTapData(){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'helper/getLastTapData');
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getLastTapData',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
 

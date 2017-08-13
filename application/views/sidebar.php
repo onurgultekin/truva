@@ -14,7 +14,6 @@
         <!-- BEGIN SIDEBAR MENU ITEMS-->
         <ul class="menu-items">
           <?php
-          //print_r($leftsidemenuitems);
           foreach ($leftsidemenuitems as $key => $leftsidemenuitem) {
             if(count($leftsidemenuitem->children) == 0){
               echo '<li class="m-t-30 ">
