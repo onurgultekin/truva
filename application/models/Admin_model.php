@@ -15,7 +15,6 @@ class Admin_model extends CI_Model
 	}
 
 	public function addNewHolding($data){
-		$token = $this->session->userdata("token");
 		$HoldingName = $_POST["HoldingName"];
 		$HoldingAdress = $_POST["HoldingAdress"];
 		$InvoiceAddress = $_POST["InvoiceAddress"];
@@ -33,41 +32,38 @@ class Admin_model extends CI_Model
 		$CityID = $_POST["CityID"];
 		$CountyID = $_POST["CountyID"];
 		$AreaID = $_POST["AreaID"];
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
 		$data = array(
-			"postData" => array(
-				"HoldingName" => $HoldingName,
-				"HoldingAdress"=>$HoldingAdress,
-				"InvoiceAddress"=>$InvoiceAddress,
-				"TaxNo"=>$TaxNo,
-				"TaxAdministrationName"=>$TaxAdministrationName,
-				"InvoiceTelephone"=>$InvoiceTelephone,
-				"InvoiceMobile"=>$InvoiceMobile,
-				"InvoiceEmail"=>$InvoiceEmail,
-				"HoldingTelephone"=>$HoldingTelephone,
-				"HoldingMobile"=>$HoldingMobile,
-				"HoldingFax"=>$HoldingFax,
-				"HoldingEmail"=>$HoldingEmail,
-				"HoldingSign"=>$HoldingSign,
-				"CountryID"=>$CountryID,
-				"CityID"=>$CityID,
-				"CountyID"=>$CountyID,
-				"AreaID"=>$AreaID));
-		$data_string = json_encode($data);
-		$ch = curl_init(API_ENDPOINT.'holding/addHolding');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+			"accessToken" => $accessToken, 
+			"userId" => $userId,
+			"HoldingName" => $HoldingName,
+			"HoldingAdress"=>$HoldingAdress,
+			"InvoiceAddress"=>$InvoiceAddress,
+			"TaxNo"=>$TaxNo,
+			"TaxAdministrationName"=>$TaxAdministrationName,
+			"InvoiceTelephone"=>$InvoiceTelephone,
+			"InvoiceMobile"=>$InvoiceMobile,
+			"InvoiceEmail"=>$InvoiceEmail,
+			"HoldingTelephone"=>$HoldingTelephone,
+			"HoldingMobile"=>$HoldingMobile,
+			"HoldingFax"=>$HoldingFax,
+			"HoldingEmail"=>$HoldingEmail,
+			"HoldingSign"=>$HoldingSign,
+			"CountryID"=>$CountryID,
+			"CityID"=>$CityID,
+			"CountyID"=>$CountyID,
+			"AreaID"=>$AreaID);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'holding/addHolding',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function updateHolding($data){
-		$token = $this->session->userdata("token");
 		$HoldingID = $_POST["HoldingID"];
 		$HoldingName = $_POST["HoldingName"];
 		$HoldingAdress = $_POST["HoldingAdress"];
@@ -86,50 +82,50 @@ class Admin_model extends CI_Model
 		$CityID = $_POST["CityID"];
 		$CountyID = $_POST["CountyID"];
 		$AreaID = $_POST["AreaID"];
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
 		$data = array(
+			"accessToken" => $accessToken, 
+			"userId" => $userId,
 			"HoldingID"=>$HoldingID,
-			"postData" => array(
-				"HoldingName" => $HoldingName,
-				"HoldingAdress"=>$HoldingAdress,
-				"InvoiceAddress"=>$InvoiceAddress,
-				"TaxNo"=>$TaxNo,
-				"TaxAdministrationName"=>$TaxAdministrationName,
-				"InvoiceTelephone"=>$InvoiceTelephone,
-				"InvoiceMobile"=>$InvoiceMobile,
-				"InvoiceEmail"=>$InvoiceEmail,
-				"HoldingTelephone"=>$HoldingTelephone,
-				"HoldingMobile"=>$HoldingMobile,
-				"HoldingFax"=>$HoldingFax,
-				"HoldingEmail"=>$HoldingEmail,
-				"HoldingSign"=>$HoldingSign,
-				"CountryID"=>$CountryID,
-				"CityID"=>$CityID,
-				"CountyID"=>$CountyID,
-				"AreaID"=>$AreaID));
+			"HoldingName" => $HoldingName,
+			"HoldingAdress"=>$HoldingAdress,
+			"InvoiceAddress"=>$InvoiceAddress,
+			"TaxNo"=>$TaxNo,
+			"TaxAdministrationName"=>$TaxAdministrationName,
+			"InvoiceTelephone"=>$InvoiceTelephone,
+			"InvoiceMobile"=>$InvoiceMobile,
+			"InvoiceEmail"=>$InvoiceEmail,
+			"HoldingTelephone"=>$HoldingTelephone,
+			"HoldingMobile"=>$HoldingMobile,
+			"HoldingFax"=>$HoldingFax,
+			"HoldingEmail"=>$HoldingEmail,
+			"HoldingSign"=>$HoldingSign,
+			"CountryID"=>$CountryID,
+			"CityID"=>$CityID,
+			"CountyID"=>$CountyID,
+			"AreaID"=>$AreaID);
 		$data_string = json_encode($data);
-		$ch = curl_init(API_ENDPOINT.'holding/updateHolding');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'holding/updateHolding',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function deleteHoldingById($holdingId){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'holding/deleteHolding/'.$holdingId);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"holdingId"=>$holdingId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'holding/deleteHolding',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function getUsers(){
@@ -465,161 +461,140 @@ class Admin_model extends CI_Model
 	}
 
 	public function addNewAlcoholGroup($data){
-		$token = $this->session->userdata("token");
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
 		$Code = $_POST["Code"];
 		$Name = $_POST["Name"];
-		$data = array("postData" => array("Code" => $Code,"Name"=>$Name));
-		$data_string = json_encode($data);
-		$ch = curl_init(API_ENDPOINT.'alcoholgroup/addAlcoholGroup');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"Code" => $Code,"Name"=>$Name);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'alcoholgroup/addAlcoholGroup',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 
 	public function updateAlcoholGroup($data){
-		$token = $this->session->userdata("token");
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
 		$AlcoholGroupID = $_POST["AlcoholGroupID"];
 		$Code = $_POST["Code"];
 		$Name = $_POST["Name"];
-		$data = array("AlcoholGroupID" => $AlcoholGroupID,"postData" => array("Code" => $Code,"Name"=>$Name));
-		$data_string = json_encode($data);
-		$ch = curl_init(API_ENDPOINT.'alcoholgroup/updateAlcoholGroup');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"AlcoholGroupID" => $AlcoholGroupID,"Code" => $Code,"Name"=>$Name);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'alcoholgroup/updateAlcoholGroup',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function deleteAlcoholGroupById($alcoholGroupId){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'alcoholgroup/deleteAlcoholGroup/'.$alcoholGroupId);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"alcoholGroupId"=>$alcoholGroupId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'alcoholgroup/deleteAlcoholGroup',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function addNewAlcoholType($data){
-		$token = $this->session->userdata("token");
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
 		$Code = $_POST["Code"];
 		$Name = $_POST["Name"];
 		$AlcoholGroupID = $_POST["AlcoholGroupID"];
-		$data = array("postData" => array("Code" => $Code,"Name"=>$Name,"AlcoholGroupID"=>$AlcoholGroupID));
-		$data_string = json_encode($data);
-		$ch = curl_init(API_ENDPOINT.'alcoholtype/addAlcoholType');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"Code" => $Code,"Name"=>$Name,"AlcoholGroupID"=>$AlcoholGroupID);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'alcoholtype/addAlcoholType',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function updateAlcoholType($data){
-		$token = $this->session->userdata("token");
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
 		$AlcoholTypeID = $_POST["AlcoholTypeID"];
 		$Code = $_POST["Code"];
 		$Name = $_POST["Name"];
 		$AlcoholGroupID = $_POST["AlcoholGroupID"];
-		$data = array("AlcoholTypeID" => $AlcoholTypeID,"postData" => array("AlcoholGroupID"=>$AlcoholGroupID,"Code" => $Code,"Name"=>$Name));
-		$data_string = json_encode($data);
-		$ch = curl_init(API_ENDPOINT.'alcoholtype/updateAlcoholType');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"AlcoholTypeID" => $AlcoholTypeID,"AlcoholGroupID"=>$AlcoholGroupID,"Code" => $Code,"Name"=>$Name);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'alcoholtype/updateAlcoholType',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function deleteAlcoholTypeById($alcoholTypeId){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'alcoholtype/deleteAlcoholType/'.$alcoholTypeId);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"alcoholTypeId"=>$alcoholTypeId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'alcoholtype/deleteAlcoholType',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function addNewAlcoholBrand($data){
-		$token = $this->session->userdata("token");
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
 		$Code = $_POST["Code"];
 		$Name = $_POST["Name"];
 		$AlcoholTypeID = $_POST["AlcoholTypeID"];
-		$data = array("postData" => array("Code" => $Code,"Name"=>$Name,"AlcoholTypeID"=>$AlcoholTypeID));
-		$data_string = json_encode($data);
-		$ch = curl_init(API_ENDPOINT.'alcoholbrand/addAlcoholBrand');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$data = array("accessToken"=>$accessToken,"userId"=>$userId,"Code" => $Code,"Name"=>$Name,"AlcoholTypeID"=>$AlcoholTypeID);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'alcoholbrand/addAlcoholBrand',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function updateAlcoholBrand($data){
-		$token = $this->session->userdata("token");
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
 		$AlcoholBrandID = $_POST["AlcoholBrandID"];
 		$Code = $_POST["Code"];
 		$Name = $_POST["Name"];
 		$AlcoholTypeID = $_POST["AlcoholTypeID"];
-		$data = array("AlcoholBrandID" => $AlcoholBrandID,"postData" => array("AlcoholTypeID"=>$AlcoholTypeID,"Code" => $Code,"Name"=>$Name));
-		$data_string = json_encode($data);
-		$ch = curl_init(API_ENDPOINT.'alcoholbrand/updateAlcoholBrand');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$data = array("accessToken"=>$accessToken,"userId"=>$userId,"AlcoholBrandID" => $AlcoholBrandID,"AlcoholTypeID"=>$AlcoholTypeID,"Code" => $Code,"Name"=>$Name);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'alcoholbrand/updateAlcoholBrand',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function deleteAlcoholBrandById($alcoholBrandId){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'alcoholbrand/deleteAlcoholBrand/'.$alcoholBrandId);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"alcoholBrandId"=>$alcoholBrandId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'alcoholbrand/deleteAlcoholBrand',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function addNewCollector($data){
@@ -686,7 +661,6 @@ class Admin_model extends CI_Model
 		return $response;
 	}
 	public function addNewCompany($data){
-		$token = $this->session->userdata("token");
 		$CompanyName = $_POST["CompanyName"];
 		$CompanyAdress = $_POST["CompanyAdress"];
 		$InvoiceAddress = $_POST["InvoiceAddress"];
@@ -706,39 +680,37 @@ class Admin_model extends CI_Model
 		$AreaID = $_POST["AreaID"];
 		$HoldingID = $_POST["HoldingID"];
 		$CompanyTypeID = $_POST["CompanyTypeID"];
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
 		$data = array(
-			"postData" => array(
-				"CompanyName" => $CompanyName,
-				"CompanyAdress"=>$CompanyAdress,
-				"InvoiceAddress"=>$InvoiceAddress,
-				"TaxNo"=>$TaxNo,
-				"TaxAdministrationName"=>$TaxAdministrationName,
-				"InvoiceTelephone"=>$InvoiceTelephone,
-				"InvoiceMobile"=>$InvoiceMobile,
-				"InvoiceEmail"=>$InvoiceEmail,
-				"CompanyTelephone"=>$CompanyTelephone,
-				"CompanyMobile"=>$CompanyMobile,
-				"CompanyFax"=>$CompanyFax,
-				"CompanyEmail"=>$CompanyEmail,
-				"CompanySign"=>$CompanySign,
-				"CountryID"=>$CountryID,
-				"CityID"=>$CityID,
-				"CountyID"=>$CountyID,
-				"AreaID"=>$AreaID,
-				"HoldingID"=>$HoldingID,
-				"CompanyTypeID"=>$CompanyTypeID));
-		$data_string = json_encode($data);
-		$ch = curl_init(API_ENDPOINT.'company/addCompany');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+			"accessToken"=>$accessToken,
+			"userId"=>$userId,
+			"CompanyName" => $CompanyName,
+			"CompanyAdress"=>$CompanyAdress,
+			"InvoiceAddress"=>$InvoiceAddress,
+			"TaxNo"=>$TaxNo,
+			"TaxAdministrationName"=>$TaxAdministrationName,
+			"InvoiceTelephone"=>$InvoiceTelephone,
+			"InvoiceMobile"=>$InvoiceMobile,
+			"InvoiceEmail"=>$InvoiceEmail,
+			"CompanyTelephone"=>$CompanyTelephone,
+			"CompanyMobile"=>$CompanyMobile,
+			"CompanyFax"=>$CompanyFax,
+			"CompanyEmail"=>$CompanyEmail,
+			"CompanySign"=>$CompanySign,
+			"CountryID"=>$CountryID,
+			"CityID"=>$CityID,
+			"CountyID"=>$CountyID,
+			"AreaID"=>$AreaID,
+			"HoldingID"=>$HoldingID,
+			"CompanyTypeID"=>$CompanyTypeID);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'company/addCompany',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function updateCompany($data){
@@ -764,51 +736,48 @@ class Admin_model extends CI_Model
 		$CompanyTypeID = $_POST["CompanyTypeID"];
 		$CompanyID = $_POST["CompanyID"];
 		$data = array(
+			"accessToken"=>$accessToken,
+			"userId"=>$userId,
 			"CompanyID"=>$CompanyID,
-			"postData" => array(
-				"CompanyName" => $CompanyName,
-				"CompanyAdress"=>$CompanyAdress,
-				"InvoiceAddress"=>$InvoiceAddress,
-				"TaxNo"=>$TaxNo,
-				"TaxAdministrationName"=>$TaxAdministrationName,
-				"InvoiceTelephone"=>$InvoiceTelephone,
-				"InvoiceMobile"=>$InvoiceMobile,
-				"InvoiceEmail"=>$InvoiceEmail,
-				"CompanyTelephone"=>$CompanyTelephone,
-				"CompanyMobile"=>$CompanyMobile,
-				"CompanyFax"=>$CompanyFax,
-				"CompanyEmail"=>$CompanyEmail,
-				"CompanySign"=>$CompanySign,
-				"CountryID"=>$CountryID,
-				"CityID"=>$CityID,
-				"CountyID"=>$CountyID,
-				"AreaID"=>$AreaID,
-				"HoldingID"=>$HoldingID,
-				"CompanyTypeID"=>$CompanyTypeID));
-		$data_string = json_encode($data);
-		$ch = curl_init(API_ENDPOINT.'company/updateCompany');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+			"CompanyName" => $CompanyName,
+			"CompanyAdress"=>$CompanyAdress,
+			"InvoiceAddress"=>$InvoiceAddress,
+			"TaxNo"=>$TaxNo,
+			"TaxAdministrationName"=>$TaxAdministrationName,
+			"InvoiceTelephone"=>$InvoiceTelephone,
+			"InvoiceMobile"=>$InvoiceMobile,
+			"InvoiceEmail"=>$InvoiceEmail,
+			"CompanyTelephone"=>$CompanyTelephone,
+			"CompanyMobile"=>$CompanyMobile,
+			"CompanyFax"=>$CompanyFax,
+			"CompanyEmail"=>$CompanyEmail,
+			"CompanySign"=>$CompanySign,
+			"CountryID"=>$CountryID,
+			"CityID"=>$CityID,
+			"CountyID"=>$CountyID,
+			"AreaID"=>$AreaID,
+			"HoldingID"=>$HoldingID,
+			"CompanyTypeID"=>$CompanyTypeID);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'company/updateCompany',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function deleteCompanyById($companyId){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'company/deleteCompany/'.$companyId);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"companyId"=>$companyId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'company/deleteCompany',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function addNewBarGroup($data){
