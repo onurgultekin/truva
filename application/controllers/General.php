@@ -1101,7 +1101,7 @@ class General extends CI_Controller {
 	          	]
 		];
 		$this->load->model("general_model");
-		$BarGroupID = $this->input->post("BarGroupID");
+		$BarGroupID = $this->input->post("BarGroupId");
 		$barGroup = $this->general_model->getBarGroupById($BarGroupID);
 		foreach ($formFields as $key => $field) {
 			$message = "Bu alan zorunludur";
