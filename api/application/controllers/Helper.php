@@ -93,4 +93,20 @@ class Helper extends REST_Controller {
 		$message = $this->Helper_model->getDailyConsumedAlcoholFilteredByDate($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function getDailyConsumedAlcoholFilteredByDateByHoldingID_post(){
+		$message = $this->Helper_model->getDailyConsumedAlcoholFilteredByDateByHoldingID($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getDailyConsumedAlcoholFilteredByDateByCompanyID_post(){
+		$message = $this->Helper_model->getDailyConsumedAlcoholFilteredByDateByCompanyID($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getDailyConsumedAlcoholFilteredByDateByBarGroupID_post(){
+		$message = $this->Helper_model->getDailyConsumedAlcoholFilteredByDateByBarGroupID($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getDailyConsumedAlcoholFilteredByDateByTapID_post(){
+		$message = $this->Helper_model->getDailyConsumedAlcoholFilteredByDateByTapID($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 }
