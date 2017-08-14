@@ -89,4 +89,8 @@ class Helper extends REST_Controller {
 		$message = $this->Helper_model->getTotalDailyCostForDailyByCompanyID($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function getDailyConsumedAlcoholFilteredByDate_post(){
+		$message = $this->Helper_model->getDailyConsumedAlcoholFilteredByDate($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 }

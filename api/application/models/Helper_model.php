@@ -708,5 +708,78 @@ class Helper_model extends CI_Model {
                 }
                 return $response;
         }
+        public function getDailyConsumedAlcoholFilteredByDate($parameters){
+                $i = 0;
+                $k = 0;
+                $mandatoryParameters = array("accessToken","userId","dateBegin","dateEnd"); 
+                foreach ($mandatoryParameters as $mandatoryParameter) {
+                        if(!array_key_exists($mandatoryParameter,$parameters)){
+                                $k++;
+                        }
+                } 
+                if($k>0){
+                        $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
+                }else{
+                        $availableParameters = array("accessToken","userId","dateBegin","dateEnd");
+                        foreach ($parameters as $key => $parameter) {
+                                if(!in_array($key,$availableParameters)){
+                                        $i++;
+                                }
+                        }
+                        if($i>0){
+                                $response = $this->globalfunctions->returnMessage(1001,"Geçersiz istek. Bilinmeyen parametre girdiniz.",true);
+                        }else{
+                                $accessToken = $parameters["accessToken"];
+                                $userId = $parameters["userId"];
+                                $dateBegin = $parameters["dateBegin"];
+                                $dateEnd = $parameters["dateEnd"];
+                                if(!is_numeric($userId)){
+                                        $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
+                                }else{
+                                        $this->load->model("AlcoholType_model");
+                                        $params["accessToken"] = $accessToken;
+                                        $params["userId"] = $userId;
+                                        $alcoholTypeList = $this->AlcoholType_model->getAlcoholTypelist($params);
+                                        $this->db->close();
+                                        $alcoholTypes = $alcoholTypeList["message"];
+                                        $query = $this->db->query("CALL GET_TOTAL_DAILY_CONSUMED_ALCOHOL_BY_DATE('".$accessToken."',".$userId.",'".$dateBegin."','".$dateEnd."')");
+                                        $result = $query->row();
+                                        if(@$result->isError == 1){
+                                                $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
+                                        }else{
+                                                $response["result"] = true;
+                                                $response["resultCode"] = 0;
+                                                $dateBegin = strtotime($dateBegin);
+                                                $dateEnd = strtotime($dateEnd);
+                                                $dateDiff = $dateEnd - $dateBegin;
+                                                $dateDiff = floor( $dateDiff / (60 * 60 * 24) );
+                                                $dateIndex = $dateBegin;
+                                                $dateResultArray = array();
+                                                $result = array();
+                                                for ($i = 0; $i < $dateDiff; $i++) {
+                                                        $dateResultArray[$i] = date("Y-m-d", $dateIndex);
+                                                        foreach($alcoholTypes as $key => $row) {
+                                                            $result[$row->Name][$i] = 0;
+                                                        }
+                                                        $dateIndex += (60 * 60 * 24);
+                                                }
+                                                foreach($query->result_array() as $row) {
+                                                        $dateDiff = strtotime($row["Date"]) - $dateBegin;
+                                                        $dateDiff = floor( $dateDiff / (60 * 60 * 24));
+                                                        $result[$row["Name"]][$dateDiff] = (float)$row["ConsumedAlcohol"];
+                                                }
+                                                $i = 0;
+                                                foreach($alcoholTypes as $row) {
+                                                        $dataResult["graphData"][$i]["name"] = $row->Name;
+                                                        $dataResult["graphData"][$i++]["data"] = $result[$row->Name];
+                                                }
+                                                $dataResult["dates"] = $dateResultArray;
+                                                $response["message"] = $dataResult;
+                                        }
+                                }
+                        }
+                }
+                return $response;
+        }
 }
 ?>
