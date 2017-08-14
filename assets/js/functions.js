@@ -895,48 +895,6 @@ function updateCountry(){
         }
     })
 }
-function addNewCollector(){
-    var data = $("#appendNewCollectorData" ).serializeObject();
-    $(".modalError").html('Lütfen bekleyiniz...');
-    $.ajax({
-        type:"POST",
-        url:base_url+"/admin/addNewCollector",
-        data:data,
-        success:function(data){
-            $(".modalError").html(data.message).removeClass("unvisible");
-            getCollectors()
-        }
-    })
-}
-function updateCollector(){
-    var data = $("#updateCollectorData" ).serializeObject();
-    $(".updateModalError").html('Lütfen bekleyiniz...');
-    $.ajax({
-        type:"POST",
-        url:base_url+"/admin/updateCollector",
-        data:data,
-        success:function(data){
-            $(".updateModalError").html(data.message).removeClass("unvisible");
-            getCollectors()
-        }
-    })
-}
-function getCollectors(){
-    Pace.restart();
-    $("#tableWithExportOptions").dataTable().fnDestroy();
-    $.ajax({
-        type:"GET",
-        url:base_url+"/general/getCollectorList",
-        success:function(data){
-            $("#tableWithExportOptions tbody").empty();
-            $.each(data,function(key,collector){
-              $("#tableWithExportOptions tbody").append('<tr id="'+collector.collector_id+'"><td>'+collector.collector_id+'</td><td>'+collector.ip_address+'</td><td>'+collector.notification_email+'</td><td>'+collector.Barcode+'</td><td>'+collector.Latitude+'</td><td>'+collector.Longitude+'</td><td><button class="btn btn-warning getCollectorDetails">Düzenle</button></td><td><button class="btn btn-danger deleteCollectorModal">Sil</button></td></tr>')
-          })
-            initTable();
-            Pace.stop();
-        }
-    })
-}
 function addNewUser(){
     var data = $("#appendNewUserData" ).serializeObject();
     $(".modalError").html('Lütfen bekleyiniz...');
