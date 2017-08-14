@@ -29,6 +29,10 @@ class Bargroup extends REST_Controller {
 		$message = $this->BarGroup_model->getBarGrouplist($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function getBarGrouplistByCompany_post(){
+		$message = $this->BarGroup_model->getBarGrouplistByCompany($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 	public function addBarGroup_post(){
 		$message = $this->BarGroup_model->addBarGroup($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);

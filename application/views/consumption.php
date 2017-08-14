@@ -269,9 +269,14 @@
         $(".apply").on("click",function(){
             var dateBegin = $("#dateBegin").val();
             var dateEnd = $("#dateEnd").val();
+            var data = {dateBegin:dateBegin,dateEnd:dateEnd};
+            var holdingId = $(".holdings").val();
+            var companyId = $(".companies").val();
+            var barGroupId = $(".bars").val();
+            var tapId = $(".taps").val();
             $.ajax({
               type:"POST",
-              data:{dateBegin:dateBegin,dateEnd:dateEnd},
+              data:{dateBegin:dateBegin,dateEnd:dateEnd,holdingId:holdingId,companyId:companyId,barGroupId:barGroupId,tapId:tapId},
               url:base_url+"/general/getConsumptionByDate",
               success:function(data){
                 chart.update({

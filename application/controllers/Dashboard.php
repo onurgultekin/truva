@@ -855,7 +855,7 @@ class Dashboard extends CI_Controller {
 		$dateBegin = date("Y-m-d", strtotime("-7 day"));
 		$dateEnd = date("Y-m-d");
 		$this->load->model("general_model");
-		$data["reports"] = $this->general_model->getDailyConsumedAlcoholFilteredByDate($dateBegin,$dateEnd);
+		$data["reports"] = $this->general_model->getDailyConsumedAlcoholFilteredByDate($dateBegin,$dateEnd,0,0,0,0);
 		$data["leftsidemenuitems"] = $this->general_model->getLeftSideMenu();
 		$data["holdings"] = $this->general_model->getHoldings();
 		$this->load->view('consumption',$data);

@@ -1173,7 +1173,11 @@ class General extends CI_Controller {
 		$this->load->model("general_model");
 		$dateBegin = $this->input->post("dateBegin");
 		$dateEnd = $this->input->post("dateEnd");
-		$reports = $this->general_model->getDailyConsumedAlcoholFilteredByDate($dateBegin,$dateEnd);
+		$holdingId = @$this->input->post("holdingId");
+		$companyId = @$this->input->post("companyId");
+		$barGroupId = @$this->input->post("barGroupId");
+		$tapId = @$this->input->post("tapId");
+		$reports = $this->general_model->getDailyConsumedAlcoholFilteredByDate($dateBegin,$dateEnd,$holdingId,$companyId,$barGroupId,$tapId);
 		echo json_encode($reports);
 	}
 	public function getTechnicalServiceById(){

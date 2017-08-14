@@ -259,15 +259,16 @@ class General_model extends CI_Model
 		return $response->message;
 	}
 	public function getBarsByCompanyId($companyId){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'bargroup/getBarGrouplistByCompany/'.$companyId);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"companyId"=>$companyId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'bargroup/getBarGrouplistByCompany',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
 	public function getLeftSideMenu(){
@@ -558,14 +559,31 @@ class General_model extends CI_Model
 		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
-	public function getDailyConsumedAlcoholFilteredByDate($dateBegin,$dateEnd){
+	public function getDailyConsumedAlcoholFilteredByDate($dateBegin,$dateEnd,$holdingId,$companyId,$barGroupId,$tapId){
 		$accessToken = $this->session->userdata("accessToken");
 		$userId = $this->session->userdata("userId");
 		$data = array("accessToken" => $accessToken, "userId" => $userId,"dateBegin"=>$dateBegin,"dateEnd"=>$dateEnd);
+		$endpoint = 'helper/getDailyConsumedAlcoholFilteredByDate';
+		if($holdingId > 0){
+			$data = array("accessToken" => $accessToken, "userId" => $userId,"dateBegin"=>$dateBegin,"dateEnd"=>$dateEnd,"holdingId"=>$holdingId);
+			$endpoint = 'helper/getDailyConsumedAlcoholFilteredByDateByHoldingID';
+		}
+		if($companyId > 0){
+			$data = array("accessToken" => $accessToken, "userId" => $userId,"dateBegin"=>$dateBegin,"dateEnd"=>$dateEnd,"companyId"=>$companyId);
+			$endpoint = 'helper/getDailyConsumedAlcoholFilteredByDateByCompanyID';
+		}
+		if($barGroupId > 0){
+			$data = array("accessToken" => $accessToken, "userId" => $userId,"dateBegin"=>$dateBegin,"dateEnd"=>$dateEnd,"barGroupId"=>$barGroupId);
+			$endpoint = 'helper/getDailyConsumedAlcoholFilteredByDateByBarGroupID';
+		}
+		if($tapId > 0){
+			$data = array("accessToken" => $accessToken, "userId" => $userId,"dateBegin"=>$dateBegin,"dateEnd"=>$dateEnd,"holdingId"=>$tapId);
+			$endpoint = 'helper/getDailyConsumedAlcoholFilteredByDateByTapID';
+		}
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
 		CURLOPT_RETURNTRANSFER => 1,
-		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getDailyConsumedAlcoholFilteredByDate',
+		CURLOPT_URL => NEW_API_ENDPOINT.$endpoint,
 		CURLOPT_POSTFIELDS => http_build_query($data)
 		));
 		$response = json_decode(curl_exec($curl));
