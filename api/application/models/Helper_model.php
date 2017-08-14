@@ -763,10 +763,10 @@ class Helper_model extends CI_Model {
                                                         }
                                                         $dateIndex += (60 * 60 * 24);
                                                 }
-                                                foreach($query->result_array() as $row) {
-                                                        $dateDiff = strtotime($row["Date"]) - $dateBegin;
+                                                foreach($query->result() as $row) {
+                                                        $dateDiff = strtotime($row->Date) - $dateBegin;
                                                         $dateDiff = floor( $dateDiff / (60 * 60 * 24));
-                                                        $result[$row["Name"]][$dateDiff] = (float)$row["ConsumedAlcohol"];
+                                                        $result[$row->Name][$dateDiff] = (float)$row->ConsumedAlcohol;
                                                 }
                                                 $i = 0;
                                                 foreach($alcoholTypes as $row) {
