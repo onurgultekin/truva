@@ -751,7 +751,7 @@ class Helper_model extends CI_Model {
                                                 $response["resultCode"] = 0;
                                                 $dateBegin = strtotime($dateBegin);
                                                 $dateEnd = strtotime($dateEnd);
-                                                $dateDiff = $dateEnd - $dateBegin;
+                                                $dateDiff = $dateEnd - $dateBegin + 86400;
                                                 $dateDiff = floor( $dateDiff / (60 * 60 * 24) );
                                                 $dateIndex = $dateBegin;
                                                 $dateResultArray = array();
