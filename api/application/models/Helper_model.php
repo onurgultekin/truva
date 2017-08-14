@@ -1089,5 +1089,221 @@ class Helper_model extends CI_Model {
                 }
                 return $response;
         }
+        public function getTotalConsumedCl($parameters){
+                $i = 0;
+                $k = 0;
+                $mandatoryParameters = array("accessToken","userId");
+                foreach ($mandatoryParameters as $mandatoryParameter) {
+                        if(!array_key_exists($mandatoryParameter,$parameters)){
+                                $k++;
+                        }
+                } 
+                if($k>0){
+                        $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
+                }else{
+                        $availableParameters = array("accessToken","userId");
+                        foreach ($parameters as $key => $parameter) {
+                                if(!in_array($key,$availableParameters)){
+                                        $i++;
+                                }
+                        }
+                        if($i>0){
+                                $response = $this->globalfunctions->returnMessage(1001,"Geçersiz istek. Bilinmeyen parametre girdiniz.",true);
+                        }else{
+                                $accessToken = $parameters["accessToken"];
+                                $userId = $parameters["userId"];
+                                if(!is_numeric($userId)){
+                                        $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
+                                }else{
+                                        $query = $this->db->query("CALL GET_TOTAL_CONSUMED_CL('".$accessToken."',".$userId.",NULL,NULL)");
+                                        $result = $query->row();
+                                        if(@$result->isError == 1){
+                                                $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
+                                        }else{
+                                                $response["result"] = true;
+                                                $response["resultCode"] = 0;
+                                                $response["message"] = $result->Consumed;
+                                        }
+                                }
+                        }
+                }
+                return $response;
+        }
+        public function getTotalConsumedClByHoldingID($parameters){
+                $i = 0;
+                $k = 0;
+                $mandatoryParameters = array("accessToken","userId","holdingId");
+                foreach ($mandatoryParameters as $mandatoryParameter) {
+                        if(!array_key_exists($mandatoryParameter,$parameters)){
+                                $k++;
+                        }
+                } 
+                if($k>0){
+                        $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
+                }else{
+                        $availableParameters = array("accessToken","userId","holdingId");
+                        foreach ($parameters as $key => $parameter) {
+                                if(!in_array($key,$availableParameters)){
+                                        $i++;
+                                }
+                        }
+                        if($i>0){
+                                $response = $this->globalfunctions->returnMessage(1001,"Geçersiz istek. Bilinmeyen parametre girdiniz.",true);
+                        }else{
+                                $accessToken = $parameters["accessToken"];
+                                $userId = $parameters["userId"];
+                                $holdingId = $parameters["holdingId"];
+                                if(!is_numeric($userId)){
+                                        $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($holdingId)){
+                                        $response = $this->globalfunctions->returnMessage(1002,"holdingId parametresi numeric olmalıdır.",true);
+                                }else{
+                                        $query = $this->db->query("CALL GET_TOTAL_CONSUMED_CL('".$accessToken."',".$userId.",".$holdingId.",'HoldingID')");
+                                        $result = $query->row();
+                                        if(@$result->isError == 1){
+                                                $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
+                                        }else{
+                                                $response["result"] = true;
+                                                $response["resultCode"] = 0;
+                                                $response["message"] = $result->Consumed;
+                                        }
+                                }
+                        }
+                }
+                return $response;
+        }
+        public function getTotalConsumedClByCompanyID($parameters){
+                $i = 0;
+                $k = 0;
+                $mandatoryParameters = array("accessToken","userId","companyId");
+                foreach ($mandatoryParameters as $mandatoryParameter) {
+                        if(!array_key_exists($mandatoryParameter,$parameters)){
+                                $k++;
+                        }
+                } 
+                if($k>0){
+                        $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
+                }else{
+                        $availableParameters = array("accessToken","userId","companyId");
+                        foreach ($parameters as $key => $parameter) {
+                                if(!in_array($key,$availableParameters)){
+                                        $i++;
+                                }
+                        }
+                        if($i>0){
+                                $response = $this->globalfunctions->returnMessage(1001,"Geçersiz istek. Bilinmeyen parametre girdiniz.",true);
+                        }else{
+                                $accessToken = $parameters["accessToken"];
+                                $userId = $parameters["userId"];
+                                $companyId = $parameters["companyId"];
+                                if(!is_numeric($userId)){
+                                        $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($companyId)){
+                                        $response = $this->globalfunctions->returnMessage(1002,"companyId parametresi numeric olmalıdır.",true);
+                                }else{
+                                        $query = $this->db->query("CALL GET_TOTAL_CONSUMED_CL('".$accessToken."',".$userId.",".$companyId.",'CompanyID')");
+                                        $result = $query->row();
+                                        if(@$result->isError == 1){
+                                                $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
+                                        }else{
+                                                $response["result"] = true;
+                                                $response["resultCode"] = 0;
+                                                $response["message"] = $result->Consumed;
+                                        }
+                                }
+                        }
+                }
+                return $response;
+        }
+        public function getTotalConsumedClByBarGroupID($parameters){
+                $i = 0;
+                $k = 0;
+                $mandatoryParameters = array("accessToken","userId","barGroupId");
+                foreach ($mandatoryParameters as $mandatoryParameter) {
+                        if(!array_key_exists($mandatoryParameter,$parameters)){
+                                $k++;
+                        }
+                } 
+                if($k>0){
+                        $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
+                }else{
+                        $availableParameters = array("accessToken","userId","barGroupId");
+                        foreach ($parameters as $key => $parameter) {
+                                if(!in_array($key,$availableParameters)){
+                                        $i++;
+                                }
+                        }
+                        if($i>0){
+                                $response = $this->globalfunctions->returnMessage(1001,"Geçersiz istek. Bilinmeyen parametre girdiniz.",true);
+                        }else{
+                                $accessToken = $parameters["accessToken"];
+                                $userId = $parameters["userId"];
+                                $barGroupId = $parameters["barGroupId"];
+                                if(!is_numeric($userId)){
+                                        $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($barGroupId)){
+                                        $response = $this->globalfunctions->returnMessage(1002,"barGroupId parametresi numeric olmalıdır.",true);
+                                }else{
+                                        $query = $this->db->query("CALL GET_TOTAL_CONSUMED_CL('".$accessToken."',".$userId.",".$barGroupId.",'BarGroupID')");
+                                        $result = $query->row();
+                                        if(@$result->isError == 1){
+                                                $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
+                                        }else{
+                                                $response["result"] = true;
+                                                $response["resultCode"] = 0;
+                                                $response["message"] = $result->Consumed;
+                                        }
+                                }
+                        }
+                }
+                return $response;
+        }
+        public function getTotalConsumedClByTapID($parameters){
+                $i = 0;
+                $k = 0;
+                $mandatoryParameters = array("accessToken","userId","tapId");
+                foreach ($mandatoryParameters as $mandatoryParameter) {
+                        if(!array_key_exists($mandatoryParameter,$parameters)){
+                                $k++;
+                        }
+                } 
+                if($k>0){
+                        $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
+                }else{
+                        $availableParameters = array("accessToken","userId","tapId");
+                        foreach ($parameters as $key => $parameter) {
+                                if(!in_array($key,$availableParameters)){
+                                        $i++;
+                                }
+                        }
+                        if($i>0){
+                                $response = $this->globalfunctions->returnMessage(1001,"Geçersiz istek. Bilinmeyen parametre girdiniz.",true);
+                        }else{
+                                $accessToken = $parameters["accessToken"];
+                                $userId = $parameters["userId"];
+                                $tapId = $parameters["tapId"];
+                                if(!is_numeric($userId)){
+                                        $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($tapId)){
+                                        $response = $this->globalfunctions->returnMessage(1002,"tapId parametresi numeric olmalıdır.",true);
+                                }else{
+                                        $query = $this->db->query("CALL GET_TOTAL_CONSUMED_CL('".$accessToken."',".$userId.",".$tapId.",'TapID')");
+                                        $result = $query->row();
+                                        if(@$result->isError == 1){
+                                                $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
+                                        }else{
+                                                $response["result"] = true;
+                                                $response["resultCode"] = 0;
+                                                $response["message"] = $result->Consumed;
+                                        }
+                                }
+                        }
+                }
+                return $response;
+        }
 }
 ?>

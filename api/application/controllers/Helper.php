@@ -109,4 +109,24 @@ class Helper extends REST_Controller {
 		$message = $this->Helper_model->getDailyConsumedAlcoholFilteredByDateByTapID($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function getTotalConsumedCl_post(){
+		$message = $this->Helper_model->getTotalConsumedCl($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getTotalConsumedClByHoldingID_post(){
+		$message = $this->Helper_model->getTotalConsumedClByHoldingID($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getTotalConsumedClByCompanyID_post(){
+		$message = $this->Helper_model->getTotalConsumedClByCompanyID($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getTotalConsumedClByBarGroupID_post(){
+		$message = $this->Helper_model->getTotalConsumedClByBarGroupID($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getTotalConsumedClByTapID_post(){
+		$message = $this->Helper_model->getTotalConsumedClByTapID($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 }
