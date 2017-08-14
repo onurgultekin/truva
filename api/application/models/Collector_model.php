@@ -114,7 +114,7 @@ class Collector_model extends CI_Model {
                     'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
                 ];
                 $_str = $key.$email;
-                return password_hash($_str, PASSWORD_BCRYPT, $options);
+                return @password_hash($_str, PASSWORD_BCRYPT, $options);
         }
 }
 ?>
