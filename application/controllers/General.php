@@ -1429,14 +1429,15 @@ class General extends CI_Controller {
 		$CompanyID = $this->input->post("CompanyID");
 		$companyBarGroup = $this->general_model->getCompanyBarGroupByCompanyId($CompanyID);
 		$barGroups = $this->general_model->getBarGroups();
+		$companyBarGroups = explode(",",$companyBarGroup[0]->barGroups);
 		echo '<div class="row">
 		<div class="col-md-12">
 		<div class="<div class="form-group form-group-default form-group-default-select2 required">
 		<select class="full-width" id="multiple" multiple data-init-plugin="select2">';
 		foreach ($barGroups as $key => $barGroup) {
 				$selected = '';
-				foreach ($companyBarGroup as $key => $bar) {
-					if($barGroup->BarGroupID == $bar->BarGroupID){
+				foreach ($companyBarGroups as $key => $bar) {
+					if($barGroup->BarGroupID == $bar){
 						$selected = 'selected = "selected"';
 					}	
 				}
