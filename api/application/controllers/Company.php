@@ -49,6 +49,10 @@ class Company extends REST_Controller {
 		$message = $this->Company_model->getCompanylist($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function getCompanyTypelist_post(){
+		$message = $this->Company_model->getCompanyTypelist($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 	public function addCompany_post(){
 		$message = $this->Company_model->addCompany($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);

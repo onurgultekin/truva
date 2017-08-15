@@ -592,8 +592,8 @@ function getBarGroupListForCompany(){
             success:function(data){
                 if(data.message.length > 0){
                     $("#showCompanyBarGroups").find("table tbody").empty();
-                    $.each(data,function(key,barGroup){
-                        $("#showCompanyBarGroups").find("table tbody").append('<tr><td>'+barGroup.Code+'</td><td>'+barGroup.Name+'</td></tr>');
+                    $.each(data.message,function(key,barGroup){
+                        $("#showCompanyBarGroups").find("table tbody").append('<tr><td>'+barGroup.Name+'</td><td>'+barGroup.Code+'</td></tr>');
                     })
                     $("#showCompanyBarGroups").modal();
                 }else{

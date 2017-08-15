@@ -103,7 +103,7 @@
                 data:{holdingId:selectedHolding},
                 success:function(data){
                     $(".companies").html('<option value="0">Lütfen seçin</option>').removeAttr("disabled").removeClass("disabled");
-                    $.each(data,function(k,company){
+                    $.each(data.message,function(k,company){
                         $(".companies").append('<option value="'+company.CompanyID+'">'+company.CompanyName+'</option>');
                     })
                 }
