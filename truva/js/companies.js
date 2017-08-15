@@ -6,6 +6,8 @@ $(function(){
         getDetails(".getCompanyDetails","/general/getCompanyById","companyId",".appendCompanyDataHere");
         getCompanyByCountryId();
         getCompanyByCityId();
+        getCompanyByCountyId();
+        getCompanyByAreaId();
         getCompanyByHoldingId();
         getBarGroupListForCompany();
         $("#appendNewCompanyData").validate({

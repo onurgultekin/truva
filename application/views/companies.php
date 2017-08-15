@@ -109,7 +109,7 @@
                         <div class="col-md-12">
                         <div class="panel-body" style="padding-top: 0px">
                         <h5>Holding</h5>
-                        <div class="form-group form-group-default form-group-default-select2 required">
+                        <div class="form-group col-md-3 form-group-default form-group-default-select2 required">
                         <label class="">Holding seçin</label>
                           <select class="full-width holdingsforcompanies" data-placeholder="Holding seçin" data-init-plugin="select2">
                           <option value="0">Lütfen seçin</option>

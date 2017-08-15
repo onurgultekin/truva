@@ -298,12 +298,13 @@ function getHoldingByCountryId(){
             url:base_url+"/general/getHoldingByCountryId",
             data:{countryId:selectedCountry},
             success:function(data){
+                console.log(data);
                 if(selectedCountry==0){
                     getHoldings();
                 }else{
                 $("#tableWithExportOptions tbody").empty();
-                    if(data!="There is no record from Countries"){
-                        $.each(data,function(key,holding){
+                    if(data.message.length != 0){
+                        $.each(data.message,function(key,holding){
                             $("#tableWithExportOptions tbody").append('<tr id="'+holding.HoldingID+'">\
                                 <td>'+holding.HoldingName+'</td>\
                                 <td>'+holding.HoldingEmail+'</td>\
@@ -313,6 +314,9 @@ function getHoldingByCountryId(){
                                 <td>'+holding.AreaName+'</td>\
                                 <td><div class="pull-left"><button class="btn btn-primary getCompanyByHoldingId btn-xs" id= "'+holding.HoldingID+'">Detay</button><button class="btn btn-warning getHoldingDetails btn-xs m-l-10 m-r-10">Düzenle</button><button class="btn btn-danger deleteHoldingModal btn-xs">Sil</button></div></td></tr>')
                         })
+                    }else{
+                        $("#modalSlideUpSmall").find("h4").html("Bu ülkeye ait holding bulunamadı.");
+                        $("#modalSlideUpSmall").modal();
                     }
                 }
                 initTable();
@@ -335,8 +339,8 @@ function getHoldingByCityId(){
             data:{cityId:selectedCity},
             success:function(data){
             $("#tableWithExportOptions tbody").empty();
-                if(data!="There is no record from Cities"){
-                    $.each(data,function(key,holding){
+                if(data.message.length != 0){
+                    $.each(data.message,function(key,holding){
                         $("#tableWithExportOptions tbody").append('<tr id="'+holding.HoldingID+'">\
                             <td>'+holding.HoldingName+'</td>\
                             <td>'+holding.HoldingEmail+'</td>\
@@ -346,6 +350,9 @@ function getHoldingByCityId(){
                             <td>'+holding.AreaName+'</td>\
                             <td><div class="pull-left"><button class="btn btn-primary getCompanyByHoldingId btn-xs" id= "'+holding.HoldingID+'">Detay</button><button class="btn btn-warning getHoldingDetails btn-xs m-l-10 m-r-10">Düzenle</button><button class="btn btn-danger deleteHoldingModal btn-xs">Sil</button></div></td></tr>')
                     })
+                }else{
+                    $("#modalSlideUpSmall").find("h4").html("Bu şehire ait holding bulunamadı.");
+                    $("#modalSlideUpSmall").modal();
                 }
                 initTable();
                 Pace.stop();
@@ -368,8 +375,8 @@ function getHoldingByCountyId(){
                 data:{countyId:selectedCounty},
                 success:function(data){
                     $("#tableWithExportOptions tbody").empty();
-                    if(data!="There is no record from Counties"){
-                        $.each(data,function(key,holding){
+                    if(data.message.length != 0){
+                        $.each(data.message,function(key,holding){
                             $("#tableWithExportOptions tbody").append('<tr id="'+holding.HoldingID+'">\
                                 <td>'+holding.HoldingName+'</td>\
                                 <td>'+holding.HoldingEmail+'</td>\
@@ -380,6 +387,8 @@ function getHoldingByCountyId(){
                                 <td><div class="pull-left"><button class="btn btn-primary getCompanyByHoldingId btn-xs" id= "'+holding.HoldingID+'">Detay</button><button class="btn btn-warning getHoldingDetails btn-xs m-l-10 m-r-10">Düzenle</button><button class="btn btn-danger deleteHoldingModal btn-xs">Sil</button></div></td></tr>')
                         })
                     }else{
+                        $("#modalSlideUpSmall").find("h4").html("Bu ilçeye ait holding bulunamadı.");
+                        $("#modalSlideUpSmall").modal();
                     }
                     initTable();
                     Pace.stop();
@@ -402,8 +411,8 @@ function getHoldingByAreaId(){
             data:{areaId:selectedArea},
             success:function(data){
                 $("#tableWithExportOptions tbody").empty();
-                if(data!="There is no record from Areas"){
-                    $.each(data,function(key,holding){
+                if(data.message.length != 0){
+                    $.each(data.message,function(key,holding){
                         $("#tableWithExportOptions tbody").append('<tr id="'+holding.HoldingID+'">\
                             <td>'+holding.HoldingName+'</td>\
                             <td>'+holding.HoldingEmail+'</td>\
@@ -414,6 +423,8 @@ function getHoldingByAreaId(){
                             <td><div class="pull-left"><button class="btn btn-primary getCompanyByHoldingId btn-xs" id= "'+holding.HoldingID+'">Detay</button><button class="btn btn-warning getHoldingDetails btn-xs m-l-10 m-r-10">Düzenle</button><button class="btn btn-danger deleteHoldingModal btn-xs">Sil</button></div></td></tr>')
                     })
                 }else{
+                    $("#modalSlideUpSmall").find("h4").html("Bu semte ait holding bulunamadı");
+                    $("#modalSlideUpSmall").modal();
                 }
                 initTable();
                 Pace.stop();
@@ -430,13 +441,14 @@ function getCompanyByHoldingIdForHoldingPage(){
             url:base_url+"/general/getCompanyByHoldingId",
             data:{holdingId:holdingId},
             success:function(data){
-                if(data!="There is no record from Holding."){
+                if(data.resultCode == 0){
                     $("#showHoldingCompanies").find("table tbody").empty();
                     $.each(data,function(key,company){
                         $("#showHoldingCompanies").find("table tbody").append('<tr><td>'+company.CompanyName+'</td><td>'+company.CompanyType+'</td><td>'+company.CompanyAdress+'</td></tr>');
                     })
                     $("#showHoldingCompanies").modal();
                 }else{
+                    $("#modalSlideUpSmall").find("h4").html(data.message);
                     $("#modalSlideUpSmall").modal();
                 }
             }
@@ -454,11 +466,13 @@ function getCompanyByCountryId(){
             data:{countryId:selectedCountry},
             success:function(data){
                 $("#tableWithExportOptions tbody").empty();
-                if(data!="There is no record from Countries"){
-                    $.each(data,function(key,company){
+                if(data.message.length > 0){
+                    $.each(data.message,function(key,company){
                         $("#tableWithExportOptions tbody").append('<tr id="'+company.CompanyID+'"><td>'+company.CompanyName+'</td><td>'+company.CompanyType+'</td><td>'+company.TotalBar+'</td><td>'+company.TotalTap+'</td><td><div class="pull-left"><button class="btn btn-primary getBarGroupListForCompany btn-xs" id="'+company.CompanyID+'">Detay</button><button class="btn btn-warning getCompanyDetails btn-xs m-r-10 m-l-10">Düzenle</button><button class="btn btn-danger deleteCompanyModal btn-xs">Sil</button></div></td></tr>')
                     })
                 }else{
+                    $("#modalSlideUpSmall").find("h4").html("Bu ülkeye ait şirket  bulunamadı.");
+                    $("#modalSlideUpSmall").modal();
                 }
                 initTable();
                 Pace.stop();
@@ -477,11 +491,63 @@ function getCompanyByCityId(){
             data:{cityId:selectedCity},
             success:function(data){
                 $("#tableWithExportOptions tbody").empty();
-                if(data!="There is no record from Cities."){
-                    $.each(data,function(key,company){
+                if(data.message.length > 0){
+                    $.each(data.message,function(key,company){
                         $("#tableWithExportOptions tbody").append('<tr id="'+company.CompanyID+'"><td>'+company.CompanyName+'</td><td>'+company.CompanyType+'</td><td>'+company.TotalBar+'</td><td>'+company.TotalTap+'</td><td><div class="pull-left"><button class="btn btn-primary getBarGroupListForCompany btn-xs" id="'+company.CompanyID+'">Detay</button><button class="btn btn-warning getCompanyDetails btn-xs m-r-10 m-l-10">Düzenle</button><button class="btn btn-danger deleteCompanyModal btn-xs">Sil</button></div></td></tr>')
                     })
                 }else{
+                    $("#modalSlideUpSmall").find("h4").html("Bu şehire ait şirket  bulunamadı.");
+                    $("#modalSlideUpSmall").modal();
+                }
+                initTable();
+                Pace.stop();
+            }
+        })
+    })
+}
+function getCompanyByCountyId(){
+    $(".districts").on("change",function(){
+        var selectedCounty = $(this).val();
+        Pace.restart();
+        $("#tableWithExportOptions").dataTable().fnDestroy();
+        $.ajax({
+            type:"POST",
+            url:base_url+"/general/getCompanyByCountyId",
+            data:{countyId:selectedCounty},
+            success:function(data){
+                $("#tableWithExportOptions tbody").empty();
+                if(data.message.length > 0){
+                    $.each(data.message,function(key,company){
+                        $("#tableWithExportOptions tbody").append('<tr id="'+company.CompanyID+'"><td>'+company.CompanyName+'</td><td>'+company.CompanyType+'</td><td>'+company.TotalBar+'</td><td>'+company.TotalTap+'</td><td><div class="pull-left"><button class="btn btn-primary getBarGroupListForCompany btn-xs" id="'+company.CompanyID+'">Detay</button><button class="btn btn-warning getCompanyDetails btn-xs m-r-10 m-l-10">Düzenle</button><button class="btn btn-danger deleteCompanyModal btn-xs">Sil</button></div></td></tr>')
+                    })
+                }else{
+                    $("#modalSlideUpSmall").find("h4").html("Bu ilçeye ait şirket  bulunamadı.");
+                    $("#modalSlideUpSmall").modal();
+                }
+                initTable();
+                Pace.stop();
+            }
+        })
+    })
+}
+function getCompanyByAreaId(){
+    $(".areas").on("change",function(){
+        var selectedArea = $(this).val();
+        Pace.restart();
+        $("#tableWithExportOptions").dataTable().fnDestroy();
+        $.ajax({
+            type:"POST",
+            url:base_url+"/general/getCompanyByAreaId",
+            data:{areaId:selectedArea},
+            success:function(data){
+                $("#tableWithExportOptions tbody").empty();
+                if(data.message.length > 0){
+                    $.each(data.message,function(key,company){
+                        $("#tableWithExportOptions tbody").append('<tr id="'+company.CompanyID+'"><td>'+company.CompanyName+'</td><td>'+company.CompanyType+'</td><td>'+company.TotalBar+'</td><td>'+company.TotalTap+'</td><td><div class="pull-left"><button class="btn btn-primary getBarGroupListForCompany btn-xs" id="'+company.CompanyID+'">Detay</button><button class="btn btn-warning getCompanyDetails btn-xs m-r-10 m-l-10">Düzenle</button><button class="btn btn-danger deleteCompanyModal btn-xs">Sil</button></div></td></tr>')
+                    })
+                }else{
+                    $("#modalSlideUpSmall").find("h4").html("Bu semte ait şirket  bulunamadı.");
+                    $("#modalSlideUpSmall").modal();
                 }
                 initTable();
                 Pace.stop();
@@ -500,11 +566,15 @@ function getCompanyByHoldingId(){
                 url:base_url+"/general/getCompanyByHoldingId",
                 data:{holdingId:selectedHolding},
                 success:function(data){
-                    console.log(data);
                     $("#tableWithExportOptions tbody").empty();
-                    $.each(data,function(key,company){
-                        $("#tableWithExportOptions tbody").append('<tr id="'+company.CompanyID+'"><td>'+company.CompanyName+'</td><td>'+company.CompanyType+'</td><td>'+company.TotalBar+'</td><td>'+company.TotalTap+'</td><td><div class="pull-left"><button class="btn btn-primary getBarGroupListForCompany btn-xs" id="'+company.CompanyID+'">Detay</button><button class="btn btn-warning getCompanyDetails btn-xs m-r-10 m-l-10">Düzenle</button><button class="btn btn-danger deleteCompanyModal btn-xs">Sil</button></div></td></tr>')
-                    })
+                    if(data.resultCode == 0){
+                        $.each(data.message,function(key,company){
+                            $("#tableWithExportOptions tbody").append('<tr id="'+company.CompanyID+'"><td>'+company.CompanyName+'</td><td>'+company.CompanyType+'</td><td>'+company.TotalBar+'</td><td>'+company.TotalTap+'</td><td><div class="pull-left"><button class="btn btn-primary getBarGroupListForCompany btn-xs" id="'+company.CompanyID+'">Detay</button><button class="btn btn-warning getCompanyDetails btn-xs m-r-10 m-l-10">Düzenle</button><button class="btn btn-danger deleteCompanyModal btn-xs">Sil</button></div></td></tr>')
+                        })
+                    }else{
+                        $("#modalSlideUpSmall").find("h4").html(data.message);
+                        $("#modalSlideUpSmall").modal();
+                    }
                     initTable();
                     Pace.stop();
                 }
@@ -520,7 +590,7 @@ function getBarGroupListForCompany(){
             url:base_url+"/general/getBarsByCompanyId",
             data:{companyId:companyId},
             success:function(data){
-                if(data!=""){
+                if(data.message.length > 0){
                     $("#showCompanyBarGroups").find("table tbody").empty();
                     $.each(data,function(key,barGroup){
                         $("#showCompanyBarGroups").find("table tbody").append('<tr><td>'+barGroup.Code+'</td><td>'+barGroup.Name+'</td></tr>');

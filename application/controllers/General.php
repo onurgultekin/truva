@@ -576,6 +576,24 @@ class General extends CI_Controller {
 		echo json_encode($holding);
 	}
 
+	public function getCompanyByCountyId()
+	{
+		header("Content-type:application/json");
+		$this->load->model("general_model");
+		$countyId = $this->input->post("countyId");
+		$holding = $this->general_model->getCompanyByCountyId($countyId);
+		echo json_encode($holding);
+	}
+
+	public function getCompanyByAreaId()
+	{
+		header("Content-type:application/json");
+		$this->load->model("general_model");
+		$areaId = $this->input->post("areaId");
+		$holding = $this->general_model->getCompanyByAreaId($areaId);
+		echo json_encode($holding);
+	}
+
 	public function getCompanies(){
 		header("Content-type:application/json");
 		$this->load->model("general_model");

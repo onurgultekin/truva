@@ -196,7 +196,7 @@ class General_model extends CI_Model
 			CURLOPT_POSTFIELDS => http_build_query($data)
 			));
 			$response = json_decode(curl_exec($curl));
-			return $response->message;
+			return $response;
 		}else{
 			return $this->getHoldings();
 		}
@@ -213,7 +213,7 @@ class General_model extends CI_Model
 			CURLOPT_POSTFIELDS => http_build_query($data)
 			));
 			$response = json_decode(curl_exec($curl));
-			return $response->message;
+			return $response;
 		}else{
 			return $this->getHoldings();
 		}
@@ -229,7 +229,7 @@ class General_model extends CI_Model
 		CURLOPT_POSTFIELDS => http_build_query($data)
 		));
 		$response = json_decode(curl_exec($curl));
-		return $response->message;
+		return $response;
 	}
 	public function getHoldingByAreaId($areaId){
 		$accessToken = $this->session->userdata("accessToken");
@@ -242,7 +242,7 @@ class General_model extends CI_Model
 		CURLOPT_POSTFIELDS => http_build_query($data)
 		));
 		$response = json_decode(curl_exec($curl));
-		return $response->message;
+		return $response;
 	}
 	
 	public function getCompanyByHoldingId($holdingId){
@@ -256,7 +256,7 @@ class General_model extends CI_Model
 		CURLOPT_POSTFIELDS => http_build_query($data)
 		));
 		$response = json_decode(curl_exec($curl));
-		return $response->message;
+		return $response;
 	}
 	public function getBarsByCompanyId($companyId){
 		$accessToken = $this->session->userdata("accessToken");
@@ -377,7 +377,7 @@ class General_model extends CI_Model
 			CURLOPT_POSTFIELDS => http_build_query($data)
 			));
 			$response = json_decode(curl_exec($curl));
-			return $response->message;
+			return $response;
 		}else{
 			return $this->getCompanies();
 		}
@@ -394,7 +394,35 @@ class General_model extends CI_Model
 		CURLOPT_POSTFIELDS => http_build_query($data)
 		));
 		$response = json_decode(curl_exec($curl));
-		return $response->message;
+		return $response;
+	}
+
+	public function getCompanyByCountyId($countyId){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"countyId"=>$countyId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'company/getCompanyByCounties',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response;
+	}
+
+	public function getCompanyByAreaId($areaId){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"areaId"=>$areaId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'company/getCompanyByAreas',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response;
 	}
 
 	public function getAlcoholTypePercentage(){
