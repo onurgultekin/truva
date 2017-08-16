@@ -116,10 +116,12 @@
                 url:base_url+"/general/getBarsByCompanyId",
                 data:{companyId:selectedHolding},
                 success:function(data){
-                    $(".bars").html('<option value="0">Lütfen seçin</option>').removeAttr("disabled").removeClass("disabled");
-                    $.each(data,function(k,bar){
-                        $(".bars").append('<option value="'+bar.BarGroupID+'">'+bar.Name+'</option>');
-                    })
+                    if(data.message.length > 0){
+                        $(".bars").html('<option value="0">Lütfen seçin</option>').removeAttr("disabled").removeClass("disabled");
+                        $.each(data.message,function(k,bar){
+                            $(".bars").append('<option value="'+bar.BarGroupID+'">'+bar.Name+'</option>');
+                        })
+                    }
                 }
             })
         })

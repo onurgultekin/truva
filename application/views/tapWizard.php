@@ -406,7 +406,7 @@
                   <div class="form-group form-group-default required m-t-10">
                     <label>CL Başı Maliyet</label>
                     <div class="controls">
-                    <input type="text" class="form-control" name="pricePerCl" id="pricePerCl" data-msg="Bu alan zorunludur." data-a-dec="." data-a-sep="," placeholder="0.00">
+                    <input type="text" class="form-control" name="pricePerCl" id="pricePerCl" data-msg="Bu alan zorunludur." data-a-dec="." data-a-sep="," placeholder="0.00" required>
                     </div>
                   </div>
                   <div class="form-group form-group-default m-t-10">
@@ -945,7 +945,7 @@
                 $item = $(this);
                 $item.parent().nextAll().find("a").attr("disabled","disabled").removeClass('btn-success').addClass('btn-default');
                 $target.nextAll().find("input").val('');
-                $target.nextAll().find("select").val(0).change();
+                //$target.nextAll().find("select").val(0).change();
                 isDisabled = $item.is('[disabled=disabled]');
                 if(!isDisabled){
                   navListItems.removeClass('btn-success').addClass('btn-default');

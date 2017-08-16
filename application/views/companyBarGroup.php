@@ -83,7 +83,7 @@
                   echo '<tr id="'.$barGroup->CompanyID.'">
                     <td>'.$barGroup->CompanyName.'</td>
                     <td>'.$barGroup->ToplamBar.'</td>
-                    <td><div class="pull-left"><button class="btn btn-warning getCompanyBarGroupDetails btn-xs m-r-10" id="duzenle">Bar Grubu Ata</button><button class="btn btn-danger deleteCompanyBarGroupModal btn-xs">Sil</button></div></td>
+                    <td><div class="pull-left"><button class="btn btn-warning getCompanyBarGroupDetails btn-xs m-r-10" id="duzenle">Bar Grubu Ata</button></div></td>
                   </tr>';
                 }
                 ?>
