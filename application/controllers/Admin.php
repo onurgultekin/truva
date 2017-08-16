@@ -434,6 +434,13 @@ class Admin extends CI_Controller {
 		$updateCollector = $this->admin_model->updateCollector($data);
 		echo json_encode($updateCollector);
 	}
+	public function deleteCollector(){
+		header("Content-type:application/json");
+		$this->load->model("admin_model");
+		$collectorId = $this->input->post("CollectorID");
+		$deleteCollector = $this->admin_model->deleteCollector($collectorId);
+		echo json_encode($deleteCollector);
+	}
 	public function addNewCompany(){
 		header("Content-type:application/json");
 		$this->load->model("admin_model");

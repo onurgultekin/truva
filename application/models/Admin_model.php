@@ -604,7 +604,8 @@ class Admin_model extends CI_Model
 		return $response;
 	}
 	public function updateCollector($data){
-		$token = $this->session->userdata("token");
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
 		$notification_email = $_POST["notification_email"];
 		$eth_mac_address = $_POST["eth_mac_address"];
 		$wifi_mac_address = $_POST["wifi_mac_address"];
@@ -613,27 +614,35 @@ class Admin_model extends CI_Model
 		$Longitude = $_POST["Longitude"];
 		$collector_id = $_POST["collector_id"];
 		$data = array(
+			"accessToken" => $accessToken,
+			"userId" => $userId,
 			"collector_id" => $collector_id,
-			"postData" => array(
-				"notification_email" => $notification_email,
-				"eth_mac_address"=>$eth_mac_address,
-				"wifi_mac_address"=>$wifi_mac_address,
-				"Barcode"=>$Barcode,
-				"Latitude"=>$Latitude,
-				"Longitude"=>$Longitude));
-		$data_string = json_encode($data);
-		echo $data_string;
-		$ch = curl_init(API_ENDPOINT.'collector/updateCollector');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+			"notification_email" => $notification_email,
+			"eth_mac_address"=>$eth_mac_address,
+			"wifi_mac_address"=>$wifi_mac_address,
+			"Barcode"=>$Barcode,
+			"Latitude"=>$Latitude,
+			"Longitude"=>$Longitude);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'collector/updateCollector',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response;
+	}
+	public function deleteCollector($collectorId){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"collectorId"=>$collectorId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'collector/deleteCollector',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function addNewCompany($data){

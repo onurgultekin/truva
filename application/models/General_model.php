@@ -551,16 +551,16 @@ class General_model extends CI_Model
 		return $response->message;
 	}
 	public function getCollectorById($collectorId){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'collector/getCollectorList/'.$collectorId);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"collectorId"=>$collectorId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'collector/getCollectorList',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
 	public function getBarGroups(){

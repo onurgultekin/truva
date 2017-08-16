@@ -89,7 +89,7 @@
                     <td>'.$collector->Barcode.'</td>
                     <td>'.$collector->Latitude.'</td>
                     <td>'.$collector->Longitude.'</td>
-                    <td><div class="pull-left"><button class="btn btn-warning getCollectorDetails btn-xs m-r-10" id="duzenle">Düzenle</button><button class="btn btn-danger btn-xs">Sil</button></div></td>
+                    <td><div class="pull-left"><button class="btn btn-warning getCollectorDetails btn-xs m-r-10" id="duzenle">Düzenle</button><button class="btn btn-danger btn-xs deleteCollectorModal">Sil</button></div></td>
                   </tr>';
                 }
                 ?>
@@ -180,7 +180,7 @@
       <div class="container-xs-height full-height">
       <div class="row-xs-height">
       <div class="modal-body col-xs-height col-middle text-center   ">
-      <h5 class="text-primary "><span class="semi-bold collectorNameinModal"></span> adlı alkol tipini silmek istediğinizden emin misiniz? Lütfen bu işlemi geri alamayacağınızı unutmayın.</h5>
+      <h5 class="text-primary "><span class="semi-bold collectorNameinModal"></span> adlı toplayıcıyı silmek istediğinizden emin misiniz? Lütfen bu işlemi geri alamayacağınızı unutmayın.</h5>
       <br>
       <button type="button" class="btn btn-success btn-block deleteCollectorButton">Evet</button>
       <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Hayır</button>
@@ -215,7 +215,7 @@
     <script src="<?php echo base_url() ?>truva/js/pages.min.js"></script>
     <!-- END CORE TEMPLATE JS -->
     <!-- BEGIN PAGE LEVEL JS -->
-    <script src="<?php echo base_url() ?>assets/js/functions.js" type="text/javascript"></script>
+    <script src="<?php echo base_url() ?>assets/js/functions.js?v=<?php echo time(); ?>" type="text/javascript"></script>
     <script type="text/javascript" src="<?php echo base_url() ?>assets/plugins/jquery-inputmask/jquery.inputmask.min.js"></script>
     <script src="<?php echo base_url() ?>assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url() ?>assets/plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js" type="text/javascript"></script>
@@ -253,7 +253,7 @@
         })
         $("body").on("click",".deleteCollectorModal",function(){
           var userId = $(this).parents("tr").attr("id");
-          var userName = $(this).parents("tr").find("td:eq(2)").html();
+          var userName = $(this).parents("tr").find("td:eq(1)").html();
           $(".deleteModalError").html('').addClass("unvisible");
           $(".collectorNameinModal").html(userName);
           $(".deleteCollectorButton").attr("id",userId);
@@ -270,6 +270,9 @@
               $(".deleteModalError").html(data.message).removeClass("unvisible");
               $("table").find("tr#"+CollectorID).fadeOut(500,function(){
                 getCollectors()
+                setTimeout(function(){
+                $(".deleteModalError").addClass("unvisible");
+            },3000)
               })
             }
           })
