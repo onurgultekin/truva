@@ -511,4 +511,11 @@ class Admin extends CI_Controller {
 		$updateCompanyDailyGuest = $this->admin_model->updateCompanyDailyGuest($data);
 		echo json_encode($updateCompanyDailyGuest);
 	}
+	public function updateCompanyBarGroup(){
+		header("Content-type:application/json");
+		$this->load->model("admin_model");
+		$data = $this->input->post();
+		$updateCompanyBarGroup = $this->admin_model->updateCompanyBarGroup($data);
+		echo json_encode($updateCompanyBarGroup);
+	}
 }

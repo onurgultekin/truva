@@ -1446,6 +1446,12 @@ class General extends CI_Controller {
 		$dailyGuests = $this->general_model->getTotalDailyGuests();
 		echo json_encode($dailyGuests);
 	}
+	public function getCompanyBarGroups(){
+		header("Content-type:application/json");
+		$this->load->model("general_model");
+		$getCompanyBarGroups = $this->general_model->getCompanyBarGroups();
+		echo json_encode($getCompanyBarGroups);
+	}
 	public function getCompanyBarGroupByCompanyId(){
 		$this->load->model("general_model");
 		$CompanyID = $this->input->post("CompanyID");
@@ -1453,9 +1459,10 @@ class General extends CI_Controller {
 		$barGroups = $this->general_model->getBarGroups();
 		$companyBarGroups = explode(",",$companyBarGroup[0]->barGroups);
 		echo '<div class="row">
+		<input type="hidden" name="CompanyID" value="'.$companyBarGroup[0]->CompanyID.'" />
 		<div class="col-md-12">
 		<div class="<div class="form-group form-group-default form-group-default-select2 required">
-		<select class="full-width" id="multiple" multiple data-init-plugin="select2">';
+		<select class="full-width" id="multiple" multiple data-init-plugin="select2" name="BarGroups">';
 		foreach ($barGroups as $key => $barGroup) {
 				$selected = '';
 				foreach ($companyBarGroups as $key => $bar) {

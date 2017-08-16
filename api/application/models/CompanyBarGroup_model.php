@@ -95,8 +95,12 @@ class CompanyBarGroup_model extends CI_Model {
                                                         $query = $this->db->query("CALL ADD_COMPANY_BAR_GROUP('".$accessToken."',".$userId.",".$CompanyID.",".$barGroup.")");
                                                 }
                                         }
-                                        $result = $query->row();
-                                        $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
+                                        if($barGroups != ""){
+                                                $result = $query->row();
+                                                $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
+                                        }else{
+                                                $response = $this->globalfunctions->returnMessage(10001,"Şirkete ait tüm bar grupları kaldırıldı.",0);
+                                        }
                                 }
                         }
                 }

@@ -200,7 +200,8 @@ function addNewHolding(){
             getHoldings();
             setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+            },2000)
         }
     })
 }
@@ -216,7 +217,8 @@ function updateHolding(){
             getHoldings();
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000)
+                $("#modalSlideUp").modal("hide");
+            },2000)
         }
     })
 }
@@ -268,7 +270,8 @@ function updateCompany(){
             getCompanies();
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000);
+                $("#modalSlideUp").modal("hide");
+            },2000);
         }
     })
 }
@@ -615,7 +618,8 @@ function addNewAlcoholBrand(){
             getAlcoholBrands()
             setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+            },2000)
         }
     })
 }
@@ -631,7 +635,8 @@ function updateAlcoholBrand(){
             getAlcoholBrands()
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000)
+                $("#modalSlideUp").modal("hide");
+            },2000)
         }
     })
 }
@@ -663,7 +668,8 @@ function addNewAlcoholGroup(){
             getAlcoholGroups()
             setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+            },2000)
         }
     })
 }
@@ -679,7 +685,8 @@ function updateAlcoholGroup(){
             getAlcoholGroups()
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000)
+                $("#modalSlideUp").modal("hide");
+            },2000)
         }
     })
 }
@@ -711,7 +718,8 @@ function addNewAlcoholType(){
             getAlcoholTypes();
             setTimeout(function(){
                 $(".modalError").html('').addClass("unvisible");
-            },3000);
+                $(".modalError").parents("div.modal").modal("hide");
+            },2000)
         }
     })
 }
@@ -727,7 +735,8 @@ function updateAlcoholType(){
             getAlcoholTypes();
             setTimeout(function(){
                 $(".updateModalError").html('').addClass("unvisible");
-            },3000);
+                $(".updateModalError").parents("div.modal").modal("hide");
+            },2000)
         }
     })
 }
@@ -759,7 +768,8 @@ function addNewArea(){
             getAreas();
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+            },2000)
         }
     })
 }
@@ -775,7 +785,8 @@ function updateArea(){
             getAreas();
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+            },2000)
         }
     })
 }
@@ -791,7 +802,8 @@ function addNewBarGroup(){
             getBarGroups();
             setTimeout(function(){
                 $(".modalError").html('').addClass("unvisible");
-            },3000);
+                $(".modalError").parents("div.modal").modal("hide");
+            },2000)
         }
     })
 }
@@ -807,7 +819,8 @@ function updateBarGroup(){
             getBarGroups();
             setTimeout(function(){
                 $(".updateModalError").html('').addClass("unvisible");
-            },3000);
+                $(".updateModalError").parents("div.modal").modal("hide");
+            },2000)
         }
     })
 }
@@ -839,7 +852,8 @@ function addNewCity(){
             getCities();
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+            },2000)
         }
     })
 }
@@ -855,7 +869,8 @@ function updateCity(){
             getCities();
               setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000)
+                $("#modalSlideUp").modal("hide");
+            },2000)
         }
     })
 }
@@ -871,7 +886,8 @@ function addNewCollector(){
             getCollectors()
             setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+            },2000)
         }
     })
 }
@@ -887,7 +903,8 @@ function updateCollector(){
             getCollectors()
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000)
+                $("#modalSlideUp").modal("hide");
+            },2000)
         }
     })
 }
@@ -919,7 +936,8 @@ function addNewCounty(){
             getCounties();
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+            },2000)
         }
     })
 }
@@ -935,7 +953,8 @@ function updateCounty(){
             getCounties();
               setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000)
+                $("#modalSlideUp").modal("hide");
+            },2000)
         }
     })
 }
@@ -951,7 +970,8 @@ function addNewCountry(){
             getCountries();
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+            },2000)
         }
     })
 }
@@ -967,7 +987,8 @@ function updateCountry(){
             getCountries();
               setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000)
+                $("#modalSlideUp").modal("hide");
+            },2000)
         }
     })
 }
@@ -995,7 +1016,8 @@ function updateUser(){
             getUsers();
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000)
+                $("#modalSlideUp").modal("hide");
+            },2000)
         }
     })
 }
@@ -1091,7 +1113,8 @@ function addNewTechnicalService(){
             getBarGroups();
             setTimeout(function(){
                 $(".modalError").html('').addClass("unvisible");
-            },3000);
+                $(".modalError").parents("div.modal").modal("hide");
+            },2000)
         }
     })
 }
@@ -1107,7 +1130,8 @@ function addNewCompanyDailyGuest(){
             getCompanyDailyGuest();
             setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+            },2000)
         }
     })
 }
@@ -1143,7 +1167,44 @@ function updateCompanyDailyGuest(){
             getCompanyDailyGuest();
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000)
+                $("#modalSlideUp").modal("hide");
+            },2000)
+        }
+    })
+}
+function getCompanyBarGroups(){
+    Pace.restart();
+    $("#tableWithExportOptions").dataTable().fnDestroy();
+    $.ajax({
+        type:"GET",
+        url:base_url+"/general/getCompanyBarGroups",
+        success:function(data){
+            $("#tableWithExportOptions tbody").empty();
+            $.each(data,function(key,barGroup){
+                $("#tableWithExportOptions tbody").append('<tr id="'+barGroup.CompanyID+'">\
+                    <td>'+barGroup.CompanyName+'</td>\
+                    <td>'+barGroup.ToplamBar+'</td>\
+                    <td><div class="pull-left"><button class="btn btn-warning getCompanyBarGroupDetails btn-xs m-r-10" id="duzenle">Bar Grubu Ata</button><button class="btn btn-danger deleteCompanyBarGroupModal btn-xs">Sil</button></div></td></tr>')
+            })
+            initTable();
+            Pace.stop();
+        }
+    })
+}
+function updateCompanyBarGroup(){
+    var data = $("#updateCompanyBarGroupData" ).serializeObject();
+    $(".updateModalError").html('Lütfen bekleyiniz...').removeClass("unvisible");
+    $.ajax({
+        type:"POST",
+        url:base_url+"/admin/updateCompanyBarGroup",
+        data:data,
+        success:function(data){
+            $(".updateModalError").html(data.message).removeClass("unvisible");
+            getCompanyBarGroups();
+            setTimeout(function(){
+                $(".updateModalError").addClass("unvisible");
+                $("#modalSlideUp").modal("hide");
+            },2000)
         }
     })
 }
