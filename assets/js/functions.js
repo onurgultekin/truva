@@ -446,7 +446,7 @@ function getCompanyByHoldingIdForHoldingPage(){
             success:function(data){
                 if(data.resultCode == 0){
                     $("#showHoldingCompanies").find("table tbody").empty();
-                    $.each(data,function(key,company){
+                    $.each(data.message,function(key,company){
                         $("#showHoldingCompanies").find("table tbody").append('<tr><td>'+company.CompanyName+'</td><td>'+company.CompanyType+'</td><td>'+company.CompanyAdress+'</td></tr>');
                     })
                     $("#showHoldingCompanies").modal();

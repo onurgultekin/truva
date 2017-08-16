@@ -405,7 +405,7 @@
             15915, 17385, 19055, 21205, 23044, 25393, 27935, 30062, 32049]
     }]
 });
-            Highcharts.chart('container3', {
+            var piechart = Highcharts.chart('container3', {
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
@@ -433,7 +433,6 @@
     },
         series: [{
             name: 'İçkiler',
-            colorByPoint: true,
             data: <?php echo json_encode($piechart); ?> 
         }]
     });
