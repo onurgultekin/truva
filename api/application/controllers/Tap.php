@@ -33,6 +33,10 @@ class Tap extends REST_Controller {
 		$message = $this->Tap_model->getTapByBarGroupId($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function getTapStatuses_post(){
+		$message = $this->Tap_model->getTapStatuses($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 	public function addTap_post(){
 		$message = $this->Tap_model->addTap($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);

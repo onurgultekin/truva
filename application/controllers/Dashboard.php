@@ -966,45 +966,57 @@ class Dashboard extends CI_Controller {
 	public function taps(){
 		$data["formFields"]= [
 		          	[
-		            "name"=>"Bildirim maili",
+		            "name"=>"Adı",
 		            "id"=>"Name",
 		            "type"=>"text"
 		          	],
 		          	[
-		            "name"=>"Ethernet MAC Adresi",
+		            "name"=>"ID 1",
 		            "id"=>"ID1",
 		            "type"=>"text"
 		          	],
 		          	[
-		            "name"=>"Wifi MAC Adresi",
+		            "name"=>"ID 2",
 		            "id"=>"ID2",
 		            "type"=>"text"
 		          	],
 		          	[
-		            "name"=>"Barcode",
+		            "name"=>"ID 3",
 		            "id"=>"ID3",
 		            "type"=>"text"
 		          	],
+		          	[
+		            "name"=>"Versiyon",
+		            "id"=>"Version",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"Musluk Durumu",
+		            "id"=>"TapStatusID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>"tapstatusinmodal"
+		            ],
 		            [
 		            "name"=>"Holding seçin",
 		            "id"=>"HoldingID",
 		            "type"=>"select",
 		            "disabled"=>"",
-		            "class"=>"holdingsinmodal"
+		            "class"=>"holdings"
 		            ],
 		            [
 		            "name"=>"Şirket seçin",
 		            "id"=>"CompanyID",
 		            "type"=>"select",
 		            "disabled"=>"disabled",
-		            "class"=>"companiesinmodal"
+		            "class"=>"companies"
 		            ],
 		            [
 		            "name"=>"Bar grubu seçin",
 		            "id"=>"BarGroupID",
 		            "type"=>"select",
-		            "disabled"=>"",
-		            "class"=>"companiesinmodal"
+		            "disabled"=>"disabled",
+		            "class"=>"bars"
 		            ],
 		            [
 		            "name"=>"İçki grubu seçin",
@@ -1038,9 +1050,8 @@ class Dashboard extends CI_Controller {
 		$this->load->model("general_model");
 		$data["leftsidemenuitems"] = $this->general_model->getLeftSideMenu();
 		$data["taps"] = $this->general_model->getTaps();
+		$data["tapStatuses"] = $this->general_model->getTapStatuses();
 		$data["holdings"] = $this->general_model->getHoldings();
-		$data["companies"] = $this->general_model->getCompanies();
-		$data["bargroups"] = $this->general_model->getBarGroups();
 		$data["alcoholGroups"] = $this->general_model->getAlcoholGrouplist();
 		$data["alcoholTypes"] = $this->general_model->getAlcoholTypelist();
 		$data["alcoholBrands"] = $this->general_model->getAlcoholBrandlist();

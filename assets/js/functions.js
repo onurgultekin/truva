@@ -1,4 +1,5 @@
 var base_url = 'http://test.truva.co';
+var modalCloseTimeout = 2000;
 $.fn.serializeObject = function() {
     var o = {};
     var a = this.serializeArray();
@@ -139,7 +140,6 @@ function getDetails(button,endpoint,elementName,appendableDiv){
                             CityID:{min:1},
                             CountyID:{min:1},
                             AreaID:{min:1},
-                            HoldingID:{min:1},
                             CompanyTypeID:{min:1}
                         },
                         submitHandler: function(form) {
@@ -189,7 +189,7 @@ function getDetails(button,endpoint,elementName,appendableDiv){
     })
 }
 function addNewHolding(){
-    var data = $("#appendNewHoldingData" ).serializeObject();
+    var data = $("#appendNewHoldingData").serializeObject();
     $(".modalError").html('Lütfen bekleyiniz...');
     $.ajax({
         type:"POST",
@@ -201,7 +201,11 @@ function addNewHolding(){
             setTimeout(function(){
                 $(".modalError").addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
-            },2000)
+                $("#appendNewHoldingData").find("select").val(0).change();
+                $(".citiesinmodal,.districtsinmodal,.areasinmodal").attr("disabled","disabled");
+                $("#appendNewHoldingData label").removeClass("fade");
+                $("#appendNewHoldingData").find("input").val("");
+            },modalCloseTimeout)
         }
     })
 }
@@ -218,7 +222,7 @@ function updateHolding(){
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
                 $("#modalSlideUp").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -255,6 +259,14 @@ function addNewCompany(){
         success:function(data){
             $(".modalError").html(data.message).removeClass("unvisible");
             getCompanies();
+            setTimeout(function(){
+                $(".modalError").addClass("unvisible");
+                $("#addNewCompanyModal").modal("hide");
+                $("#appendNewCompanyData").find("select").val(0).change();
+                $(".citiesinmodal,.districtsinmodal,.areasinmodal").attr("disabled","disabled");
+                $("#appendNewCompanyData label").removeClass("fade");
+                $("#appendNewCompanyData").find("input").val("");
+            },modalCloseTimeout)
         }
     })
 }
@@ -271,7 +283,7 @@ function updateCompany(){
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
                 $("#modalSlideUp").modal("hide");
-            },2000);
+            },modalCloseTimeout);
         }
     })
 }
@@ -619,7 +631,7 @@ function addNewAlcoholBrand(){
             setTimeout(function(){
                 $(".modalError").addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -636,7 +648,7 @@ function updateAlcoholBrand(){
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
                 $("#modalSlideUp").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -669,7 +681,7 @@ function addNewAlcoholGroup(){
             setTimeout(function(){
                 $(".modalError").addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -686,7 +698,7 @@ function updateAlcoholGroup(){
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
                 $("#modalSlideUp").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -719,7 +731,7 @@ function addNewAlcoholType(){
             setTimeout(function(){
                 $(".modalError").html('').addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -736,7 +748,7 @@ function updateAlcoholType(){
             setTimeout(function(){
                 $(".updateModalError").html('').addClass("unvisible");
                 $(".updateModalError").parents("div.modal").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -769,7 +781,7 @@ function addNewArea(){
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -786,7 +798,7 @@ function updateArea(){
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -803,7 +815,7 @@ function addNewBarGroup(){
             setTimeout(function(){
                 $(".modalError").html('').addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -820,7 +832,7 @@ function updateBarGroup(){
             setTimeout(function(){
                 $(".updateModalError").html('').addClass("unvisible");
                 $(".updateModalError").parents("div.modal").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -853,7 +865,7 @@ function addNewCity(){
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -870,7 +882,7 @@ function updateCity(){
               setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
                 $("#modalSlideUp").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -887,7 +899,7 @@ function addNewCollector(){
             setTimeout(function(){
                 $(".modalError").addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -904,7 +916,7 @@ function updateCollector(){
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
                 $("#modalSlideUp").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -937,7 +949,7 @@ function addNewCounty(){
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -954,7 +966,7 @@ function updateCounty(){
               setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
                 $("#modalSlideUp").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -971,7 +983,7 @@ function addNewCountry(){
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -988,7 +1000,7 @@ function updateCountry(){
               setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
                 $("#modalSlideUp").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -1017,7 +1029,7 @@ function updateUser(){
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
                 $("#modalSlideUp").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -1114,7 +1126,7 @@ function addNewTechnicalService(){
             setTimeout(function(){
                 $(".modalError").html('').addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -1131,7 +1143,7 @@ function addNewCompanyDailyGuest(){
             setTimeout(function(){
                 $(".modalError").addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -1168,7 +1180,7 @@ function updateCompanyDailyGuest(){
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
                 $("#modalSlideUp").modal("hide");
-            },2000)
+            },modalCloseTimeout)
         }
     })
 }
@@ -1204,7 +1216,65 @@ function updateCompanyBarGroup(){
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
                 $("#modalSlideUp").modal("hide");
-            },2000)
+            },modalCloseTimeout)
+        }
+    })
+}
+function addNewTap(){
+    var data = $("#appendNewTapData" ).serializeObject();
+    $(".modalError").html('Lütfen bekleyiniz...');
+    $.ajax({
+        type:"POST",
+        url:base_url+"/admin/addNewTap",
+        data:data,
+        success:function(data){
+            $(".modalError").html(data.message).removeClass("unvisible");
+            getTaps();
+            setTimeout(function(){
+                $(".modalError").html('').addClass("unvisible");
+                $(".modalError").parents("div.modal").modal("hide");
+            },modalCloseTimeout)
+        }
+    })
+}
+function getTaps(){
+    Pace.restart();
+    $("#tableWithExportOptions").dataTable().fnDestroy();
+    $.ajax({
+        type:"GET",
+        url:base_url+"/general/getTaps",
+        success:function(data){
+            $("#tableWithExportOptions tbody").empty();
+            $.each(data,function(key,tap){
+                $("#tableWithExportOptions tbody").append('<tr id="'+tap.TapID+'">\
+                    <td>'+tap.Name+'</td>\
+                    <td>'+tap.HoldingName+'</td>\
+                    <td>'+tap.CompanyName+'</td>\
+                    <td>'+tap.BarGroupName+'</td>\
+                    <td>'+tap.AlcoholGroupName+'</td>\
+                    <td>'+tap.AlcoholTypeName+'</td>\
+                    <td>'+tap.AlcoholBrandName+'</td>\
+                    <td><div class="pull-left"><button class="btn btn-warning getTapDetails btn-xs m-r-10" id="duzenle">Düzenle</button><button class="btn btn-danger btn-xs">Sil</button></div></td></tr>')
+            })
+            initTable();
+            Pace.stop();
+        }
+    })
+}
+function updateTap(){
+    var data = $("#updateTapData" ).serializeObject();
+    $(".updateModalError").html('Lütfen bekleyiniz...').removeClass("unvisible");
+    $.ajax({
+        type:"POST",
+        url:base_url+"/admin/updateTap",
+        data:data,
+        success:function(data){
+            $(".updateModalError").html(data.message).removeClass("unvisible");
+            getTaps();
+            setTimeout(function(){
+                $(".updateModalError").addClass("unvisible");
+                $("#modalSlideUp").modal("hide");
+            },modalCloseTimeout)
         }
     })
 }

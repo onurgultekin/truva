@@ -253,9 +253,9 @@
                     </div></div>';
                   }else
                   if($field["id"] == "HoldingID"){
-                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2">
                     <label class="">'.$field["name"].'</label>
-                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Holding seçin" data-init-plugin="select2">
+                    <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Holding seçin" data-init-plugin="select2">
                       <option value="0">Lütfen seçin</option>';
                       foreach ($holdings as $key => $holding) {
                         echo '<option value='.$holding->HoldingID.'>'.$holding->HoldingName.'</option>';
@@ -285,6 +285,7 @@
               }
               ?>
                 <button type="submit" class="btn btn-primary btn-block">Yeni Şirket Ekle</button>
+                <div class="alert alert-success modalError unvisible m-t-10"></div>
               </form>
             </div>
           </div>

@@ -518,4 +518,18 @@ class Admin extends CI_Controller {
 		$updateCompanyBarGroup = $this->admin_model->updateCompanyBarGroup($data);
 		echo json_encode($updateCompanyBarGroup);
 	}
+	public function addNewTap(){
+		header("Content-type:application/json");
+		$this->load->model("admin_model");
+		$data = $this->input->post();
+		$addNewTap = $this->admin_model->addNewTap($data);
+		echo json_encode($addNewTap);
+	}
+	public function updateTap(){
+		header("Content-type:application/json");
+		$this->load->model("admin_model");
+		$data = $this->input->post();
+		$updateTap = $this->admin_model->updateTap($data);
+		echo json_encode($updateTap);
+	}
 }

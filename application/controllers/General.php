@@ -1477,4 +1477,271 @@ class General extends CI_Controller {
 		</div>
 		</div>';
 	}
+	public function getTaps(){
+		header("Content-type:application/json");
+		$this->load->model("general_model");
+		$areas = $this->general_model->getTaps();
+		echo json_encode($areas);
+	}
+	public function getTapById(){
+		$formFields= [
+		          	[
+		            "name"=>"Adı",
+		            "id"=>"Name",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"ID 1",
+		            "id"=>"ID1",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"ID 2",
+		            "id"=>"ID2",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"ID 3",
+		            "id"=>"ID3",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"Versiyon",
+		            "id"=>"Version",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"Musluk Durumu",
+		            "id"=>"TapStatusID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>"tapstatusinmodal"
+		            ],
+		            [
+		            "name"=>"Holding seçin",
+		            "id"=>"HoldingID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>"holdings"
+		            ],
+		            [
+		            "name"=>"Şirket seçin",
+		            "id"=>"CompanyID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>"companies"
+		            ],
+		            [
+		            "name"=>"Bar grubu seçin",
+		            "id"=>"BarGroupID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>"bars"
+		            ],
+		            [
+		            "name"=>"İçki grubu seçin",
+		            "id"=>"AlcoholGroupID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>"alcoholgroupsinmodal"
+		            ],
+		            [
+		            "name"=>"İçki tipi seçin",
+		            "id"=>"AlcoholTypeID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>"alcoholtypesinmodal"
+		            ],
+		            [
+		            "name"=>"İçki markası seçin",
+		            "id"=>"AlcoholBrandID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>"alcoholbrandsinmodal"
+		            ],
+		            [
+		            "name"=>"Toplayıcı seçin",
+		            "id"=>"collector_id",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>"alcoholbrandsinmodal"
+		            ],
+		          	[
+		            "name"=>"Id",
+		            "id"=>"TapID",
+		            "type"=>"hidden"
+		          	]
+	          	];
+		$this->load->model("general_model");
+		$tapId = $this->input->post("TapId");
+		$tap = $this->general_model->getTapById($tapId);
+		$tapStatuses = $this->general_model->getTapStatuses();
+		$holdings = $this->general_model->getHoldings();
+		$companies = $this->general_model->getCompanies();
+		$barGroups = $this->general_model->getBarGroups();
+		$alcoholGroups = $this->general_model->getAlcoholGrouplist();
+		$alcoholTypes = $this->general_model->getAlcoholTypelist();
+		$alcoholBrands = $this->general_model->getAlcoholBrandlist();
+		$collectors = $this->general_model->getCollectorList();
+		$i=0;
+	              echo '<div class="row">';
+	              foreach ($formFields as $key => $field) {
+	                $i++;
+	                $message = "Bu alan zorunludur";
+	                if($field["type"] == "email"){
+	                  $message = "Lütfen geçerli bir mail adresi giriniz.";
+	                }
+	                $class = "";
+	                if($field["type"] == "hidden"){
+	                  $class ="unvisible";
+	                }
+	                if($i%2==1 && $i!=1){
+	                  echo '</div><div class="row">';
+	                }
+	                if($field["type"]!="select"){
+	                  echo '<div class="col-sm-6">
+	                  <div class="form-group form-group-default required '.$class.' ">
+	                    <label>'.$field["name"].':</label>
+	                    <div class="controls">
+	                      <input type="'.$field["type"].'" class="form-control" name="'.$field["id"].'" id="'.$field["id"].'" required data-msg="'.$message.'" value="'.$tap[0]->{$field["id"]}.'">
+	                    </div>
+	                  </div>
+	                </div>';
+	                }else{
+	                  if($field["id"] == "AlcoholGroupID"){
+	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+	                    <label class="">'.$field["name"].'</label>
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
+	                      <option value="0">Lütfen seçin</option>';
+	                      	foreach ($alcoholGroups as $key => $alcoholGroup) {
+	                      	$selected = '';
+			if($alcoholGroup->AlcoholGroupID == $tap[0]->AlcoholGroupID){
+				$selected = 'selected = "selected"';
+			}
+	                        echo '<option '.$selected.' value='.$alcoholGroup->AlcoholGroupID.'>'.$alcoholGroup->Name.'</option>';
+	                      }
+	                      echo '</select>
+	                    </div></div>';
+	                  }else
+	                  if($field["id"] == "AlcoholBrandID"){
+	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+	                    <label class="">'.$field["name"].'</label>
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
+	                      <option value="0">Lütfen seçin</option>';
+	                      foreach ($alcoholBrands as $key => $alcoholBrand) {
+	                      	$selected = '';
+			if($alcoholBrand->AlcoholBrandID == $tap[0]->AlcoholBrandID){
+				$selected = 'selected = "selected"';
+			}
+	                        echo '<option '.$selected.' value='.$alcoholBrand->AlcoholBrandID.'>'.$alcoholBrand->Name.'</option>';
+	                      }
+	                      echo '</select>
+	                    </div></div>';
+	                  }else
+	                  if($field["id"] == "AlcoholTypeID"){
+	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+	                    <label class="">'.$field["name"].'</label>
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
+	                      <option value="0">Lütfen seçin</option>';
+	                      foreach ($alcoholTypes as $key => $alcoholType) {
+	                      	$selected = '';
+			if($alcoholType->AlcoholTypeID == $tap[0]->AlcoholTypeID){
+				$selected = 'selected = "selected"';
+			}
+	                        echo '<option '.$selected.' value='.$alcoholType->AlcoholTypeID.'>'.$alcoholType->Name.'</option>';
+	                      }
+	                      echo '</select>
+	                    </div></div>';
+	                  }else
+	                  if($field["id"] == "HoldingID"){
+	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2">
+	                    <label class="">'.$field["name"].'</label>
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Holding seçin" data-init-plugin="select2">
+	                      <option value="0">Lütfen seçin</option>';
+	                      foreach ($holdings as $key => $holding) {
+	                      	$selected = '';
+			if($holding->HoldingID == $tap[0]->HoldingID){
+				$selected = 'selected = "selected"';
+			}
+	                        echo '<option '.$selected.' value='.$holding->HoldingID.'>'.$holding->HoldingName.'</option>';
+	                      }
+	                      echo '</select>
+	                    </div></div>';
+	                  }else
+	                  if($field["id"] == "TapStatusID"){
+	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2">
+	                    <label class="">'.$field["name"].'</label>
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Holding seçin" data-init-plugin="select2">
+	                      <option value="0">Lütfen seçin</option>';
+	                      foreach ($tapStatuses as $key => $tapStatus) {
+	                      	$selected = '';
+			if($tapStatus->TapStatusID == $tap[0]->TapStatusID){
+				$selected = 'selected = "selected"';
+			}
+	                        echo '<option '.$selected.' value='.$tapStatus->TapStatusID.'>'.$tapStatus->Name.'</option>';
+	                      }
+	                      echo '</select>
+	                    </div></div>';
+	                  }else
+	                  if($field["id"] == "CompanyID"){
+	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2">
+	                    <label class="">'.$field["name"].'</label>
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Holding seçin" data-init-plugin="select2">
+	                      <option value="0">Lütfen seçin</option>';
+	                      foreach ($companies as $key => $company) {
+	                      	$selected = '';
+			if($company->CompanyID == $tap[0]->CompanyID){
+				$selected = 'selected = "selected"';
+			}
+	                        echo '<option '.$selected.' value='.$company->CompanyID.'>'.$company->CompanyName.'</option>';
+	                      }
+	                      echo '</select>
+	                    </div></div>';
+	                  }else
+	                  if($field["id"] == "BarGroupID"){
+	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2">
+	                    <label class="">'.$field["name"].'</label>
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Holding seçin" data-init-plugin="select2">
+	                      <option value="0">Lütfen seçin</option>';
+	                      foreach ($barGroups as $key => $barGroup) {
+	                      	$selected = '';
+			if($barGroup->BarGroupID == $tap[0]->BarGroupID){
+				$selected = 'selected = "selected"';
+			}
+	                        echo '<option '.$selected.' value='.$barGroup->BarGroupID.'>'.$barGroup->Name.'</option>';
+	                      }
+	                      echo '</select>
+	                    </div></div>';
+	                  }else
+	                  if($field["id"] == "collector_id"){
+	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+	                    <label class="">'.$field["name"].'</label>
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Şirket Tipi seçin" data-init-plugin="select2">
+	                      <option value="0">Lütfen seçin</option>';
+	                      foreach ($collectors as $key => $collector) {
+	                      	$selected = '';
+			if($collector->collector_id == $tap[0]->collector_id){
+				$selected = 'selected = "selected"';
+			}
+	                        echo '<option '.$selected.' value='.$collector->collector_id.'>'.$collector->device_key.'</option>';
+	                      }
+	                      echo '</select>
+	                    </div></div>';
+	                  }else{
+	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+	                    <label class="">'.$field["name"].'</label>
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" '.$field["disabled"].' data-placeholder="Ülke seçin" data-init-plugin="select2">
+	                      <option value="0">Lütfen seçin</option>
+	                    </select>
+	                  </div></div>';
+	                  }
+	                }
+	              }
+	}
+	public function getTapStatuses(){
+		header("Content-type:application/json");
+		$this->load->model("general_model");
+		$areas = $this->general_model->getTapStatuses();
+		echo json_encode($areas);
+	}
 }

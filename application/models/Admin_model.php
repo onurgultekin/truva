@@ -646,6 +646,8 @@ class Admin_model extends CI_Model
 		return $response;
 	}
 	public function addNewCompany($data){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
 		$CompanyName = $_POST["CompanyName"];
 		$CompanyAdress = $_POST["CompanyAdress"];
 		$InvoiceAddress = $_POST["InvoiceAddress"];
@@ -665,8 +667,6 @@ class Admin_model extends CI_Model
 		$AreaID = $_POST["AreaID"];
 		$HoldingID = $_POST["HoldingID"];
 		$CompanyTypeID = $_POST["CompanyTypeID"];
-		$accessToken = $this->session->userdata("accessToken");
-		$userId = $this->session->userdata("userId");
 		$data = array(
 			"accessToken"=>$accessToken,
 			"userId"=>$userId,
@@ -699,7 +699,8 @@ class Admin_model extends CI_Model
 		return $response;
 	}
 	public function updateCompany($data){
-		$token = $this->session->userdata("token");
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
 		$CompanyName = $_POST["CompanyName"];
 		$CompanyAdress = $_POST["CompanyAdress"];
 		$InvoiceAddress = $_POST["InvoiceAddress"];
@@ -933,6 +934,90 @@ class Admin_model extends CI_Model
 		curl_setopt_array($curl, array(
 		CURLOPT_RETURNTRANSFER => 1,
 		CURLOPT_URL => NEW_API_ENDPOINT.'companybargroup/updateCompanyBarGroup',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response;
+	}
+	public function addNewTap($data){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$Name = $_POST["Name"];
+		$ID1 = $_POST["ID1"];
+		$ID2 = $_POST["ID2"];
+		$ID3 = $_POST["ID3"];
+		$Version = $_POST["Version"];
+		$HoldingID = $_POST["HoldingID"];
+		$CompanyID = $_POST["CompanyID"];
+		$BarGroupID = $_POST["BarGroupID"];
+		$AlcoholGroupID = $_POST["AlcoholGroupID"];
+		$AlcoholTypeID = $_POST["AlcoholTypeID"];
+		$AlcoholBrandID = $_POST["AlcoholBrandID"];
+		$TapStatusID = $_POST["TapStatusID"];
+		$collector_id = $_POST["collector_id"];
+		$data = array(
+			"accessToken"=>$accessToken,
+			"userId"=>$userId,
+			"Name" => $Name,
+			"ID1"=>$ID1,
+			"ID2"=>$ID2,
+			"ID3" => $ID3,
+			"Version"=>$Version,
+			"HoldingID"=>$HoldingID,
+			"CompanyID" => $CompanyID,
+			"BarGroupID"=>$BarGroupID,
+			"AlcoholGroupID"=>$AlcoholGroupID,
+			"AlcoholTypeID" => $AlcoholTypeID,
+			"AlcoholBrandID"=>$AlcoholBrandID,
+			"TapStatusID"=>$TapStatusID,
+			"collector_id"=>$collector_id);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'tap/addTap',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response;
+	}
+	public function updateTap($data){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$TapID = $_POST["TapID"];
+		$Name = $_POST["Name"];
+		$ID1 = $_POST["ID1"];
+		$ID2 = $_POST["ID2"];
+		$ID3 = $_POST["ID3"];
+		$Version = $_POST["Version"];
+		$HoldingID = $_POST["HoldingID"];
+		$CompanyID = $_POST["CompanyID"];
+		$BarGroupID = $_POST["BarGroupID"];
+		$AlcoholGroupID = $_POST["AlcoholGroupID"];
+		$AlcoholTypeID = $_POST["AlcoholTypeID"];
+		$AlcoholBrandID = $_POST["AlcoholBrandID"];
+		$TapStatusID = $_POST["TapStatusID"];
+		$collector_id = $_POST["collector_id"];
+		$data = array(
+			"accessToken"=>$accessToken,
+			"userId"=>$userId,
+			"TapID"=>$TapID,
+			"Name" => $Name,
+			"ID1"=>$ID1,
+			"ID2"=>$ID2,
+			"ID3" => $ID3,
+			"Version"=>$Version,
+			"HoldingID"=>$HoldingID,
+			"CompanyID" => $CompanyID,
+			"BarGroupID"=>$BarGroupID,
+			"AlcoholGroupID"=>$AlcoholGroupID,
+			"AlcoholTypeID" => $AlcoholTypeID,
+			"AlcoholBrandID"=>$AlcoholBrandID,
+			"TapStatusID"=>$TapStatusID,
+			"collector_id"=>$collector_id);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'tap/updateTap',
 		CURLOPT_POSTFIELDS => http_build_query($data)
 		));
 		$response = json_decode(curl_exec($curl));

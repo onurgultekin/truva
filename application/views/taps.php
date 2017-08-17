@@ -49,7 +49,7 @@
           <div class="jumbotron  no-margin" data-pages="parallax">
             <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
             <div class="inner" style="transform: translateY(0px); opacity: 1;">
-            <h3 class="">Toplayıcı Listesi</h3>
+            <h3 class="">Musluk Listesi</h3>
             </div>
             </div>
             </div>
@@ -59,11 +59,11 @@
             <!-- BEGIN PlACE PAGE CONTENT HERE -->
             <div class="row">
               <div class="col-md-4 pull-right">
-              <button class="btn btn-primary pull-right addNewCollector m-b-10" data-toggle="modal" data-target="#addNewCollectorModal">Yeni Toplayıcı Ekle</button>
+              <button class="btn btn-primary pull-right addNewTap m-b-10" data-toggle="modal" data-target="#addNewTapModal">Yeni Musluk Ekle</button>
               </div>
               <div class="col-md-4 pull-left" style="padding-left: 0px">
                 <div class="col-xs-12">
-                <input type="text" id="search-table" class="form-control pull-left" placeholder="Toplayıcı Ara">
+                <input type="text" id="search-table" class="form-control pull-left" placeholder="Musluk Ara">
                 </div>
               </div>
             </div>
@@ -72,25 +72,28 @@
               <table class="table table-striped" id="tableWithExportOptions">
               <thead>
               <tr>
-              <th>IP Adresi</th>
-              <th>Bildirim maili</th>
-              <th>Barcode</th>
-              <th>Latitude</th>
-              <th>Longitude</th>
+              <th>Adı</th>
+              <th>Holding Adı</th>
+              <th>Şirket Adı</th>
+              <th>Bar grubu</th>
+              <th>İçki grubu</th>
+              <th>İçki tipi</th>
+              <th>İçki markası</th>
               <th class="no-sort"></th>
               </tr>
               </thead>
               <tbody>
                 <?php
-                print_r($taps);
-                foreach ($collectors as $key => $collector) {
-                  echo '<tr id="'.$collector->collector_id.'">
-                    <td>'.$collector->ip_address.'</td>
-                    <td>'.$collector->notification_email.'</td>
-                    <td>'.$collector->Barcode.'</td>
-                    <td>'.$collector->Latitude.'</td>
-                    <td>'.$collector->Longitude.'</td>
-                    <td><div class="pull-left"><button class="btn btn-warning getCollectorDetails btn-xs m-r-10" id="duzenle">Düzenle</button><button class="btn btn-danger btn-xs">Sil</button></div></td>
+                foreach ($taps as $key => $tap) {
+                  echo '<tr id="'.$tap->TapID.'">
+                    <td>'.$tap->Name.'</td>
+                    <td>'.$tap->HoldingName.'</td>
+                    <td>'.$tap->CompanyName.'</td>
+                    <td>'.$tap->BarGroupName.'</td>
+                    <td>'.$tap->AlcoholGroupName.'</td>
+                    <td>'.$tap->AlcoholTypeName.'</td>
+                    <td>'.$tap->AlcoholBrandName.'</td>
+                    <td><div class="pull-left"><button class="btn btn-warning getTapDetails btn-xs m-r-10" id="duzenle">Düzenle</button><button class="btn btn-danger btn-xs">Sil</button></div></td>
                   </tr>';
                 }
                 ?>
@@ -118,14 +121,14 @@
             <div class="modal-header clearfix text-left">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
               </button>
-              <h5>Toplayıcı <span class="semi-bold">Bilgileri</span></h5>
-              <p class="p-b-10">Aşağıda toplayıcı ile ilgili bilgileri bulabilirsiniz.</p>
+              <h5>Musluk <span class="semi-bold">Bilgileri</span></h5>
+              <p class="p-b-10">Aşağıda musluk ile ilgili bilgileri bulabilirsiniz.</p>
             </div>
             <div class="modal-body">
-              <form role="form" id="updateCollectorData">
-                <div class="form-group appendCollectorDataHere">
+              <form role="form" id="updateTapData">
+                <div class="form-group appendTapDataHere">
                 </div>
-                <button type="submit" class="btn btn-primary m-t-5 updateCollector">Bilgileri Düzenle</button>
+                <button type="submit" class="btn btn-primary m-t-5 updateTap">Bilgileri Düzenle</button>
                 <div class="alert alert-success updateModalError unvisible m-t-10"></div>
               </form>
             </div>
@@ -134,36 +137,120 @@
 
       </div>
     </div>
-    <div class="modal fade stick-up disable-scroll" id="addNewCollectorModal" role="dialog" aria-hidden="false">
+    <div class="modal fade stick-up disable-scroll" id="addNewTapModal" role="dialog" aria-hidden="false">
       <div class="modal-dialog ">
         <div class="modal-content-wrapper">
           <div class="modal-content">
             <div class="modal-header clearfix text-left">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
               </button>
-              <h5>Yeni Toplayıcı <span class="semi-bold">Ekle</span></h5>
+              <h5>Yeni Musluk <span class="semi-bold">Ekle</span></h5>
             </div>
             <div class="modal-body" style="overflow:hidden;">
-              <form role="form" class="form-group" id="appendNewCollectorData">
-              <?php 
+              <form role="form" class="form-group" id="appendNewTapData">
+              <?php
+             $i=0;
+              echo '<div class="row">';
               foreach ($formFields as $key => $field) {
+                $i++;
                 $message = "Bu alan zorunludur";
                 if($field["type"] == "email"){
                   $message = "Lütfen geçerli bir mail adresi giriniz.";
                 }
+                $class = "";
+                if($field["type"] == "hidden"){
+                  $class ="unvisible";
+                }
+                if($i%2==1 && $i!=1){
+                  echo '</div><div class="row">';
+                }
                 if($field["type"]!="select"){
-                  echo '<div class="row"><div class="col-sm-12">
-                        <div class="form-group form-group-default required">
-                          <label>'.$field["name"].':</label>
-                          <div class="controls">
-                          <input type="'.$field["type"].'" class="form-control" name="'.$field["id"].'" id="'.$field["id"].'" required data-msg="'.$message.'">
-                          </div>
-                        </div>
-                      </div></div>';
+                  echo '<div class="col-sm-6">
+                  <div class="form-group form-group-default required '.$class.' ">
+                    <label>'.$field["name"].':</label>
+                    <div class="controls">
+                      <input type="'.$field["type"].'" class="form-control" name="'.$field["id"].'" id="'.$field["id"].'" required data-msg="'.$message.'">
+                    </div>
+                  </div>
+                </div>';
+                }else{
+                  if($field["id"] == "AlcoholGroupID"){
+                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+                    <label class="">'.$field["name"].'</label>
+                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
+                      <option value="0">Lütfen seçin</option>';
+                      foreach ($alcoholGroups as $key => $alcoholGroup) {
+                        echo '<option value='.$alcoholGroup->AlcoholGroupID.'>'.$alcoholGroup->Name.'</option>';
+                      }
+                      echo '</select>
+                    </div></div>';
+                  }else
+                  if($field["id"] == "AlcoholBrandID"){
+                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+                    <label class="">'.$field["name"].'</label>
+                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
+                      <option value="0">Lütfen seçin</option>';
+                      foreach ($alcoholBrands as $key => $alcoholBrand) {
+                        echo '<option value='.$alcoholBrand->AlcoholBrandID.'>'.$alcoholBrand->Name.'</option>';
+                      }
+                      echo '</select>
+                    </div></div>';
+                  }else
+                  if($field["id"] == "AlcoholTypeID"){
+                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+                    <label class="">'.$field["name"].'</label>
+                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
+                      <option value="0">Lütfen seçin</option>';
+                      foreach ($alcoholTypes as $key => $alcoholType) {
+                        echo '<option value='.$alcoholType->AlcoholTypeID.'>'.$alcoholType->Name.'</option>';
+                      }
+                      echo '</select>
+                    </div></div>';
+                  }else
+                  if($field["id"] == "HoldingID"){
+                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2">
+                    <label class="">'.$field["name"].'</label>
+                    <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Holding seçin" data-init-plugin="select2">
+                      <option value="0">Lütfen seçin</option>';
+                      foreach ($holdings as $key => $holding) {
+                        echo '<option value='.$holding->HoldingID.'>'.$holding->HoldingName.'</option>';
+                      }
+                      echo '</select>
+                    </div></div>';
+                  }else
+                  if($field["id"] == "TapStatusID"){
+                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2">
+                    <label class="">'.$field["name"].'</label>
+                    <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Holding seçin" data-init-plugin="select2">
+                      <option value="0">Lütfen seçin</option>';
+                      foreach ($tapStatuses as $key => $tapStatus) {
+                        echo '<option value='.$tapStatus->TapStatusID.'>'.$tapStatus->Name.'</option>';
+                      }
+                      echo '</select>
+                    </div></div>';
+                  }else
+                  if($field["id"] == "collector_id"){
+                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+                    <label class="">'.$field["name"].'</label>
+                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Şirket Tipi seçin" data-init-plugin="select2">
+                      <option value="0">Lütfen seçin</option>';
+                      foreach ($collectors as $key => $collector) {
+                        echo '<option value='.$collector->collector_id.'>'.$collector->device_key.'</option>';
+                      }
+                      echo '</select>
+                    </div></div>';
+                  }else{
+                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+                    <label class="">'.$field["name"].'</label>
+                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" '.$field["disabled"].' data-placeholder="Ülke seçin" data-init-plugin="select2">
+                      <option value="0">Lütfen seçin</option>
+                    </select>
+                  </div></div>';
+                  }
                 }
               }
               ?>
-                <button type="submit" class="btn btn-primary addNewCollectorButton">Yeni Toplayıcı Ekle</button>
+                <button type="submit" class="btn btn-primary btn-block addNewTapButton">Yeni Musluk Ekle</button>
                 <div class="alert alert-success modalError unvisible m-t-10"></div>
               </form>
             </div>
@@ -181,9 +268,9 @@
       <div class="container-xs-height full-height">
       <div class="row-xs-height">
       <div class="modal-body col-xs-height col-middle text-center   ">
-      <h5 class="text-primary "><span class="semi-bold collectorNameinModal"></span> adlı alkol tipini silmek istediğinizden emin misiniz? Lütfen bu işlemi geri alamayacağınızı unutmayın.</h5>
+      <h5 class="text-primary "><span class="semi-bold TapNameinModal"></span> adlı alkol tipini silmek istediğinizden emin misiniz? Lütfen bu işlemi geri alamayacağınızı unutmayın.</h5>
       <br>
-      <button type="button" class="btn btn-success btn-block deleteCollectorButton">Evet</button>
+      <button type="button" class="btn btn-success btn-block deleteTapButton">Evet</button>
       <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Hayır</button>
       <div class="alert alert-success m-t-10 deleteModalError unvisible"></div>
       </div>
@@ -216,7 +303,7 @@
     <script src="<?php echo base_url() ?>truva/js/pages.min.js"></script>
     <!-- END CORE TEMPLATE JS -->
     <!-- BEGIN PAGE LEVEL JS -->
-    <script src="<?php echo base_url() ?>assets/js/functions.js" type="text/javascript"></script>
+    <script src="<?php echo base_url() ?>assets/js/functions.js?v=<?php echo time(); ?>" type="text/javascript"></script>
     <script type="text/javascript" src="<?php echo base_url() ?>assets/plugins/jquery-inputmask/jquery.inputmask.min.js"></script>
     <script src="<?php echo base_url() ?>assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url() ?>assets/plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js" type="text/javascript"></script>
@@ -234,43 +321,43 @@
     <script type="text/javascript">
       $(function(){
         initTable();
-        getDetails(".getCollectorDetails","/general/getCollectorById","CollectorId",".appendCollectorDataHere");
-        $("#appendNewCollectorData").validate({
+        getDetails(".getTapDetails","/general/getTapById","TapId",".appendTapDataHere");
+        $("#appendNewTapData").validate({
           submitHandler: function(form) {
-            addNewCollector();
+            addNewTap();
             }
         });
-        $("#updateCollectorData").validate({
+        $("#updateTapData").validate({
           submitHandler: function(form) {
-            updateCollector();
+            updateTap();
             }
         });
         $('#datepicker-range').datepicker({
           format: 'yyyy-mm-dd',
           endDate: '+0d'
         });
-        $("#addNewCollectorModal").on("shown.bs.modal",function(){
+        $("#addNewTapModal").on("shown.bs.modal",function(){
           setTimeout(function () {$('select').select2();}, 300);
         })
-        $("body").on("click",".deleteCollectorModal",function(){
+        $("body").on("click",".deleteTapModal",function(){
           var userId = $(this).parents("tr").attr("id");
           var userName = $(this).parents("tr").find("td:eq(2)").html();
           $(".deleteModalError").html('').addClass("unvisible");
-          $(".collectorNameinModal").html(userName);
-          $(".deleteCollectorButton").attr("id",userId);
+          $(".TapNameinModal").html(userName);
+          $(".deleteTapButton").attr("id",userId);
           $("#modalSlideLeft").modal();
         })
-        $("body").on("click",".deleteCollectorButton",function(){
-          var CollectorID = $(this).attr("id");
+        $("body").on("click",".deleteTapButton",function(){
+          var TapID = $(this).attr("id");
           $(".deleteModalError").html('Lütfen bekleyiniz...').removeClass("unvisible");
           $.ajax({
             type:"POST",
-            url:base_url+"/admin/deleteCollector",
-            data:{CollectorID:CollectorID},
+            url:base_url+"/admin/deleteTap",
+            data:{TapID:TapID},
             success:function(data){
               $(".deleteModalError").html(data.message).removeClass("unvisible");
-              $("table").find("tr#"+CollectorID).fadeOut(500,function(){
-                getCollectors()
+              $("table").find("tr#"+TapID).fadeOut(500,function(){
+                getTaps()
               })
             }
           })

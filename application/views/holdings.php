@@ -299,7 +299,7 @@
               }
               ?>
                 <button type="submit" class="btn btn-primary btn-block">Yeni Holding Ekle</button>
-                <div class="alert alert-danger modalError unvisible m-t-10"></div>
+                <div class="alert alert-success modalError unvisible m-t-10"></div>
               </form>
             </div>
           </div>
