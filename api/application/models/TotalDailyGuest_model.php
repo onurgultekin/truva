@@ -82,8 +82,8 @@ class TotalDailyGuest_model extends CI_Model {
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!preg_match('/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/',$Date)){
-                                        $response = $this->globalfunctions->returnMessage(10011,"Date parametresi YYYY-MM-DD hh:mm:ss formatında olmalıdır.",true); 
+                                if(!preg_match('/(\d{4})-(\d{2})-(\d{2})/',$Date)){
+                                        $response = $this->globalfunctions->returnMessage(10011,"Date parametresi YYYY-MM-DD formatında olmalıdır.",true); 
                                 }else
                                 if(!is_numeric($CompanyID)){
                                         $response = $this->globalfunctions->returnMessage(1003,"CompanyID parametresi numeric olmalıdır.",true);
@@ -129,8 +129,8 @@ class TotalDailyGuest_model extends CI_Model {
                                 if(!is_numeric($CompanyID)){
                                         $response = $this->globalfunctions->returnMessage(10010,"CompanyID parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!preg_match('/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/',$Date)){
-                                        $response = $this->globalfunctions->returnMessage(10011,"Date parametresi YYYY-MM-DD hh:mm:ss formatında olmalıdır.",true); 
+                                if(!preg_match('/(\d{4})-(\d{2})-(\d{2})/',$Date)){
+                                        $response = $this->globalfunctions->returnMessage(10011,"Date parametresi YYYY-MM-DD formatında olmalıdır.",true); 
                                 }else
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);

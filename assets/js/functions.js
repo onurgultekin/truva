@@ -631,6 +631,9 @@ function addNewAlcoholBrand(){
             setTimeout(function(){
                 $(".modalError").addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
+                $("#addNewAlcoholBrand label").removeClass("fade");
+                $("#addNewAlcoholBrand").find("input").val("");
+                $("#addNewAlcoholBrand").find("select").val(0).change();
             },modalCloseTimeout)
         }
     })
@@ -661,7 +664,7 @@ function getAlcoholBrands(){
         success:function(data){
             $("#tableWithExportOptions tbody").empty();
             $.each(data,function(key,alcoholBrand){
-                $("#tableWithExportOptions tbody").append('<tr id="'+alcoholBrand.AlcoholBrandID+'"><td>'+alcoholBrand.Code+'</td><td>'+alcoholBrand.Name+'</td><td><div class="pull-left"><button class="btn btn-warning getAlcoholBrandDetails btn-xs m-r-10" id="duzenle">Düzenle</button><button class="btn btn-danger deleteAlcoholBrandModal btn-xs">Sil</button></div></td></tr>')
+                $("#tableWithExportOptions tbody").append('<tr id="'+alcoholBrand.AlcoholBrandID+'"><td>'+alcoholBrand.Code+'</td><td>'+alcoholBrand.Name+'</td><td>'+alcoholBrand.AlcoholTypeName+'</td><td><div class="pull-left"><button class="btn btn-warning getAlcoholBrandDetails btn-xs m-r-10" id="duzenle">Düzenle</button><button class="btn btn-danger deleteAlcoholBrandModal btn-xs">Sil</button></div></td></tr>')
             })
             initTable();
             Pace.stop();
@@ -681,6 +684,9 @@ function addNewAlcoholGroup(){
             setTimeout(function(){
                 $(".modalError").addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewAlcoholGroupData label").removeClass("fade");
+                $("#appendNewAlcoholGroupData").find("input").val("");
+                $("#appendNewAlcoholGroupData").find("select").val(0).change();
             },modalCloseTimeout)
         }
     })
@@ -731,6 +737,9 @@ function addNewAlcoholType(){
             setTimeout(function(){
                 $(".modalError").html('').addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewAlcoholTypeData label").removeClass("fade");
+                $("#appendNewAlcoholTypeData").find("input").val("");
+                $("#appendNewAlcoholTypeData").find("select").val(0).change();
             },modalCloseTimeout)
         }
     })
@@ -761,7 +770,7 @@ function getAlcoholTypes(){
         success:function(data){
             $("#tableWithExportOptions tbody").empty();
             $.each(data,function(key,alcoholType){
-                $("#tableWithExportOptions tbody").append('<tr id="'+alcoholType.AlcoholTypeID+'"><td>'+alcoholType.Code+'</td><td>'+alcoholType.Name+'</td><td><div class="pull-left"><button class="btn btn-warning getAlcoholTypeDetails m-r-10 btn-xs" id="duzenle">Düzenle</button><button class="btn btn-danger deleteAlcoholTypeModal btn-xs">Sil</button></div></td></tr>')
+                $("#tableWithExportOptions tbody").append('<tr id="'+alcoholType.AlcoholTypeID+'"><td>'+alcoholType.Code+'</td><td>'+alcoholType.Name+'</td><td>'+alcoholType.AlcoholGroupName+'</td><td><div class="pull-left"><button class="btn btn-warning getAlcoholTypeDetails m-r-10 btn-xs" id="duzenle">Düzenle</button><button class="btn btn-danger deleteAlcoholTypeModal btn-xs">Sil</button></div></td></tr>')
             })
             initTable();
             Pace.stop();
@@ -781,6 +790,9 @@ function addNewArea(){
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewAreaData label").removeClass("fade");
+                $("#appendNewAreaData").find("input").val("");
+                $("#appendNewAreaData").find("select").val(0).change();
             },modalCloseTimeout)
         }
     })
@@ -815,6 +827,9 @@ function addNewBarGroup(){
             setTimeout(function(){
                 $(".modalError").html('').addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewBarGroupData label").removeClass("fade");
+                $("#appendNewBarGroupData").find("input").val("");
+                $("#appendNewBarGroupData").find("select").val(0).change();
             },modalCloseTimeout)
         }
     })
@@ -865,6 +880,9 @@ function addNewCity(){
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewCityData label").removeClass("fade");
+                $("#appendNewCityData").find("input").val("");
+                $("#appendNewCityData").find("select").val(0).change();
             },modalCloseTimeout)
         }
     })
@@ -899,6 +917,9 @@ function addNewCollector(){
             setTimeout(function(){
                 $(".modalError").addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewCollectorData label").removeClass("fade");
+                $("#appendNewCollectorData").find("input").val("");
+                $("#appendNewCollectorData").find("select").val(0).change();
             },modalCloseTimeout)
         }
     })
@@ -949,6 +970,9 @@ function addNewCounty(){
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewCountryData label").removeClass("fade");
+                $("#appendNewCountryData").find("input").val("");
+                $("#appendNewCountyData").find("select").val(0).change();
             },modalCloseTimeout)
         }
     })
@@ -983,6 +1007,8 @@ function addNewCountry(){
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewCountryData label").removeClass("fade");
+                $("#appendNewCountryData").find("input").val("");
             },modalCloseTimeout)
         }
     })
@@ -1143,6 +1169,9 @@ function addNewCompanyDailyGuest(){
             setTimeout(function(){
                 $(".modalError").addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewCompanyDailyGuestData label").removeClass("fade");
+                $("#appendNewCompanyDailyGuestData").find("input").val("");
+                $("#appendNewCompanyDailyGuestData").find("select").val(0).change();
             },modalCloseTimeout)
         }
     })
@@ -1233,6 +1262,9 @@ function addNewTap(){
             setTimeout(function(){
                 $(".modalError").html('').addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewCompanyDailyGuestData label").removeClass("fade");
+                $("#appendNewCompanyDailyGuestData").find("input").val("");
+                $("#appendNewCompanyDailyGuestData").find("select").val(0).change();
             },modalCloseTimeout)
         }
     })

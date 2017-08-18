@@ -246,6 +246,8 @@
         initTable();
         $('#Date').datepicker({
           format: 'yyyy-mm-dd',
+        }).on('change', function(){
+            $('.datepicker').hide();
         });
         getDetails(".getCompanyDailyGuestDetails","/general/getCompanyDailyGuestById","CompanyDailyGuestId",".appendCompanyDailyGuestDataHere");
         $("#appendNewCompanyDailyGuestData").validate({

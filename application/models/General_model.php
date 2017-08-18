@@ -659,29 +659,29 @@ class General_model extends CI_Model
 		return $response->message;
 	}
 	public function getTotalDailyGuests(){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'totaldailyguest/getTotalDailyGuestlist');
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'totaldailyguest/getTotalDailyGuestlist',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
 	public function getTotalDailyGuestById($TotalDailyGuestID){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'totaldailyguest/getTotalDailyGuestlist/'.$TotalDailyGuestID);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"TotalDailyGuestId"=>$TotalDailyGuestID);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'totaldailyguest/getTotalDailyGuestlist',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
 	public function getTaps(){

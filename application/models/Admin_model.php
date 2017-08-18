@@ -866,54 +866,47 @@ class Admin_model extends CI_Model
 		return $response;
 	}
 	public function addNewCompanyDailyGuest($data){
-		$token = $this->session->userdata("token");
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
 		$Date = $_POST["Date"];
 		$TotalGuest = $_POST["TotalGuest"];
 		$CompanyID = $_POST["CompanyID"];
 		$data = array(
-			"postData" => 
-			array(
-				"Date" => $Date,
-				"TotalGuest"=>$TotalGuest,
-				"CompanyID"=>$CompanyID));
-		$data_string = json_encode($data);
-		$ch = curl_init(API_ENDPOINT.'totaldailyguest/addTotalDailyGuest');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+			"accessToken"=>$accessToken,
+			"userId"=>$userId,
+			"Date" => $Date,
+			"TotalGuest"=>$TotalGuest,
+			"CompanyID"=>$CompanyID);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'totaldailyguest/addTotalDailyGuest',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function updateCompanyDailyGuest($data){
-		$token = $this->session->userdata("token");
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
 		$TotalDailyGuestID = $_POST["TotalDailyGuestID"];
 		$Date = $_POST["Date"];
 		$TotalGuest = $_POST["TotalGuest"];
 		$CompanyID = $_POST["CompanyID"];
 		$data = array(
+			"accessToken"=>$accessToken,
+			"userId"=>$userId,
 			"TotalDailyGuestID" => $TotalDailyGuestID,
-			"postData" => array(
-				"Date" => $Date,
-				"TotalGuest"=>$TotalGuest,
-				"CompanyID"=>$CompanyID));
-		$data_string = json_encode($data);
-		$ch = curl_init(API_ENDPOINT.'totaldailyguest/updateTotalDailyGuest');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+			"Date" => $Date,
+			"TotalGuest"=>$TotalGuest,
+			"CompanyID"=>$CompanyID);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'totaldailyguest/updateTotalDailyGuest',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function updateCompanyBarGroup($data){

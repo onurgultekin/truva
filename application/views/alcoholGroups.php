@@ -49,7 +49,7 @@
           <div class="jumbotron  no-margin" data-pages="parallax">
             <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
             <div class="inner" style="transform: translateY(0px); opacity: 1;">
-            <h3 class="">Alkol Grup Listesi</h3>
+            <h3 class="">İçki Grupları</h3>
             </div>
             </div>
             </div>
@@ -60,11 +60,11 @@
             <div class="row">
               <div class="col-md-4 pull-left" style="padding-left: 0px;">
                 <div class="col-xs-12">
-                <input type="text" id="search-table" class="form-control" placeholder="Alkol Grubu Ara">
+                <input type="text" id="search-table" class="form-control" placeholder="İçki Grubu Ara">
                 </div>
               </div>
               <div class="col-md-4 pull-right">
-              <button class="btn btn-primary pull-left addNewAlcoholGroup m-b-10 pull-right" data-toggle="modal" data-target="#addNewAlcoholGroupModal">Yeni Alkol Grubu Ekle</button>
+              <button class="btn btn-primary pull-left addNewAlcoholGroup m-b-10 pull-right" data-toggle="modal" data-target="#addNewAlcoholGroupModal">Yeni İçki Grubu Ekle</button>
               </div>
             </div>
             <div class="row">
@@ -111,8 +111,8 @@
             <div class="modal-header clearfix text-left">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
               </button>
-              <h5>Alkol Grubu <span class="semi-bold">Bilgileri</span></h5>
-              <p class="p-b-10">Aşağıda alkol grubu ile ilgili bilgileri bulabilirsiniz.</p>
+              <h5>İçki Grubu <span class="semi-bold">Bilgileri</span></h5>
+              <p class="p-b-10">Aşağıda İçki grubu ile ilgili bilgileri bulabilirsiniz.</p>
             </div>
             <div class="modal-body">
               <form role="form" id="updateAlcoholGroupData">
@@ -134,7 +134,7 @@
             <div class="modal-header clearfix text-left">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
               </button>
-              <h5>Yeni Alkol Grubu <span class="semi-bold">Ekle</span></h5>
+              <h5>Yeni İçki Grubu <span class="semi-bold">Ekle</span></h5>
             </div>
             <div class="modal-body" style="overflow:hidden;">
               <form role="form" class="form-group" id="appendNewAlcoholGroupData">
@@ -156,7 +156,7 @@
                 }
               }
               ?>
-                <button type="submit" class="btn btn-primary addNewAlcoholGroupButton">Yeni Alkol Grubu Ekle</button>
+                <button type="submit" class="btn btn-primary addNewAlcoholGroupButton">Yeni İçki Grubu Ekle</button>
                 <div class="alert alert-success modalError unvisible m-t-10"></div>
               </form>
             </div>
@@ -174,7 +174,7 @@
       <div class="container-xs-height full-height">
       <div class="row-xs-height">
       <div class="modal-body col-xs-height col-middle text-center   ">
-      <h5 class="text-primary "><span class="semi-bold alcoholGroupNameinModal"></span> adlı alkol grubunu silmek istediğinizden emin misiniz? Lütfen bu işlemi geri alamayacağınızı unutmayın.</h5>
+      <h5 class="text-primary "><span class="semi-bold alcoholGroupNameinModal"></span> adlı içki grubunu silmek istediğinizden emin misiniz? Lütfen bu işlemi geri alamayacağınızı unutmayın.</h5>
       <br>
       <button type="button" class="btn btn-success btn-block deleteAlcoholGroupButton">Evet</button>
       <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Hayır</button>

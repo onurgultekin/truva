@@ -49,7 +49,7 @@
           <div class="jumbotron  no-margin" data-pages="parallax">
             <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
             <div class="inner" style="transform: translateY(0px); opacity: 1;">
-            <h3 class="">Alkol Marka Listesi</h3>
+            <h3 class="">İçki Markaları</h3>
             </div>
             </div>
             </div>
@@ -59,11 +59,11 @@
             <!-- BEGIN PlACE PAGE CONTENT HERE -->
             <div class="row">
               <div class="col-md-4 pull-right">
-              <button class="btn btn-primary pull-left addNewAlcoholBrand m-b-10 pull-right" data-toggle="modal" data-target="#addNewAlcoholBrandModal">Yeni Alkol Markası Ekle</button>
+              <button class="btn btn-primary pull-left addNewAlcoholBrand m-b-10 pull-right" data-toggle="modal" data-target="#addNewAlcoholBrandModal">Yeni İçki Markası Ekle</button>
               </div>
               <div class="col-md-4 pull-left" style="padding-left: 0px;">
                 <div class="col-xs-12">
-                <input type="text" id="search-table" class="form-control pull-left" placeholder="Alkol Markası Ara">
+                <input type="text" id="search-table" class="form-control pull-left" placeholder="İçki Markası Ara">
                 </div>
               </div>
             </div>
@@ -74,6 +74,7 @@
               <tr>
               <th>Code</th>
               <th>Adı</th>
+              <th>İçki Tipi</th>
               <th class="no-sort"></th>
               </tr>
               </thead>
@@ -83,6 +84,7 @@
                   echo '<tr id="'.$alcoholBrand->AlcoholBrandID.'">
                     <td>'.$alcoholBrand->Code.'</td>
                     <td>'.$alcoholBrand->Name.'</td>
+                    <td>'.$alcoholBrand->AlcoholTypeName.'</td>
                     <td><div class="pull-left"><button class="btn btn-warning getAlcoholBrandDetails btn-xs m-r-10" id="duzenle">Düzenle</button><button class="btn btn-danger deleteAlcoholBrandModal btn-xs">Sil</button></div></td>
                   </tr>';
                 }
@@ -111,8 +113,8 @@
             <div class="modal-header clearfix text-left">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
               </button>
-              <h5>Alkol Marka <span class="semi-bold">Bilgileri</span></h5>
-              <p class="p-b-10">Aşağıda alkol markası ile ilgili bilgileri bulabilirsiniz.</p>
+              <h5>İçki Marka <span class="semi-bold">Bilgileri</span></h5>
+              <p class="p-b-10">Aşağıda içki markası ile ilgili bilgileri bulabilirsiniz.</p>
             </div>
             <div class="modal-body">
               <form role="form" id="updateAlcoholBrandData">
@@ -134,7 +136,7 @@
             <div class="modal-header clearfix text-left">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
               </button>
-              <h5>Yeni Alkol Markası <span class="semi-bold">Ekle</span></h5>
+              <h5>Yeni İçki Markası <span class="semi-bold">Ekle</span></h5>
             </div>
             <div class="modal-body" style="overflow:hidden;">
               <form role="form" class="form-group" id="appendNewAlcoholBrandData">
@@ -157,7 +159,7 @@
                   if($field["id"] == "AlcoholTypeID"){
                   echo '<div class="form-group form-group-default form-group-default-select2 required">
                         <label class="">'.$field["name"].'</label>
-                          <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" id="'.$field["id"].'" data-placeholder="Alkol grubu seçin" data-init-plugin="select2" required data-msg="'.$message.'">
+                          <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" id="'.$field["id"].'" data-placeholder="İçki grubu seçin" data-init-plugin="select2" required data-msg="'.$message.'">
                           <option value="0">Lütfen seçin</option>';
                             foreach ($alcoholTypes as $key => $alcoholType) {
                               echo '<option value='.$alcoholType->AlcoholTypeID.'>'.$alcoholType->Name.'</option>';
@@ -168,7 +170,7 @@
                 }
               }
               ?>
-                <button type="submit" class="btn btn-primary addNewAlcoholBrandButton">Yeni Alkol Markası Ekle</button>
+                <button type="submit" class="btn btn-primary addNewAlcoholBrandButton">Yeni İçki Markası Ekle</button>
                 <div class="alert alert-success modalError unvisible m-t-10"></div>
               </form>
             </div>
@@ -186,7 +188,7 @@
       <div class="container-xs-height full-height">
       <div class="row-xs-height">
       <div class="modal-body col-xs-height col-middle text-center   ">
-      <h5 class="text-primary "><span class="semi-bold alcoholBrandNameinModal"></span> adlı alkol tipini silmek istediğinizden emin misiniz? Lütfen bu işlemi geri alamayacağınızı unutmayın.</h5>
+      <h5 class="text-primary "><span class="semi-bold alcoholBrandNameinModal"></span> adlı içki tipini silmek istediğinizden emin misiniz? Lütfen bu işlemi geri alamayacağınızı unutmayın.</h5>
       <br>
       <button type="button" class="btn btn-success btn-block deleteAlcoholBrandButton">Evet</button>
       <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Hayır</button>
@@ -221,7 +223,7 @@
     <script src="<?php echo base_url() ?>truva/js/pages.min.js"></script>
     <!-- END CORE TEMPLATE JS -->
     <!-- BEGIN PAGE LEVEL JS -->
-    <script src="<?php echo base_url() ?>assets/js/functions.js" type="text/javascript"></script>
+    <script src="<?php echo base_url() ?>assets/js/functions.js?v=<?php echo time(); ?>" type="text/javascript"></script>
     <script type="text/javascript" src="<?php echo base_url() ?>assets/plugins/jquery-inputmask/jquery.inputmask.min.js"></script>
     <script src="<?php echo base_url() ?>assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url() ?>assets/plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js" type="text/javascript"></script>
@@ -259,7 +261,7 @@
         })
         $("body").on("click",".deleteAlcoholBrandModal",function(){
           var userId = $(this).parents("tr").attr("id");
-          var userName = $(this).parents("tr").find("td:eq(2)").html();
+          var userName = $(this).parents("tr").find("td:eq(1)").html();
           $(".deleteModalError").html('').addClass("unvisible");
           $(".alcoholBrandNameinModal").html(userName);
           $(".deleteAlcoholBrandButton").attr("id",userId);
