@@ -619,6 +619,36 @@ class General_model extends CI_Model
 		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
+	public function getDailyAverageConsumedAlcoholFilteredByDate($dateBegin,$dateEnd,$holdingId,$companyId,$barGroupId,$tapId){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"dateBegin"=>$dateBegin,"dateEnd"=>$dateEnd);
+		$endpoint = 'helper/getDailyAverageConsumedAlcoholFilteredByDate';
+		if($holdingId > 0){
+			$data = array("accessToken" => $accessToken, "userId" => $userId,"dateBegin"=>$dateBegin,"dateEnd"=>$dateEnd,"holdingId"=>$holdingId);
+			$endpoint = 'helper/getDailyAverageConsumedAlcoholFilteredByDateByHoldingID';
+		}
+		if($companyId > 0){
+			$data = array("accessToken" => $accessToken, "userId" => $userId,"dateBegin"=>$dateBegin,"dateEnd"=>$dateEnd,"companyId"=>$companyId);
+			$endpoint = 'helper/getDailyAverageConsumedAlcoholFilteredByDateByCompanyID';
+		}
+		if($barGroupId > 0){
+			$data = array("accessToken" => $accessToken, "userId" => $userId,"dateBegin"=>$dateBegin,"dateEnd"=>$dateEnd,"barGroupId"=>$barGroupId);
+			$endpoint = 'helper/getDailyAverageConsumedAlcoholFilteredByDateByBarGroupID';
+		}
+		if($tapId > 0){
+			$data = array("accessToken" => $accessToken, "userId" => $userId,"dateBegin"=>$dateBegin,"dateEnd"=>$dateEnd,"tapId"=>$tapId);
+			$endpoint = 'helper/getDailyAverageConsumedAlcoholFilteredByDateByTapID';
+		}
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.$endpoint,
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response->message;
+	}
 	public function getTechnicalServiceList(){
 		$token = $this->session->userdata("token");
 		$ch = curl_init(API_ENDPOINT.'technicalservice/getTechnicalServiceList');

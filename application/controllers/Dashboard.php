@@ -23,6 +23,7 @@ class Dashboard extends CI_Controller {
 		$dateBegin = date("Y-m-d", strtotime("-30 day"));
 		$dateEnd = date("Y-m-d");
 		$data["totalDailyConsumed"] = $this->general_model->getDailyConsumedAlcoholFilteredByDate($dateBegin,$dateEnd,0,0,0,0);
+		$data["averageConsumed"] = $this->general_model->getDailyAverageConsumedAlcoholFilteredByDate($dateBegin,$dateEnd,0,0,0,0);
 		$data["last5taps"] = $this->general_model->getLastTapData();
 		$this->load->view('dashboard',$data);
 	}

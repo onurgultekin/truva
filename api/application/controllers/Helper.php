@@ -89,6 +89,26 @@ class Helper extends REST_Controller {
 		$message = $this->Helper_model->getTotalDailyCostForDailyByCompanyID($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function getDailyAverageConsumedAlcoholFilteredByDate_post(){
+		$message = $this->Helper_model->getDailyAverageConsumedAlcoholFilteredByDate($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getDailyAverageConsumedAlcoholFilteredByDateByHoldingID_post(){
+		$message = $this->Helper_model->getDailyAverageConsumedAlcoholFilteredByDateByHoldingID($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getDailyAverageConsumedAlcoholFilteredByDateByCompanyID_post(){
+		$message = $this->Helper_model->getDailyAverageConsumedAlcoholFilteredByDateByCompanyID($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getDailyAverageConsumedAlcoholFilteredByDateByBarGroupID_post(){
+		$message = $this->Helper_model->getDailyAverageConsumedAlcoholFilteredByDateByBarGroupID($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getDailyAverageConsumedAlcoholFilteredByDateByTapID_post(){
+		$message = $this->Helper_model->getDailyAverageConsumedAlcoholFilteredByDateByTapID($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 	public function getDailyConsumedAlcoholFilteredByDate_post(){
 		$message = $this->Helper_model->getDailyConsumedAlcoholFilteredByDate($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
