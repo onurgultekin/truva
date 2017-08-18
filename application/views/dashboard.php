@@ -302,22 +302,108 @@
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="<?php echo base_url() ?>assets/js/scripts.js?v=<?php echo time(); ?>" type="text/javascript"></script>
     <script type="text/javascript">
-        $(function () { 
+        $(function () {
+        $(".holdings").on("change",function(){
+            var dateBegin = $("#dateBegin").val();
+            var dateEnd = $("#dateEnd").val();
+            var data = {dateBegin:dateBegin,dateEnd:dateEnd};
+            var holdingId = $(".holdings").val();
+            var companyId = $(".companies").val();
+            var barGroupId = $(".bars").val();
+            var tapId = $(".taps").val();
+            $.ajax({
+              type:"POST",
+              data:{dateBegin:dateBegin,dateEnd:dateEnd,holdingId:holdingId,companyId:0,barGroupId:0,tapId:0},
+              url:base_url+"/general/getConsumptionByDate",
+              success:function(data){
+                myChart.update({
+                  series:data.graphData,
+                  xAxis: {
+                      categories: data.dates,
+                      crosshair: true
+                  }
+                });
+              }
+            })
+        });
+        $(".companies").on("change",function(){
+            var dateBegin = $("#dateBegin").val();
+            var dateEnd = $("#dateEnd").val();
+            var data = {dateBegin:dateBegin,dateEnd:dateEnd};
+            var holdingId = $(".holdings").val();
+            var companyId = $(".companies").val();
+            var barGroupId = $(".bars").val();
+            var tapId = $(".taps").val();
+            $.ajax({
+              type:"POST",
+              data:{dateBegin:dateBegin,dateEnd:dateEnd,holdingId:holdingId,companyId:companyId,barGroupId:0,tapId:0},
+              url:base_url+"/general/getConsumptionByDate",
+              success:function(data){
+                myChart.update({
+                  series:data.graphData,
+                  xAxis: {
+                      categories: data.dates,
+                      crosshair: true
+                  }
+                });
+              }
+            })
+        }) 
+        $(".bars").on("change",function(){
+            var dateBegin = $("#dateBegin").val();
+            var dateEnd = $("#dateEnd").val();
+            var data = {dateBegin:dateBegin,dateEnd:dateEnd};
+            var holdingId = $(".holdings").val();
+            var companyId = $(".companies").val();
+            var barGroupId = $(".bars").val();
+            var tapId = $(".taps").val();
+            $.ajax({
+              type:"POST",
+              data:{dateBegin:dateBegin,dateEnd:dateEnd,holdingId:holdingId,companyId:companyId,barGroupId:barGroupId,tapId:0},
+              url:base_url+"/general/getConsumptionByDate",
+              success:function(data){
+                myChart.update({
+                  series:data.graphData,
+                  xAxis: {
+                      categories: data.dates,
+                      crosshair: true
+                  }
+                });
+              }
+            })
+        }) 
+        $(".taps").on("change",function(){
+            var dateBegin = $("#dateBegin").val();
+            var dateEnd = $("#dateEnd").val();
+            var data = {dateBegin:dateBegin,dateEnd:dateEnd};
+            var holdingId = $(".holdings").val();
+            var companyId = $(".companies").val();
+            var barGroupId = $(".bars").val();
+            var tapId = $(".taps").val();
+            $.ajax({
+              type:"POST",
+              data:{dateBegin:dateBegin,dateEnd:dateEnd,holdingId:holdingId,companyId:companyId,barGroupId:barGroupId,tapId:tapId},
+              url:base_url+"/general/getConsumptionByDate",
+              success:function(data){
+                myChart.update({
+                  series:data.graphData,
+                  xAxis: {
+                      categories: data.dates,
+                      crosshair: true
+                  }
+                });
+              }
+            })
+        }) 
             var myChart = Highcharts.chart('container', {
     chart: {
         type: 'column'
     },
     title: {
-        text: 'Günlük toplam tüketim'
+        text: 'Son bir aylık toplam tüketim'
     },
     xAxis: {
-        categories: [
-            'Jan',
-            'Feb',
-            'Mar',
-            'Apr',
-            'May'
-        ],
+        categories: <?php echo json_encode($totalDailyConsumed->dates); ?>,
         crosshair: true
     },
     yAxis: {
@@ -340,13 +426,7 @@
             borderWidth: 0
         }
     },
-    series: [{
-        name: 'Viski',
-        data: [49.9, 71.5, 106.4, 129.2, 144.0]
-    },{
-        name: 'Vodka',
-        data: [43.9, 31.5, 166.4, 29.2, 64.0]
-    }]
+    series: <?php echo json_encode($totalDailyConsumed->graphData); ?>
 });
             Highcharts.chart('container2', {
     chart: {

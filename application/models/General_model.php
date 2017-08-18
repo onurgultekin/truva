@@ -607,7 +607,7 @@ class General_model extends CI_Model
 			$endpoint = 'helper/getDailyConsumedAlcoholFilteredByDateByBarGroupID';
 		}
 		if($tapId > 0){
-			$data = array("accessToken" => $accessToken, "userId" => $userId,"dateBegin"=>$dateBegin,"dateEnd"=>$dateEnd,"holdingId"=>$tapId);
+			$data = array("accessToken" => $accessToken, "userId" => $userId,"dateBegin"=>$dateBegin,"dateEnd"=>$dateEnd,"tapId"=>$tapId);
 			$endpoint = 'helper/getDailyConsumedAlcoholFilteredByDateByTapID';
 		}
 		$curl = curl_init();
@@ -709,6 +709,19 @@ class General_model extends CI_Model
 		));
 		$response = json_decode(curl_exec($curl));
 		return $response->message;
+	}
+	public function getTapByBarGroupId($barGroupId){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"barGroupId"=>$barGroupId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'tap/getTapByBarGroupId',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response;
 	}
 	public function getTapStatuses(){
 		$accessToken = $this->session->userdata("accessToken");

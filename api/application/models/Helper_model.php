@@ -708,6 +708,7 @@ class Helper_model extends CI_Model {
                 }
                 return $response;
         }
+        /* Dashboard için Günlük tüketim grafiği  ve tüketim rapor sayfası */
         public function getDailyConsumedAlcoholFilteredByDate($parameters){
                 $i = 0;
                 $k = 0;

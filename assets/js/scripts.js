@@ -125,6 +125,22 @@
                 }
             })
         })
+        $(".bars").on("change",function(){
+            var selectedBarGroup = $(this).val();
+            $.ajax({
+                type:"POST",
+                url:base_url+"/general/getTapByBarGroupId",
+                data:{barGroupId:selectedBarGroup},
+                success:function(data){
+                    if(data.message.length > 0){
+                        $(".taps").html('<option value="0">Lütfen seçin</option>').removeAttr("disabled").removeClass("disabled");
+                        $.each(data.message,function(k,tap){
+                            $(".taps").append('<option value="'+tap.TapID+'">'+tap.Name+'</option>');
+                        })
+                    }
+                }
+            })
+        })
     });
 
     

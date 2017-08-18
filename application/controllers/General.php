@@ -1191,6 +1191,12 @@ class General extends CI_Controller {
 		$this->load->model("general_model");
 		$dateBegin = $this->input->post("dateBegin");
 		$dateEnd = $this->input->post("dateEnd");
+		if(!$dateBegin){
+			$dateBegin = date("Y-m-d", strtotime("-30 day"));
+		}
+		if(!$dateEnd){
+			$dateEnd = date("Y-m-d");
+		}
 		$holdingId = @$this->input->post("holdingId");
 		$companyId = @$this->input->post("companyId");
 		$barGroupId = @$this->input->post("barGroupId");
@@ -1737,6 +1743,13 @@ class General extends CI_Controller {
 	                  }
 	                }
 	              }
+	}
+	public function getTapByBarGroupId(){
+		header("Content-type:application/json");
+		$this->load->model("general_model");
+		$barGroupId = $this->input->post("barGroupId");
+		$barGroups = $this->general_model->getTapByBarGroupId($barGroupId);
+		echo json_encode($barGroups);
 	}
 	public function getTapStatuses(){
 		header("Content-type:application/json");
