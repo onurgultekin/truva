@@ -307,6 +307,56 @@ class TechnicalService_model extends CI_Model {
                 }
                 return $response;
         }
+        public function updateUsersTechnicalService($parameters){
+                $i = 0;
+                $k = 0;
+                $mandatoryParameters = array("accessToken","userId","UserIDs","TechnicalServiceListID"); 
+                foreach ($mandatoryParameters as $mandatoryParameter) {
+                        if(!array_key_exists($mandatoryParameter,$parameters)){
+                                $k++;
+                        }
+                } 
+                if($k>0){
+                        $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
+                }else{
+                        $availableParameters = array("accessToken","userId","UserIDs","TechnicalServiceListID");
+                        foreach ($parameters as $key => $parameter) {
+                                if(!in_array($key,$availableParameters)){
+                                        $i++;
+                                }
+                        }
+                        if($i>0){
+                                $response = $this->globalfunctions->returnMessage(1001,"Geçersiz istek. Bilinmeyen parametre girdiniz.",true);
+                        }else{
+                                $accessToken = $parameters["accessToken"];
+                                $userId = $parameters["userId"];
+                                $UserIDs = $parameters["UserIDs"];
+                                $TechnicalServiceListID = $parameters["TechnicalServiceListID"];
+                                if(!is_numeric($TechnicalServiceListID)){
+                                        $response = $this->globalfunctions->returnMessage(1009,"Technical Service List Id parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($userId)){
+                                        $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
+                                }else{
+                                        $userIDsArray = [];
+                                        if($UserIDs != ""){
+                                                $userIDsArray = explode(",",$UserIDs);
+                                        }
+                                        if(count($userIDsArray) > 0){
+                                                foreach ($userIDsArray as $key => $user_id_item) {
+                                                        $this->db->close();
+                                                        $query = $this->db->query("CALL UPDATE_USER_FOR_TECHNICAL_SERVICE('".$accessToken."',".$userId.",".$user_id_item.",".$TechnicalServiceListID.")");
+                                                }
+                                        }
+                                        
+                                                $result = $query->row();
+                                                $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
+                                        
+                                }
+                        }
+                }
+                return $response;
+        }
        
 }
 ?>

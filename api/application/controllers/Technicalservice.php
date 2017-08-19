@@ -49,4 +49,10 @@ class Technicalservice extends REST_Controller {
 		$message = $this->TechnicalService_model->deleteTechnicalService($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function updateUsersTechnicalService_post(){
+		$message = $this->TechnicalService_model->updateUsersTechnicalService($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+
+
 }
