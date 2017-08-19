@@ -33,24 +33,16 @@ class User extends REST_Controller {
 		$message = $this->User_model->getUserList($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
-	public function getTapByBarGroupId_post(){
-		$message = $this->User_model->getTapByBarGroupId($this->post());
+	public function getUserGroupList_post(){
+		$message = $this->User_model->getUserGroupList($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
-	public function getTapStatuses_post(){
-		$message = $this->User_model->getTapStatuses($this->post());
+	public function addUser_post(){
+		$message = $this->User_model->addUser($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
-	public function addTap_post(){
-		$message = $this->User_model->addTap($this->post());
-		$this->set_response($message, REST_Controller::HTTP_OK);
-	}
-	public function updateTap_post(){
-		$message = $this->User_model->updateTap($this->post());
-		$this->set_response($message, REST_Controller::HTTP_OK);
-	}
-	public function deleteTap_post(){
-		$message = $this->User_model->deleteTap($this->post());
+	public function updateUser_post(){
+		$message = $this->User_model->updateUser($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 }

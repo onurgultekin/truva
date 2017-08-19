@@ -70,7 +70,7 @@ function getAreasInModal(){
         })
     })
 }
-var initTable = function() {
+var initTable = function(width = 184) {
     var table = $('#tableWithExportOptions');
     var extensions = {
         "sFilter": "dataTables_filter custom_filter_class",
@@ -88,7 +88,7 @@ var initTable = function() {
         "dom": 'rt<"bottom"ilp><"clear">',
         "columnDefs": [ {
               "targets": 'no-sort',
-              "width":"184px",
+              "width":width+"px",
               "orderable": false
         } ],
         "iDisplayLength": 20,
@@ -1056,6 +1056,29 @@ function updateUser(){
                 $(".updateModalError").addClass("unvisible");
                 $("#modalSlideUp").modal("hide");
             },modalCloseTimeout)
+        }
+    })
+}
+function getUsers(){
+    Pace.restart();
+    $("#tableWithExportOptions").dataTable().fnDestroy();
+    $.ajax({
+        type:"GET",
+        url:base_url+"/admin/getUsers",
+        success:function(data){
+            $("#tableWithExportOptions tbody").empty();
+            $.each(data,function(key,user){
+                $("#tableWithExportOptions tbody").append('<tr id="'+user.id+'">\
+                    <td>'+user.email+'</td>\
+                    <td>'+user.first_name+'</td>\
+                    <td>'+user.last_name+'</td>\
+                    <td>'+user.address+'</td>\
+                    <td>'+user.phone+'</td>\
+                    <td>'+user.userRole+'</td>\
+                    <td><div class="pull-right"><button class="btn btn-primary changeUserPassword btn-xs" id="duzenle">Şifre Değiştir</button><button class="btn btn-warning getUserDetails btn-xs m-l-5 m-r-5" id="duzenle">Düzenle</button><button class="btn btn-danger deleteUserModal btn-xs">Sil</button></div></td></tr>')
+            })
+            initTable(214);
+            Pace.stop();
         }
     })
 }

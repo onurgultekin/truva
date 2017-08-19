@@ -167,7 +167,7 @@ class Admin extends CI_Controller {
 				<div class="form-group form-group-default required '.$class.' ">
 					<label>'.$field["name"].':</label>
 					<div class="controls">
-						<input type="'.$field["type"].'" class="form-control" name="'.$field["id"].'" id="'.$field["id"].'" required data-msg="'.$message.'" value="'.$user[0]->{$field["id"]}.'">
+						<input type="'.$field["type"].'" class="form-control" name="'.$field["id"].'" id="'.$field["id"].'" required data-msg="'.$message.'" value="'.@$user[0]->{$field["id"]}.'">
 					</div>
 				</div>
 			</div>';
@@ -227,7 +227,7 @@ class Admin extends CI_Controller {
 							if($userGroup->id == $user[0]->group_id){
 								$selected = 'selected = "selected"';
 							}
-							echo '<option value='.$userGroup->id.'>'.$userGroup->description.'</option>';
+							echo '<option '.$selected.' value='.$userGroup->id.'>'.$userGroup->description.'</option>';
 						}
 						echo '</select>
 					</div></div>';
