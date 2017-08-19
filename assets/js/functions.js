@@ -70,7 +70,7 @@ function getAreasInModal(){
         })
     })
 }
-var initTable = function() {
+var initTable = function(width = 184) {
     var table = $('#tableWithExportOptions');
     var extensions = {
         "sFilter": "dataTables_filter custom_filter_class",
@@ -88,7 +88,7 @@ var initTable = function() {
         "dom": 'rt<"bottom"ilp><"clear">',
         "columnDefs": [ {
               "targets": 'no-sort',
-              "width":"184px",
+              "width":width+"px",
               "orderable": false
         } ],
         "iDisplayLength": 20,
@@ -1075,9 +1075,9 @@ function getUsers(){
                     <td>'+user.address+'</td>\
                     <td>'+user.phone+'</td>\
                     <td>'+user.userRole+'</td>\
-                    <td><div class="pull-right"><button class="btn btn-warning getUserDetails btn-xs" id="duzenle">Düzenle</button><button class="btn btn-danger deleteUserModal btn-xs m-l-10">Sil</button></div></td></tr>')
+                    <td><div class="pull-right"><button class="btn btn-primary changeUserPassword btn-xs" id="duzenle">Şifre Değiştir</button><button class="btn btn-warning getUserDetails btn-xs m-l-5 m-r-5" id="duzenle">Düzenle</button><button class="btn btn-danger deleteUserModal btn-xs">Sil</button></div></td></tr>')
             })
-            initTable();
+            initTable(214);
             Pace.stop();
         }
     })

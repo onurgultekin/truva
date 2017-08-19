@@ -207,7 +207,7 @@ class User_model extends CI_Model {
         public function updateUser($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","id","first_name","last_name","user_email","user_password","CompanyID","phone","group_id","address","country_id","city_id","county_id","postcode"); 
+                $mandatoryParameters = array("accessToken","userId","id","first_name","last_name","user_email","CompanyID","phone","group_id","address","country_id","city_id","county_id","postcode"); 
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -216,7 +216,7 @@ class User_model extends CI_Model {
                 if($k>0){
                         $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
                 }else{
-                        $availableParameters = array("accessToken","userId","id","first_name","last_name","user_email","user_password","HoldingID","CompanyID","phone","group_id","address","country_id","city_id","county_id","postcode");
+                        $availableParameters = array("accessToken","userId","id","first_name","last_name","user_email","HoldingID","CompanyID","phone","group_id","address","country_id","city_id","county_id","postcode");
                         foreach ($parameters as $key => $parameter) {
                                 if(!in_array($key,$availableParameters)){
                                         $i++;
@@ -231,7 +231,6 @@ class User_model extends CI_Model {
                                 $first_name = addslashes($parameters["first_name"]);
                                 $last_name = addslashes($parameters["last_name"]);
                                 $user_email = addslashes($parameters["user_email"]);
-                                $user_password = addslashes($parameters["user_password"]);
                                 $HoldingID = @$parameters["HoldingID"];
                                 $CompanyID = $parameters["CompanyID"];
                                 $phone = $parameters["phone"];
@@ -268,7 +267,7 @@ class User_model extends CI_Model {
                                 if(!is_numeric($county_id)){
                                         $response = $this->globalfunctions->returnMessage(1008,"county_id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL ADD_OR_UPDATE_USER('".$accessToken."',".$userId.",".$id.",'".$this->input->ip_address()."','".$first_name."','".$last_name."','".$user_email."','".$user_password."',".$HoldingID.",".$CompanyID.",'".$phone."',".$group_id.",'".$address."',".$country_id.",".$city_id.",".$county_id.",'".$postcode."')");
+                                        $query = $this->db->query("CALL ADD_OR_UPDATE_USER('".$accessToken."',".$userId.",".$id.",'".$this->input->ip_address()."','".$first_name."','".$last_name."','".$user_email."','NULL',".$HoldingID.",".$CompanyID.",'".$phone."',".$group_id.",'".$address."',".$country_id.",".$city_id.",".$county_id.",'".$postcode."')");
                                         $result = $query->row();
                                         $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,$result->isError);
                                 }

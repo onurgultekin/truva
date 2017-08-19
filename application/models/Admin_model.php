@@ -207,7 +207,6 @@ class Admin_model extends CI_Model
 		$first_name = $_POST["first_name"];
 		$last_name = $_POST["last_name"];
 		$user_email = $_POST["email"];
-		$user_password = $_POST["user_password"];
 		$HoldingID = $_POST["HoldingID"];
 		$CompanyID = $_POST["CompanyID"];
 		$phone = $_POST["phone"];
@@ -224,7 +223,6 @@ class Admin_model extends CI_Model
 			"first_name" => $first_name,
 			"last_name" => $last_name,
 			"user_email" => $user_email,
-			"user_password" => $user_password,
 			"HoldingID" => $HoldingID,
 			"CompanyID" => $CompanyID,
 			"phone" => $phone,

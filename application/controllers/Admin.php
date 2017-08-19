@@ -74,11 +74,6 @@ class Admin extends CI_Controller {
 		"id"=>"email",
 		"type"=>"email"
 		],
-	          	[
-	            "name"=>"Şifre",
-	            "id"=>"user_password",
-	            "type"=>"password"
-	          	],
 		[
 		"name"=>"Holding seçin",
 		"id"=>"HoldingID",

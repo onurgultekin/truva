@@ -91,7 +91,7 @@
                     <td>'.$user->address.'</td>
                     <td>'.$user->phone.'</td>
                     <td>'.$user->userRole.'</td>
-                    <td><div class="pull-right"><button class="btn btn-warning getUserDetails btn-xs" id="duzenle">Düzenle</button><button class="btn btn-danger deleteUserModal btn-xs m-l-10">Sil</button></div></td>
+                    <td><div class="pull-right"><button class="btn btn-primary changeUserPassword btn-xs" id="duzenle">Şifre Değiştir</button><button class="btn btn-warning getUserDetails btn-xs m-l-5 m-r-5" id="duzenle">Düzenle</button><button class="btn btn-danger deleteUserModal btn-xs">Sil</button></div></td>
                   </tr>';
                 }
                 ?>
@@ -320,7 +320,7 @@
     <script src="<?php echo base_url() ?>truva/js/pages.min.js"></script>
     <script type="text/javascript">
       $(function(){
-        initTable();
+        initTable(214);
         getCitiesInModal();
         getDistrictsInModal();
         getAreasInModal();
