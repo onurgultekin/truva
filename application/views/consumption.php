@@ -280,9 +280,9 @@
               url:base_url+"/general/getConsumptionByDate",
               success:function(data){
                 chart.update({
-                  series:data.graphData,
+                  series:data.consumed.graphData,
                   xAxis: {
-                      categories: data.dates,
+                      categories: data.consumed.dates,
                       crosshair: true
                   }
                 });

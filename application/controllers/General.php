@@ -1192,7 +1192,7 @@ class General extends CI_Controller {
 		$dateBegin = $this->input->post("dateBegin");
 		$dateEnd = $this->input->post("dateEnd");
 		if(!$dateBegin){
-			$dateBegin = date("Y-m-d", strtotime("-30 day"));
+			$dateBegin = date("Y-m-d", strtotime("-1 week"));
 		}
 		if(!$dateEnd){
 			$dateEnd = date("Y-m-d");
