@@ -1059,6 +1059,29 @@ function updateUser(){
         }
     })
 }
+function getUsers(){
+    Pace.restart();
+    $("#tableWithExportOptions").dataTable().fnDestroy();
+    $.ajax({
+        type:"GET",
+        url:base_url+"/admin/getUsers",
+        success:function(data){
+            $("#tableWithExportOptions tbody").empty();
+            $.each(data,function(key,user){
+                $("#tableWithExportOptions tbody").append('<tr id="'+user.id+'">\
+                    <td>'+user.email+'</td>\
+                    <td>'+user.first_name+'</td>\
+                    <td>'+user.last_name+'</td>\
+                    <td>'+user.address+'</td>\
+                    <td>'+user.phone+'</td>\
+                    <td>'+user.userRole+'</td>\
+                    <td><div class="pull-right"><button class="btn btn-warning getUserDetails btn-xs" id="duzenle">Düzenle</button><button class="btn btn-danger deleteUserModal btn-xs m-l-10">Sil</button></div></td></tr>')
+            })
+            initTable();
+            Pace.stop();
+        }
+    })
+}
 function getCountries(){
     Pace.restart();
     $("#tableWithExportOptions").dataTable().fnDestroy();

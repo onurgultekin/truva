@@ -158,7 +158,8 @@ class Admin_model extends CI_Model
 	}
 
 	public function addNewUser($data){
-		$token = $this->session->userdata("token");
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
 		$first_name = $_POST["first_name"];
 		$last_name = $_POST["last_name"];
 		$user_email = $_POST["user_email"];
@@ -173,43 +174,41 @@ class Admin_model extends CI_Model
 		$county_id = $_POST["county_id"];
 		$postcode = $_POST["postcode"];
 		$data = array(
-			"postData" => array(
-				"first_name" => $first_name,
-				"last_name" => $last_name,
-				"user_email" => $user_email,
-				"user_password" => $user_password,
-				"HoldingID" => $HoldingID,
-				"CompanyID" => $CompanyID,
-				"phone" => $phone,
-				"group_id" => $group_id,
-				"address" => $address,
-				"country_id" => $country_id,
-				"city_id" => $city_id,
-				"county_id" => $county_id,
-				"postcode" => $postcode
-				));
-		$data_string = json_encode($data);
-		$ch = curl_init(API_ENDPOINT.'user/adduser');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+			"accessToken" => $accessToken,
+			"userId" => $userId,
+			"first_name" => $first_name,
+			"last_name" => $last_name,
+			"user_email" => $user_email,
+			"user_password" => $user_password,
+			"HoldingID" => $HoldingID,
+			"CompanyID" => $CompanyID,
+			"phone" => $phone,
+			"group_id" => $group_id,
+			"address" => $address,
+			"country_id" => $country_id,
+			"city_id" => $city_id,
+			"county_id" => $county_id,
+			"postcode" => $postcode
+			);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'user/addUser',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 
 	public function updateUser($data){
-		$token = $this->session->userdata("token");
-		$UserID = $_POST["id"];
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$id = $_POST["id"];
 		$first_name = $_POST["first_name"];
 		$last_name = $_POST["last_name"];
 		$user_email = $_POST["email"];
-		$user_password = $_POST["password"];
+		$user_password = $_POST["user_password"];
+		$HoldingID = $_POST["HoldingID"];
 		$CompanyID = $_POST["CompanyID"];
 		$phone = $_POST["phone"];
 		$group_id = $_POST["group_id"];
@@ -219,43 +218,40 @@ class Admin_model extends CI_Model
 		$county_id = $_POST["county_id"];
 		$postcode = $_POST["postcode"];
 		$data = array(
-			"UserID"=>$UserID,
-			"postData" => array(
-				"first_name" => $first_name,
-				"last_name" => $last_name,
-				"user_email" => $user_email,
-				"user_password" => $user_password,
-				"CompanyID" => $CompanyID,
-				"phone" => $phone,
-				"group_id" => $group_id,
-				"address" => $address,
-				"country_id" => $country_id,
-				"city_id" => $city_id,
-				"county_id" => $county_id,
-				"postcode" => $postcode
-				));
-		$data_string = json_encode($data);
-		$ch = curl_init(API_ENDPOINT.'user/addUser');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+			"accessToken" => $accessToken,
+			"userId" => $userId,
+			"id"=>$id,
+			"first_name" => $first_name,
+			"last_name" => $last_name,
+			"user_email" => $user_email,
+			"user_password" => $user_password,
+			"HoldingID" => $HoldingID,
+			"CompanyID" => $CompanyID,
+			"phone" => $phone,
+			"group_id" => $group_id,
+			"address" => $address,
+			"country_id" => $country_id,
+			"city_id" => $city_id,
+			"county_id" => $county_id,
+			"postcode" => $postcode
+			);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'user/updateUser',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 
 	public function addNewCountry($data){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
 		$BinaryCode = $_POST["BinaryCode"];
 		$TripleCode = $_POST["TripleCode"];
 		$CountryName = $_POST["CountryName"];
 		$PhoneCode = $_POST["PhoneCode"];
-		$accessToken = $this->session->userdata("accessToken");
-		$userId = $this->session->userdata("userId");
 		$data = array("accessToken" => $accessToken, "userId" => $userId,"BinaryCode"=>$BinaryCode,"TripleCode"=>$TripleCode,"CountryName"=>$CountryName,"PhoneCode"=>$PhoneCode);
 		$curl = curl_init();
 		curl_setopt_array($curl, array(

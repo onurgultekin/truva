@@ -77,6 +77,7 @@
               <th>Soyadı</th>
               <th>Adres</th>
               <th>Telefon</th>
+              <th>Rol</th>
               <th class="no-sort"></th>
               </tr>
               </thead>
@@ -89,7 +90,8 @@
                     <td>'.$user->last_name.'</td>
                     <td>'.$user->address.'</td>
                     <td>'.$user->phone.'</td>
-                    <td><div class="pull-right"><button class="btn btn-warning getUserDetails btn-rounded btn-xs" id="duzenle">Düzenle</button><button class="btn btn-danger deleteUserModal btn-rounded btn-xs m-l-10">Sil</button></div></td>
+                    <td>'.$user->userRole.'</td>
+                    <td><div class="pull-right"><button class="btn btn-warning getUserDetails btn-xs" id="duzenle">Düzenle</button><button class="btn btn-danger deleteUserModal btn-xs m-l-10">Sil</button></div></td>
                   </tr>';
                 }
                 ?>
@@ -138,6 +140,7 @@
                 <div class="form-group appendUserDataHere">
                 </div>
                 <button type="submit" class="btn btn-primary btn-block m-t-5 updateUser">Bilgileri Düzenle</button>
+                <div class="alert alert-success updateModalError unvisible m-t-10"></div>
               </form>
             </div>
           </div>
@@ -254,7 +257,7 @@
               }
               ?>
                 <button type="submit" class="btn btn-primary btn-block addNewUserButton">Yeni Kullanıcı Ekle</button>
-                <div class="alert alert-danger modalError unvisible m-t-10"></div>
+                <div class="alert alert-success modalError unvisible m-t-10"></div>
               </form>
             </div>
           </div>

@@ -96,54 +96,10 @@ class User_model extends CI_Model {
                 }
                 return $response;
         }
-        public function getTapByBarGroupId($parameters){
+        public function getUserGroupList($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","barGroupId"); 
-                foreach ($mandatoryParameters as $mandatoryParameter) {
-                        if(!array_key_exists($mandatoryParameter,$parameters)){
-                                $k++;
-                        }
-                } 
-                if($k>0){
-                        $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
-                }else{
-                        $availableParameters = array("accessToken","userId","barGroupId");
-                        foreach ($parameters as $key => $parameter) {
-                                if(!in_array($key,$availableParameters)){
-                                        $i++;
-                                }
-                        }
-                        if($i>0){
-                                $response = $this->globalfunctions->returnMessage(1001,"Geçersiz istek. Bilinmeyen parametre girdiniz.",true);
-                        }else{
-                                $accessToken = $parameters["accessToken"];
-                                $userId = $parameters["userId"];
-                                $barGroupId = $parameters["barGroupId"];
-                                if(!is_numeric($userId)){
-                                        $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
-                                }else
-                                if(!is_numeric($barGroupId)){
-                                        $response = $this->globalfunctions->returnMessage(1007,"barGroupId parametresi numeric olmalıdır.",true);
-                                }else{
-                                        $query = $this->db->query("CALL GET_TAP_BY_BAR_GROUP_ID('".$accessToken."',".$userId.",".$barGroupId.")");
-                                        $result = $query->row();
-                                        if(@$result->isError == 1){
-                                                $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
-                                        }else{
-                                                $response["result"] = true;
-                                                $response["resultCode"] = 0;
-                                                $response["message"] = $query->result();
-                                        }
-                                }
-                        }
-                }
-                return $response;
-        }
-        public function getTapStatuses($parameters){
-                $i = 0;
-                $k = 0;
-                $mandatoryParameters = array("accessToken","userId");
+                $mandatoryParameters = array("accessToken","userId"); 
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -166,7 +122,7 @@ class User_model extends CI_Model {
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL GET_TAP_STATUSES('".$accessToken."',".$userId.")");
+                                        $query = $this->db->query("CALL GET_USER_GROUPS('".$accessToken."',".$userId.")");
                                         $result = $query->row();
                                         if(@$result->isError == 1){
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
@@ -180,10 +136,10 @@ class User_model extends CI_Model {
                 }
                 return $response;
         }
-        public function addTap($parameters){
+        public function addUser($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","Name","ID1","ID2","ID3","Version","HoldingID","CompanyID","BarGroupID","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","collector_id","TapStatusID"); 
+                $mandatoryParameters = array("accessToken","userId","first_name","last_name","user_email","user_password","CompanyID","phone","group_id","address","country_id","city_id","county_id","postcode"); 
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -192,7 +148,7 @@ class User_model extends CI_Model {
                 if($k>0){
                         $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
                 }else{
-                        $availableParameters = array("accessToken","userId","Name","ID1","ID2","ID3","Version","HoldingID","CompanyID","BarGroupID","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","collector_id","TapStatusID");
+                        $availableParameters = array("accessToken","userId","first_name","last_name","user_email","user_password","HoldingID","CompanyID","phone","group_id","address","country_id","city_id","county_id","postcode");
                         foreach ($parameters as $key => $parameter) {
                                 if(!in_array($key,$availableParameters)){
                                         $i++;
@@ -203,58 +159,55 @@ class User_model extends CI_Model {
                         }else{
                                 $accessToken = $parameters["accessToken"];
                                 $userId = $parameters["userId"];
-                                $Name = addslashes($parameters["Name"]);
-                                $ID1 = addslashes($parameters["ID1"]);
-                                $ID2 = addslashes($parameters["ID2"]);
-                                $ID3 = addslashes($parameters["ID3"]);
-                                $Version = addslashes($parameters["Version"]);
-                                $HoldingID = $parameters["HoldingID"];
+                                $first_name = addslashes($parameters["first_name"]);
+                                $last_name = addslashes($parameters["last_name"]);
+                                $user_email = addslashes($parameters["user_email"]);
+                                $user_password = addslashes($parameters["user_password"]);
+                                $HoldingID = @$parameters["HoldingID"];
                                 $CompanyID = $parameters["CompanyID"];
-                                $BarGroupID = $parameters["BarGroupID"];
-                                $AlcoholGroupID = $parameters["AlcoholGroupID"];
-                                $AlcoholTypeID = $parameters["AlcoholTypeID"];
-                                $AlcoholBrandID = $parameters["AlcoholBrandID"];
-                                $collector_id = $parameters["collector_id"];
-                                $TapStatusID = $parameters["TapStatusID"];
+                                $phone = $parameters["phone"];
+                                $group_id = $parameters["group_id"];
+                                $address = $parameters["address"];
+                                $country_id = $parameters["country_id"];
+                                $city_id = $parameters["city_id"];
+                                $county_id = $parameters["county_id"];
+                                $postcode = $parameters["postcode"];
+                                if(!$HoldingID){
+                                        $HoldingID = "NULL";
+                                }
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($HoldingID)){
+                                if($HoldingID!="NULL" && !is_numeric($HoldingID)){
                                         $response = $this->globalfunctions->returnMessage(1003,"HoldingID parametresi numeric olmalıdır.",true);
                                 }else
                                 if(!is_numeric($CompanyID)){
                                         $response = $this->globalfunctions->returnMessage(1004,"CompanyID parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($BarGroupID)){
-                                        $response = $this->globalfunctions->returnMessage(1005,"BarGroupID parametresi numeric olmalıdır.",true);
+                                if(!is_numeric($group_id)){
+                                        $response = $this->globalfunctions->returnMessage(1005,"group_id parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($AlcoholGroupID)){
-                                        $response = $this->globalfunctions->returnMessage(1006,"AlcoholGroupID parametresi numeric olmalıdır.",true);
+                                if(!is_numeric($country_id)){
+                                        $response = $this->globalfunctions->returnMessage(1006,"country_id parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($AlcoholTypeID)){
-                                        $response = $this->globalfunctions->returnMessage(1007,"AlcoholTypeID parametresi numeric olmalıdır.",true);
+                                if(!is_numeric($city_id)){
+                                        $response = $this->globalfunctions->returnMessage(1007,"city_id parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($AlcoholBrandID)){
-                                        $response = $this->globalfunctions->returnMessage(1008,"AlcoholBrandID parametresi numeric olmalıdır.",true);
-                                }else
-                                if(!is_numeric($collector_id)){
-                                        $response = $this->globalfunctions->returnMessage(1009,"collector_id parametresi numeric olmalıdır.",true);
-                                }else
-                                if(!is_numeric($TapStatusID)){
-                                        $response = $this->globalfunctions->returnMessage(10010,"TapStatusID parametresi numeric olmalıdır.",true);
+                                if(!is_numeric($county_id)){
+                                        $response = $this->globalfunctions->returnMessage(1008,"county_id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL ADD_OR_UPDATE_TAPS('".$accessToken."',".$userId.",NULL,'".$Name."','".$ID1."','".$ID2."','".$ID3."','".$Version."',".$HoldingID.",".$CompanyID.",".$BarGroupID.",".$AlcoholGroupID.",".$AlcoholTypeID.",".$AlcoholBrandID.",".$collector_id.",".$TapStatusID.")");
+                                        $query = $this->db->query("CALL ADD_OR_UPDATE_USER('".$accessToken."',".$userId.",NULL,'".$this->input->ip_address()."','".$first_name."','".$last_name."','".$user_email."','".$user_password."',".$HoldingID.",".$CompanyID.",'".$phone."',".$group_id.",'".$address."',".$country_id.",".$city_id.",".$county_id.",'".$postcode."')");
                                         $result = $query->row();
-                                        $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
+                                        $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,$result->isError);
                                 }
                         }
                 }
                 return $response;
         }
-        public function updateTap($parameters){
+        public function updateUser($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","TapID","Name","ID1","ID2","ID3","Version","HoldingID","CompanyID","BarGroupID","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","collector_id","TapStatusID"); 
+                $mandatoryParameters = array("accessToken","userId","id","first_name","last_name","user_email","user_password","CompanyID","phone","group_id","address","country_id","city_id","county_id","postcode"); 
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -263,7 +216,7 @@ class User_model extends CI_Model {
                 if($k>0){
                         $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
                 }else{
-                        $availableParameters = array("accessToken","userId","TapID","Name","ID1","ID2","ID3","Version","HoldingID","CompanyID","BarGroupID","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","collector_id","TapStatusID");
+                        $availableParameters = array("accessToken","userId","id","first_name","last_name","user_email","user_password","HoldingID","CompanyID","phone","group_id","address","country_id","city_id","county_id","postcode");
                         foreach ($parameters as $key => $parameter) {
                                 if(!in_array($key,$availableParameters)){
                                         $i++;
@@ -274,53 +227,50 @@ class User_model extends CI_Model {
                         }else{
                                 $accessToken = $parameters["accessToken"];
                                 $userId = $parameters["userId"];
-                                $TapID = $parameters["TapID"];
-                                $Name = addslashes($parameters["Name"]);
-                                $ID1 = addslashes($parameters["ID1"]);
-                                $ID2 = addslashes($parameters["ID2"]);
-                                $ID3 = addslashes($parameters["ID3"]);
-                                $Version = addslashes($parameters["Version"]);
-                                $HoldingID = $parameters["HoldingID"];
+                                $id = $parameters["id"];
+                                $first_name = addslashes($parameters["first_name"]);
+                                $last_name = addslashes($parameters["last_name"]);
+                                $user_email = addslashes($parameters["user_email"]);
+                                $user_password = addslashes($parameters["user_password"]);
+                                $HoldingID = @$parameters["HoldingID"];
                                 $CompanyID = $parameters["CompanyID"];
-                                $BarGroupID = $parameters["BarGroupID"];
-                                $AlcoholGroupID = $parameters["AlcoholGroupID"];
-                                $AlcoholTypeID = $parameters["AlcoholTypeID"];
-                                $AlcoholBrandID = $parameters["AlcoholBrandID"];
-                                $collector_id = $parameters["collector_id"];
-                                $TapStatusID = $parameters["TapStatusID"];
+                                $phone = $parameters["phone"];
+                                $group_id = $parameters["group_id"];
+                                $address = $parameters["address"];
+                                $country_id = $parameters["country_id"];
+                                $city_id = $parameters["city_id"];
+                                $county_id = $parameters["county_id"];
+                                $postcode = $parameters["postcode"];
+                                if(!$HoldingID){
+                                        $HoldingID = "NULL";
+                                }
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($TapID)){
-                                        $response = $this->globalfunctions->returnMessage(10011,"TapID parametresi numeric olmalıdır.",true);
+                                if(!is_numeric($id)){
+                                        $response = $this->globalfunctions->returnMessage(1009,"id parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($HoldingID)){
+                                if($HoldingID!="NULL" && !is_numeric($HoldingID)){
                                         $response = $this->globalfunctions->returnMessage(1003,"HoldingID parametresi numeric olmalıdır.",true);
                                 }else
                                 if(!is_numeric($CompanyID)){
                                         $response = $this->globalfunctions->returnMessage(1004,"CompanyID parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($BarGroupID)){
-                                        $response = $this->globalfunctions->returnMessage(1005,"BarGroupID parametresi numeric olmalıdır.",true);
+                                if(!is_numeric($group_id)){
+                                        $response = $this->globalfunctions->returnMessage(1005,"group_id parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($AlcoholGroupID)){
-                                        $response = $this->globalfunctions->returnMessage(1006,"AlcoholGroupID parametresi numeric olmalıdır.",true);
+                                if(!is_numeric($country_id)){
+                                        $response = $this->globalfunctions->returnMessage(1006,"country_id parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($AlcoholTypeID)){
-                                        $response = $this->globalfunctions->returnMessage(1007,"AlcoholTypeID parametresi numeric olmalıdır.",true);
+                                if(!is_numeric($city_id)){
+                                        $response = $this->globalfunctions->returnMessage(1007,"city_id parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($AlcoholBrandID)){
-                                        $response = $this->globalfunctions->returnMessage(1008,"AlcoholBrandID parametresi numeric olmalıdır.",true);
-                                }else
-                                if(!is_numeric($collector_id)){
-                                        $response = $this->globalfunctions->returnMessage(1009,"collector_id parametresi numeric olmalıdır.",true);
-                                }else
-                                if(!is_numeric($TapStatusID)){
-                                        $response = $this->globalfunctions->returnMessage(10010,"TapStatusID parametresi numeric olmalıdır.",true);
+                                if(!is_numeric($county_id)){
+                                        $response = $this->globalfunctions->returnMessage(1008,"county_id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL ADD_OR_UPDATE_TAPS('".$accessToken."',".$userId.",".$TapID.",'".$Name."','".$ID1."','".$ID2."','".$ID3."','".$Version."',".$HoldingID.",".$CompanyID.",".$BarGroupID.",".$AlcoholGroupID.",".$AlcoholTypeID.",".$AlcoholBrandID.",".$collector_id.",".$TapStatusID.")");
+                                        $query = $this->db->query("CALL ADD_OR_UPDATE_USER('".$accessToken."',".$userId.",".$id.",'".$this->input->ip_address()."','".$first_name."','".$last_name."','".$user_email."','".$user_password."',".$HoldingID.",".$CompanyID.",'".$phone."',".$group_id.",'".$address."',".$country_id.",".$city_id.",".$county_id.",'".$postcode."')");
                                         $result = $query->row();
-                                        $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
+                                        $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,$result->isError);
                                 }
                         }
                 }
