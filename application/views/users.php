@@ -227,9 +227,9 @@
                 }else
                 if($field["id"] == "HoldingID"){
                   echo '<div class="col-sm-6">
-                  <div class="form-group form-group-default form-group-default-select2 required">
+                  <div class="form-group form-group-default form-group-default-select2">
                         <label class="">'.$field["name"].'</label>
-                          <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
+                          <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
                           <option value="0">Lütfen seçin</option>';
                             foreach ($holdings as $key => $holding) {
                               echo '
@@ -328,8 +328,7 @@
             country_id:{min:1},
             city_id:{min:1},
             county_id:{min:1},
-            CompanyID:{min:1},
-            HoldingID:{min:1}
+            CompanyID:{min:1}
         },
           submitHandler: function(form) {
             addNewUser();

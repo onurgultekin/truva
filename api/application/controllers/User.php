@@ -29,6 +29,10 @@ class User extends REST_Controller {
 		$message = $this->User_model->getUserLog($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function getUserList_post(){
+		$message = $this->User_model->getUserList($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 	public function getTapByBarGroupId_post(){
 		$message = $this->User_model->getTapByBarGroupId($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);

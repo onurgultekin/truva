@@ -75,6 +75,13 @@ class Admin extends CI_Controller {
 		"type"=>"email"
 		],
 		[
+		"name"=>"Holding seçin",
+		"id"=>"HoldingID",
+		"type"=>"select",
+		"disabled"=>"",
+		"class"=>"holdingsinmodal"
+		],
+		[
 		"name"=>"Şirket seçin",
 		"id"=>"CompanyID",
 		"type"=>"select",
@@ -138,7 +145,8 @@ class Admin extends CI_Controller {
 		$cities = $this->general_model->getCitiesByCountryId($user[0]->country_id);
 		$counties = $this->general_model->getDistrictsByCityId($user[0]->city_id);
 		$userGroups = $this->general_model->getUserGroups();
-		$companies = $this->general_model->getCompanyByHoldingId($user[0]->HoldingID);
+		$companies = $this->general_model->getCompanies();
+		$holdings = $this->general_model->getHoldings();
 		$i=0;
 		echo '<div class="row">';
 		foreach ($formFields as $key => $field) {
@@ -235,6 +243,21 @@ class Admin extends CI_Controller {
 								$selected = 'selected = "selected"';
 							}
 							echo '<option '.$selected.' value='.$company->CompanyID.'>'.$company->CompanyName.'</option>';
+						}
+						echo '</select>
+					</div></div>';
+				}else
+				if($field["id"] == "HoldingID"){
+					echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2">
+					<label class="">'.$field["name"].'</label>
+					<select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
+						<option value="0">Lütfen seçin</option>';
+						foreach ($holdings as $key => $holding) {
+							$selected = '';
+							if($holding->HoldingID == $user[0]->HoldingID){
+								$selected = 'selected = "selected"';
+							}
+							echo '<option '.$selected.' value='.$holding->HoldingID.'>'.$holding->HoldingName.'</option>';
 						}
 						echo '</select>
 					</div></div>';
