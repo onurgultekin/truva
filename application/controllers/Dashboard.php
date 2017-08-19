@@ -20,7 +20,7 @@ class Dashboard extends CI_Controller {
 		$data["totalTapCount"] = $this->general_model->getTotalTapCount();
 		$data["totalActiveTapCount"] = $this->general_model->getTotalActiveTapCount();
 		$data["alcoholTypePercentages"] = $this->general_model->getAlcoholTypePercentage();
-		$dateBegin = date("Y-m-d", strtotime("-30 day"));
+		$dateBegin = date("Y-m-d", strtotime("-1 week"));
 		$dateEnd = date("Y-m-d");
 		$data["totalDailyConsumed"] = $this->general_model->getDailyConsumedAlcoholFilteredByDate($dateBegin,$dateEnd,0,0,0,0);
 		$data["averageConsumed"] = $this->general_model->getDailyAverageConsumedAlcoholFilteredByDate($dateBegin,$dateEnd,0,0,0,0);

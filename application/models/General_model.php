@@ -298,6 +298,58 @@ class General_model extends CI_Model
 		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
+	public function getTotalCompanyCountByCountryId($countryId){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"countryId"=>$countryId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getTotalCompanyByCountryId',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response->message;
+	}
+	public function getTotalCompanyCountByCityId($cityId){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"cityId"=>$cityId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getTotalCompanyByCityId',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response->message;
+	}
+	public function getTotalCompanyCountByCountyId($countyId){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"countyId"=>$countyId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getTotalCompanyByCountyId',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response->message;
+	}
+	public function getTotalCompanyCountByAreaId($areaId){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"areaId"=>$areaId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getTotalCompanyByAreaId',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response->message;
+	}
 	public function getTotalTapCount(){
 		$accessToken = $this->session->userdata("accessToken");
 		$userId = $this->session->userdata("userId");
@@ -311,6 +363,58 @@ class General_model extends CI_Model
 		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
+	public function getTotalTapCountByCountryId($countryId){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"countryId"=>$countryId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getTotalTapByCountryId',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response->message;
+	}
+	public function getTotalTapCountByCityId($cityId){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"cityId"=>$cityId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getTotalTapByCityId',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response->message;
+	}
+	public function getTotalTapCountByCountyId($countyId){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"countyId"=>$countyId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getTotalTapByCountyId',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response->message;
+	}
+	public function getTotalTapCountByAreaId($areaId){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"areaId"=>$areaId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getTotalTapByAreaId',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response->message;
+	}
 	public function getTotalActiveTapCount(){
 		$accessToken = $this->session->userdata("accessToken");
 		$userId = $this->session->userdata("userId");
@@ -319,6 +423,59 @@ class General_model extends CI_Model
 		curl_setopt_array($curl, array(
 		CURLOPT_RETURNTRANSFER => 1,
 		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getTotalActiveTap',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response->message;
+	}
+
+	public function getTotalActiveTapCountByCountryId($countryId){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"countryId"=>$countryId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getTotalActiveTapByCountryId',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response->message;
+	}
+	public function getTotalActiveTapCountByCityId($cityId){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"cityId"=>$cityId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getTotalActiveTapByCityId',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response->message;
+	}
+	public function getTotalActiveTapCountByCountyId($countyId){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"countyId"=>$countyId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getTotalActiveTapByCountyId',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response->message;
+	}
+	public function getTotalActiveTapCountByAreaId($areaId){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"areaId"=>$areaId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'helper/getTotalActiveTapByAreaId',
 		CURLOPT_POSTFIELDS => http_build_query($data)
 		));
 		$response = json_decode(curl_exec($curl));

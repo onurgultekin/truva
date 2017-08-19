@@ -37,12 +37,60 @@ class Helper extends REST_Controller {
 		$message = $this->Helper_model->getTotalCompany($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function getTotalCompanyByCountryId_post(){
+		$message = $this->Helper_model->getTotalCompanyByCountryId($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getTotalCompanyByCityId_post(){
+		$message = $this->Helper_model->getTotalCompanyByCityId($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getTotalCompanyByCountyId_post(){
+		$message = $this->Helper_model->getTotalCompanyByCountyId($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getTotalCompanyByAreaId_post(){
+		$message = $this->Helper_model->getTotalCompanyByAreaId($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 	public function getTotalTap_post(){
 		$message = $this->Helper_model->getTotalTap($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function getTotalTapByCountryId_post(){
+		$message = $this->Helper_model->getTotalTapByCountryId($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getTotalTapByCityId_post(){
+		$message = $this->Helper_model->getTotalTapByCityId($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getTotalTapByCountyId_post(){
+		$message = $this->Helper_model->getTotalTapByCountyId($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getTotalTapByAreaId_post(){
+		$message = $this->Helper_model->getTotalTapByAreaId($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 	public function getTotalActiveTap_post(){
 		$message = $this->Helper_model->getTotalActiveTap($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getTotalActiveTapByCountryId_post(){
+		$message = $this->Helper_model->getTotalActiveTapByCountryId($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getTotalActiveTapByCityId_post(){
+		$message = $this->Helper_model->getTotalActiveTapByCityId($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getTotalActiveTapByCountyId_post(){
+		$message = $this->Helper_model->getTotalActiveTapByCountyId($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getTotalActiveTapByAreaId_post(){
+		$message = $this->Helper_model->getTotalActiveTapByAreaId($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 	public function getTotalActiveTapByHoldingID_post(){

@@ -1205,6 +1205,33 @@ class General extends CI_Controller {
 		$data["average"] = $this->general_model->getDailyAverageConsumedAlcoholFilteredByDate($dateBegin,$dateEnd,$holdingId,$companyId,$barGroupId,$tapId);
 		echo json_encode($data);
 	}
+	public function getDashboardDataForStatistics(){
+		header("Content-type:application/json");
+		$this->load->model("general_model");
+		$countryId = $this->input->post("countryId");
+		$cityId = $this->input->post("cityId");
+		$countyId = @$this->input->post("countyId");
+		$areaId = @$this->input->post("areaId");
+		$data["companyCount"] = $this->general_model->getTotalCompanyCountByCountryId($countryId);
+		$data["tapCount"] = $this->general_model->getTotalTapCountByCountryId($countryId);
+		$data["activeTapCount"] = $this->general_model->getTotalActiveTapCountByCountryId($countryId);
+		if(isset($cityId)){
+			$data["companyCount"] = $this->general_model->getTotalCompanyCountByCityId($cityId);
+			$data["tapCount"] = $this->general_model->getTotalTapCountByCityId($cityId);
+			$data["activeTapCount"] = $this->general_model->getTotalActiveTapCountByCityId($cityId);
+		}
+		if(isset($countyId)){
+			$data["companyCount"] = $this->general_model->getTotalCompanyCountByCountyId($countyId);
+			$data["tapCount"] = $this->general_model->getTotalTapCountByCountyId($countyId);
+			$data["activeTapCount"] = $this->general_model->getTotalActiveTapCountByCountyId($countyId);
+		}
+		if(isset($areaId)){
+			$data["companyCount"] = $this->general_model->getTotalCompanyCountByAreaId($areaId);
+			$data["tapCount"] = $this->general_model->getTotalTapCountByAreaId($areaId);
+			$data["activeTapCount"] = $this->general_model->getTotalActiveTapCountByAreaId($areaId);
+		}
+		echo json_encode($data);
+	}
 	public function getTechnicalServiceById(){
 		$formFields= [
 		[

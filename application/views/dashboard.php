@@ -314,6 +314,66 @@
     <script src="<?php echo base_url() ?>assets/js/scripts.js?v=<?php echo time(); ?>" type="text/javascript"></script>
     <script type="text/javascript">
         $(function () {
+        $(".countries").on("change",function(){
+          countryId = $(this).val();
+          $(".panel").parent().find(".overlay").removeClass("unvisible");
+          $.ajax({
+            type:"POST",
+            data:{countryId:countryId},
+            url:base_url+"/general/getDashboardDataForStatistics",
+            success:function(data){
+              $(".bg-success .panel-body h3 span").html(data.companyCount);
+              $(".bg-primary .panel-body h3 span").html(data.tapCount);
+              $(".bg-warning .panel-body h3 span").html(data.activeTapCount);
+              $(".panel").parent().find(".overlay").addClass("unvisible");
+            }
+          })
+        })
+        $(".cities").on("change",function(){
+          cityId = $(this).val();
+          $(".panel").parent().find(".overlay").removeClass("unvisible");
+          $.ajax({
+            type:"POST",
+            data:{cityId:cityId},
+            url:base_url+"/general/getDashboardDataForStatistics",
+            success:function(data){
+              $(".bg-success .panel-body h3 span").html(data.companyCount);
+              $(".bg-primary .panel-body h3 span").html(data.tapCount);
+              $(".bg-warning .panel-body h3 span").html(data.activeTapCount);
+              $(".panel").parent().find(".overlay").addClass("unvisible");
+            }
+          })
+        })
+        $(".districts").on("change",function(){
+          countyId = $(this).val();
+          $(".panel").parent().find(".overlay").removeClass("unvisible");
+          $.ajax({
+            type:"POST",
+            data:{countyId:countyId},
+            url:base_url+"/general/getDashboardDataForStatistics",
+            success:function(data){
+              $(".bg-success .panel-body h3 span").html(data.companyCount);
+              $(".bg-primary .panel-body h3 span").html(data.tapCount);
+              $(".bg-warning .panel-body h3 span").html(data.activeTapCount);
+              $(".panel").parent().find(".overlay").addClass("unvisible");
+            }
+          })
+        })
+        $(".areas").on("change",function(){
+          areaId = $(this).val();
+          $(".panel").parent().find(".overlay").removeClass("unvisible");
+          $.ajax({
+            type:"POST",
+            data:{areaId:areaId},
+            url:base_url+"/general/getDashboardDataForStatistics",
+            success:function(data){
+              $(".bg-success .panel-body h3 span").html(data.companyCount);
+              $(".bg-primary .panel-body h3 span").html(data.tapCount);
+              $(".bg-warning .panel-body h3 span").html(data.activeTapCount);
+              $(".panel").parent().find(".overlay").addClass("unvisible");
+            }
+          })
+        })
         $(".holdings").on("change",function(){
             var dateBegin = $("#dateBegin").val();
             var dateEnd = $("#dateEnd").val();
@@ -493,7 +553,7 @@
 });
             var personBased = Highcharts.chart('container2', {
     chart: {
-        type: 'bar'
+        type: 'spline'
     },
     title: {
         text: 'Kişi bazlı ortalama içki tüketimi'
