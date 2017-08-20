@@ -62,9 +62,37 @@ class Welcome extends CI_Controller {
 		$this->load->view('forgotPassword');
 	}
 
+	public function resetPassword()
+	{
+		$this->load->view('resetPassword');
+	}
+
 	public function changePassword()
 	{
 		$this->load->view('changePassword');
+	}
+
+	public function resetPasswordProcess(){
+		header("Content-Type:application/json");
+		$password = $_POST["password"];
+		$password2 = $_POST["password2"];
+		$userId = $_POST["userId"];
+		$hashCode = $_POST["hashCode"];
+		$data = array("password" => $password,"password2"=>$password2,"userId"=>$userId,"hashCode"=>$hashCode);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'login/resetPassword',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$resp = curl_exec($curl);
+		$response = json_decode($resp);
+		if($response->resultCode == 0){
+			$result["success"] = true;
+		}else{
+			$result["success"] = false;
+		}
+		echo json_encode($result);
 	}
 	/*public function getAlcoholBrandByAlcoholType(){
 		$token = $this->session->userdata("token");

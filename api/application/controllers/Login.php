@@ -33,4 +33,8 @@ class Login extends REST_Controller {
 		$message = $this->login_model->forgotPassword($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function resetPassword_post(){
+		$message = $this->login_model->resetPassword($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 }

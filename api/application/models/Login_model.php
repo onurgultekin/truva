@@ -252,8 +252,8 @@ class Login_model extends CI_Model {
                                                                                                                                                                                 <tr>
                                                                                                                                                                                         <td style="font-family: Helvetica, arial, sans-serif; font-size: 16px; color: #666666; text-align:center; line-height: 30px;" st-content="fulltext-content">
                                                                                                                                                                                                 Şifrenizi unuttuğunuz için bu maili aldınız.<br>
-                                                                                                                                                                                                Şifrenizi değiştirmek için aşağıdaki linkte tıklayın.<br>
-                                                                                                                                                                                                <a href ="http://test.truva.co/login/updatePassword/'.$userId.'/'.$hashCode.'"><b>Şifremi değişitir</b></a>
+                                                                                                                                                                                                Şifrenizi sıfırlamak için aşağıdaki linkte tıklayın.<br>
+                                                                                                                                                                                                <a href ="http://test.truva.co/resetPassword/'.$userId.'/'.$hashCode.'"><b>Şifrenizi sıfırlayın</b></a>
                                                                                                                                                                                         </td>
                                                                                                                                                                                 </tr>
                                                                                                                                                                                 <!-- End of content -->
@@ -356,6 +356,54 @@ class Login_model extends CI_Model {
                                                         $response["message"] = $query->result();
                                                 }
                                         }
+                                }
+                        }
+                }
+                return $response;
+        }
+        public function resetPassword($parameters){
+                $i = 0;
+                $k = 0;
+                $mandatoryParameters = array("password","password2","userId","hashCode"); 
+                foreach ($mandatoryParameters as $mandatoryParameter) {
+                        if(!array_key_exists($mandatoryParameter,$parameters)){
+                                $k++;
+                        }
+                } 
+                if($k>0){
+                        $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
+                }else{
+                        $availableParameters = array("password","password2","userId","hashCode");
+                        foreach ($parameters as $key => $parameter) {
+                                if(!in_array($key,$availableParameters)){
+                                        $i++;
+                                }
+                        }
+                        if($i>0){
+                                $response = $this->globalfunctions->returnMessage(1001,"Geçersiz istek. Bilinmeyen parametre girdiniz.",true);
+                        }else{
+                                $password2 = $parameters["password2"];
+                                $password = $parameters["password"];
+                                $userId = $parameters["userId"];
+                                $hashCode = $parameters["hashCode"];
+                                if(!$userId){
+                                        $response = $this->globalfunctions->returnMessage(1,"user id giriniz.",true);
+                                }else
+                                if(!$hashCode){
+                                        $response = $this->globalfunctions->returnMessage(2,"hashCode giriniz.",true);
+                                }else
+                                if(!$password){
+                                        $response = $this->globalfunctions->returnMessage(3,"Şifrenizi giriniz.",true);
+                                }else
+                                if(!$password2){
+                                        $response = $this->globalfunctions->returnMessage(4,"Şifrenizi tekrar giriniz.",true);
+                                }else
+                                if($password2 != $password){
+                                        $response = $this->globalfunctions->returnMessage(5,"Şifreleriniz eşleşmiyor.",true);
+                                }else{
+                                        $query = $this->db->query("CALL RESET_PASSWORD('".$password."',".$userId.",'".$hashCode."')");
+                                        $result = $query->row();
+                                        $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,$result->isError);
                                 }
                         }
                 }

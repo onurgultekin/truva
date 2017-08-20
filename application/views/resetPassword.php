@@ -1,6 +1,3 @@
-<?php 
-echo MD5(SHA1(MD5(MD5("password"))));
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,14 +56,20 @@ echo MD5(SHA1(MD5(MD5("password"))));
 			<div class="login-container bg-white">
 				<div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
 					<img src="<?php echo base_url() ?>assets/img/logo.png" alt="logo" data-src="<?php echo base_url() ?>assets/img/logo.png" data-src-retina="<?php echo base_url() ?>assets/img/logo_2x.png" width="78" height="22">
-					<p class="p-t-35">Şifremi unuttum</p>
+					<p class="p-t-35">Şifrenizi sıfırlayın</p>
 					<!-- START Login Form -->
 					<form id="form-login" class="p-t-15" role="form">
 						<!-- START Form Control-->
 						<div class="form-group form-group-default required">
-							<label>E-posta adresiniz</label>
+							<label>Yeni şifreniz</label>
 							<div class="controls">
-								<input type="email" name="username" class="form-control username" required data-msg="Lütfen geçerli bir e-posta adresi giriniz." required>
+								<input type="password" name="password" id="password" class="form-control password" required data-msg="Bu alan zorunludur." required>
+							</div>
+						</div>
+						<div class="form-group form-group-default required">
+							<label>Yeni şifreniz (tekrar)</label>
+							<div class="controls">
+								<input type="password" name="password2" id="password2" class="form-control password2" required data-msg="Şifreleriniz eşleşmiyor." required>
 							</div>
 						</div>
 						<!-- END Form Control-->
@@ -74,11 +77,11 @@ echo MD5(SHA1(MD5(MD5("password"))));
 					</form>
 					<div class="alert alert-danger loginError unvisible m-t-10" role="alert">
 						<button class="close" data-dismiss="alert"></button>
-						<strong>Hata: </strong>Sistemde kayıtlı mail adresi bulunamamıştır. Lütfen tekrar mail adresinizi giriniz. Kayıtlı mail adresinizi hatırlamıyorsanız lütfen support@truva.co adresine mail gönderiniz.
+						<strong>Hata: </strong>Şifreniz sıfırlanırken bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.
 					</div>
 					<div class="alert alert-success mailSuccess unvisible m-t-10" role="alert">
 						<!-- <button class="close" data-dismiss="alert"></button> -->
-						Belirttiğiniz mail adresine şifrenizi sıfırlamanız için bir mail gönderdik. Gelen linke tıklayarak şifrenizi değiştirebilirsiniz.
+						Şifreniz başarıyla değiştirilmiştir. Yeni şifrenizi kullanabilirsiniz. Giriş yapmak için <a href="<?php echo base_url() ?>">tıklayınız.</a>
 					</div>
 				</div>
 			</div>
@@ -124,20 +127,26 @@ echo MD5(SHA1(MD5(MD5("password"))));
 			$(function()
 			{
 				$('#form-login').validate({
+					rules: {
+					    password2: {
+					      equalTo: "#password"
+					    }
+					  },
 					submitHandler: function(form) {
 						$(".loginError,.mailSuccess").addClass("unvisible");
-						forgotPasswordCheck();
+						resetPasswordCheck();
 					  }
 				})
 			})
-			function forgotPasswordCheck(){
-				var username = $(".username").val();
+			function resetPasswordCheck(){
+				var password = $(".password").val();
+				var password2 = $(".password2").val();
 				Pace.restart();
 				$.ajax({
 					type:"POST",
-					url:"/welcome/forgotPasswordCheck",
+					url:"/welcome/resetPasswordProcess",
 					dataType:"json",
-					data:{email:username},
+					data:{password:password,password2:password2,userId:<?php echo $this->uri->segment(2) ?>,hashCode:"<?php echo $this->uri->segment(3) ?>"},
 					success:function(data){
 						Pace.stop();
 						if(data.success){
