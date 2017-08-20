@@ -181,7 +181,7 @@
       </div>
       <!-- END PAGE CONTENT WRAPPER -->
     </div>
-    <div class="modal fade stick-up disable-scroll" id="modalSlideUp" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal fade stick-up disable-scroll" id="modalSlideUp" role="dialog" aria-hidden="false">
       <div class="modal-dialog ">
         <div class="modal-content-wrapper">
           <div class="modal-content">

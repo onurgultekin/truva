@@ -513,6 +513,13 @@ class Admin extends CI_Controller {
 		$addNewTechnicalService = $this->admin_model->addNewTechnicalService($data);
 		echo json_encode($addNewTechnicalService);
 	}
+	public function updateTechnicalService(){
+		header("Content-type:application/json");
+		$this->load->model("admin_model");
+		$data = $this->input->post();
+		$updateTechnicalService = $this->admin_model->updateTechnicalService($data);
+		echo json_encode($updateTechnicalService);
+	}
 	public function deleteTechnicalService(){
 		header("Content-type:application/json");
 		$this->load->model("admin_model");
@@ -540,6 +547,13 @@ class Admin extends CI_Controller {
 		$data = $this->input->post();
 		$updateCompanyBarGroup = $this->admin_model->updateCompanyBarGroup($data);
 		echo json_encode($updateCompanyBarGroup);
+	}
+	public function updateTechnicalServiceUser(){
+		header("Content-type:application/json");
+		$this->load->model("admin_model");
+		$data = $this->input->post();
+		$updateTechnicalServiceUser = $this->admin_model->updateTechnicalServiceUser($data);
+		echo json_encode($updateTechnicalServiceUser);
 	}
 	public function addNewTap(){
 		header("Content-type:application/json");

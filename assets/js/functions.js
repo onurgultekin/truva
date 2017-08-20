@@ -21,7 +21,7 @@ function refreshLastTapData(){
     },10000);
 }
 function getCitiesInModal(){
-    $(".countriesinmodal").on("change",function(){
+    $("body").on("change",".countriesinmodal",function(){
         var selectedCountry = $(this).val();
         $.ajax({
             type:"POST",
@@ -104,6 +104,7 @@ var initTable = function(width = 184) {
 }
 function getDetails(button,endpoint,elementName,appendableDiv){
     $("body").on("click",button,function(){
+        Pace.restart();
         var elementId = $(this).parents("tr").attr("id");
         var request = $(this).attr("id");
         dataString={};
@@ -1171,11 +1172,50 @@ function addNewTechnicalService(){
         data:data,
         success:function(data){
             $(".modalError").html(data.message).removeClass("unvisible");
-            getBarGroups();
+            getTechnicalServices();
             setTimeout(function(){
                 $(".modalError").html('').addClass("unvisible");
                 $(".modalError").parents("div.modal").modal("hide");
             },modalCloseTimeout)
+        }
+    })
+}
+function updateTechnicalService(){
+    var data = $("#updateTechnicalServiceData" ).serializeObject();
+    $(".updateModalError").html('Lütfen bekleyiniz...');
+    $.ajax({
+        type:"POST",
+        url:base_url+"/admin/updateTechnicalService",
+        data:data,
+        success:function(data){
+            $(".updateModalError").html(data.message).removeClass("unvisible");
+            getTechnicalServices();
+              setTimeout(function(){
+                $(".updateModalError").addClass("unvisible");
+                $("#modalSlideUp").modal("hide");
+            },modalCloseTimeout)
+        }
+    })
+}
+function getTechnicalServices(){
+    Pace.restart();
+    $("#tableWithExportOptions").dataTable().fnDestroy();
+    $.ajax({
+        type:"GET",
+        url:base_url+"/general/getTechnicalServiceList",
+        success:function(data){
+            $("#tableWithExportOptions tbody").empty();
+            $.each(data,function(key,technicalService){
+                $("#tableWithExportOptions tbody").append('<tr id="'+technicalService.TechnicalServiceListID+'">\
+                    <td>'+technicalService.ServiceName+'</td>\
+                    <td>'+technicalService.Adress+'</td>\
+                    <td>'+technicalService.InvoiceTelephone+'</td>\
+                    <td>'+technicalService.InvoiceMobile+'</td>\
+                    <td>'+technicalService.InvoiceEmail+'</td>\
+                    <td><div class="pull-left"><button class="btn btn-primary getTechnicalServiceUsers btn-xs">Kullanıcı Ata</button><button class="btn btn-warning getTechnicalServiceDetails btn-xs m-r-5 m-l-5" id="duzenle">Düzenle</button><button class="btn btn-danger deleteTechnicalServiceModal btn-xs">Sil</button></div></td></tr>')
+            })
+            initTable(206);
+            Pace.stop();
         }
     })
 }
@@ -1268,6 +1308,23 @@ function updateCompanyBarGroup(){
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
                 $("#modalSlideUp").modal("hide");
+            },modalCloseTimeout)
+        }
+    })
+}
+function updateTechnicalServiceUser(){
+    var data = $("#updateTechnicalServiceUserData").serializeObject();
+    $(".updateModalError").html('Lütfen bekleyiniz...').removeClass("unvisible");
+    $.ajax({
+        type:"POST",
+        url:base_url+"/admin/updateTechnicalServiceUser",
+        data:data,
+        success:function(data){
+            $(".updateModalError").html(data.message).removeClass("unvisible");
+            getTechnicalServices();
+            setTimeout(function(){
+                $(".updateModalError").addClass("unvisible");
+                $("#technicalServiceUsers").modal("hide");
             },modalCloseTimeout)
         }
     })

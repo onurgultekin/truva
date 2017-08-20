@@ -808,7 +808,8 @@ class Admin_model extends CI_Model
 		return $response;
 	}
 	public function addNewTechnicalService($data){
-		$token = $this->session->userdata("token");
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
 		$ServiceName = $_POST["ServiceName"];
 		$Adress = $_POST["Adress"];
 		$InvoiceAddress = $_POST["InvoiceAddress"];
@@ -822,44 +823,81 @@ class Admin_model extends CI_Model
 		$CountyID = $_POST["CountyID"];
 		$AreaID = $_POST["AreaID"];
 		$data = array(
-			"postData" => 
-			array(
-				"ServiceName" => $ServiceName,
-				"Adress"=>$Adress,
-				"InvoiceAddress"=>$InvoiceAddress,
-				"TaxNo" => $TaxNo,
-				"TaxAdministrationName"=>$TaxAdministrationName,
-				"InvoiceTelephone"=>$InvoiceTelephone,
-				"InvoiceMobile" => $InvoiceMobile,
-				"InvoiceEmail"=>$InvoiceEmail,
-				"CountryID"=>$CountryID,
-				"CityID" => $CityID,
-				"CountyID"=>$CountyID,
-				"AreaID"=>$AreaID));
-		$data_string = json_encode($data);
-		$ch = curl_init(API_ENDPOINT.'technicalservice/addTechnicalServiceList');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'Content-Type: application/json',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+			"accessToken"=>$accessToken,
+			"userId"=>$userId,
+			"ServiceName" => $ServiceName,
+			"Adress"=>$Adress,
+			"InvoiceAddress"=>$InvoiceAddress,
+			"TaxNo" => $TaxNo,
+			"TaxAdministrationName"=>$TaxAdministrationName,
+			"InvoiceTelephone"=>$InvoiceTelephone,
+			"InvoiceMobile" => $InvoiceMobile,
+			"InvoiceEmail"=>$InvoiceEmail,
+			"CountryID"=>$CountryID,
+			"CityID" => $CityID,
+			"CountyID"=>$CountyID,
+			"AreaID"=>$AreaID);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'technicalservice/addTechnicalService',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response;
+	}
+	public function updateTechnicalService($data){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$TechnicalServiceListID = $_POST["TechnicalServiceListID"];
+		$ServiceName = $_POST["ServiceName"];
+		$Adress = $_POST["Adress"];
+		$InvoiceAddress = $_POST["InvoiceAddress"];
+		$TaxNo = $_POST["TaxNo"];
+		$TaxAdministrationName = $_POST["TaxAdministrationName"];
+		$InvoiceTelephone = $_POST["InvoiceTelephone"];
+		$InvoiceMobile = $_POST["InvoiceMobile"];
+		$InvoiceEmail = $_POST["InvoiceEmail"];
+		$CountryID = $_POST["CountryID"];
+		$CityID = $_POST["CityID"];
+		$CountyID = $_POST["CountyID"];
+		$AreaID = $_POST["AreaID"];
+		$data = array(
+			"accessToken"=>$accessToken,
+			"userId"=>$userId,
+			"TechnicalServiceListID"=>$TechnicalServiceListID,
+			"ServiceName" => $ServiceName,
+			"Adress"=>$Adress,
+			"InvoiceAddress"=>$InvoiceAddress,
+			"TaxNo" => $TaxNo,
+			"TaxAdministrationName"=>$TaxAdministrationName,
+			"InvoiceTelephone"=>$InvoiceTelephone,
+			"InvoiceMobile" => $InvoiceMobile,
+			"InvoiceEmail"=>$InvoiceEmail,
+			"CountryID"=>$CountryID,
+			"CityID" => $CityID,
+			"CountyID"=>$CountyID,
+			"AreaID"=>$AreaID);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'technicalservice/updateTechnicalService',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function deleteTechnicalServiceById($technicalServiceID){
-		$token = $this->session->userdata("token");
-		$ch = curl_init(API_ENDPOINT.'technicalservice/deleteTechnicalServiceList/'.$technicalServiceID);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'token:'.$token.'',
-		    'ipaddress:'.$this->input->ip_address().'',
-		    'identity:'.$this->session->userdata("identity").'')
-		);
-		$response = json_decode(curl_exec($ch));
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"TechnicalServiceListID"=>$technicalServiceID);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'technicalservice/deleteTechnicalService',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
 	public function addNewCompanyDailyGuest($data){
@@ -924,6 +962,29 @@ class Admin_model extends CI_Model
 		curl_setopt_array($curl, array(
 		CURLOPT_RETURNTRANSFER => 1,
 		CURLOPT_URL => NEW_API_ENDPOINT.'companybargroup/updateCompanyBarGroup',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response;
+	}
+	public function updateTechnicalServiceUser($data){
+		$TechnicalServiceListID = $_POST["TechnicalServiceListID"];
+		$UsersArray = @$_POST["technicalServiceUsers"];
+		if(is_array($UsersArray)){
+			$users = implode(",",$UsersArray);
+		}else{
+			$users = $UsersArray;
+		}
+		if(!$users){
+			$users = "";
+		}
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array("accessToken" => $accessToken, "userId" => $userId,"TechnicalServiceListID"=>$TechnicalServiceListID,"UserIDs"=>$users);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'technicalservice/updateUsersTechnicalService',
 		CURLOPT_POSTFIELDS => http_build_query($data)
 		));
 		$response = json_decode(curl_exec($curl));

@@ -168,7 +168,7 @@
       </div>
       <!-- END PAGE CONTENT WRAPPER -->
     </div>
-    <div class="modal fade stick-up disable-scroll" id="showHoldingCompanies" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal fade stick-up disable-scroll" id="showHoldingCompanies" role="dialog" aria-hidden="false">
       <div class="modal-dialog modal-lg">
         <div class="modal-content-wrapper">
           <div class="modal-content">

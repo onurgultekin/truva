@@ -74,7 +74,6 @@
               <tr>
               <th>Servis</th>
               <th>Adres</th>
-              <th>Yetkili Adı</th>
               <th>Yetkili Telefon</th>
               <th>Yetkili Mobile</th>
               <th>Yetkili Email</th>
@@ -87,11 +86,10 @@
                   echo '<tr id="'.$technicalService->TechnicalServiceListID.'">
                     <td>'.$technicalService->ServiceName.'</td>
                     <td>'.$technicalService->Adress.'</td>
-                    <td>'.$technicalService->UserID.'</td>
                     <td>'.$technicalService->InvoiceTelephone.'</td>
                     <td>'.$technicalService->InvoiceMobile.'</td>
                     <td>'.$technicalService->InvoiceEmail.'</td>
-                    <td><div class="pull-left"><button class="btn btn-warning getTechnicalServiceDetails btn-xs m-r-10" id="duzenle">Düzenle</button><button class="btn btn-danger deleteTechnicalServiceModal btn-xs">Sil</button></div></td>
+                    <td><div class="pull-left"><button class="btn btn-primary getTechnicalServiceUsers btn-xs">Kullanıcı Ata</button><button class="btn btn-warning getTechnicalServiceDetails btn-xs m-r-5 m-l-5" id="duzenle">Düzenle</button><button class="btn btn-danger deleteTechnicalServiceModal btn-xs">Sil</button></div></td>
                   </tr>';
                 }
                 ?>
@@ -127,6 +125,29 @@
                 <div class="form-group appendTechnicalServiceDataHere">
                 </div>
                 <button type="submit" class="btn btn-primary m-t-5 updateTechnicalService">Bilgileri Düzenle</button>
+                <div class="alert alert-success updateModalError unvisible m-t-10"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="modal fade stick-up disable-scroll" id="technicalServiceUsers" role="dialog" aria-hidden="false">
+      <div class="modal-dialog ">
+        <div class="modal-content-wrapper">
+          <div class="modal-content">
+            <div class="modal-header clearfix text-left">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+              </button>
+              <h5>Teknik Servis <span class="semi-bold">Kullanıcıları</span></h5>
+              <p class="p-b-10">Aşağıda teknik servis kullanıcıları ile ilgili bilgileri bulabilirsiniz.</p>
+            </div>
+            <div class="modal-body">
+              <form role="form" id="updateTechnicalServiceUserData">
+                <div class="form-group appendTechnicalServiceUserDataHere">
+                </div>
+                <button type="submit" class="btn btn-primary m-t-5 updateTechnicalServiceUser">Kullanıcıları teknik servis olarak ata</button>
                 <div class="alert alert-success updateModalError unvisible m-t-10"></div>
               </form>
             </div>
@@ -263,7 +284,7 @@
     <script src="<?php echo base_url() ?>truva/js/pages.min.js"></script>
     <script type="text/javascript">
       $(function(){
-        initTable();
+        initTable(206);
         getCitiesInModal();
         getDistrictsInModal();
         getAreasInModal();
@@ -279,8 +300,29 @@
             addNewTechnicalService();
             }
         });
+        $("#updateTechnicalServiceUserData").validate({
+          submitHandler: function(form) {
+            updateTechnicalServiceUser();
+            }
+        });
         $("#addNewTechnicalServiceModal").on("shown.bs.modal",function(){
           setTimeout(function () {$('select').select2();}, 300);
+        })
+        $("body").on("click",".getTechnicalServiceUsers",function(){
+          Pace.restart();
+          var technicalServiceId = $(this).parents("tr").attr("id");
+          $.ajax({
+            type:"POST",
+            data:{technicalServiceId:technicalServiceId},
+            url:base_url+"/general/getTechnicalServiceUsers",
+            success:function(data){
+              $(".appendTechnicalServiceUserDataHere").empty();
+              $(".appendTechnicalServiceUserDataHere").html(data);
+              $("select").select2();
+              $("#technicalServiceUsers").modal();
+              Pace.stop();
+            }
+          })
         })
         $("body").on("click",".deleteTechnicalServiceModal",function(){
           var userId = $(this).parents("tr").attr("id");
@@ -301,6 +343,10 @@
               $(".deleteModalError").html(data.message).removeClass("unvisible");
               $("table").find("tr#"+TechnicalServiceID).fadeOut(500,function(){
                 getTechnicalServices()
+                setTimeout(function(){
+                  $(".deleteModalError").addClass("unvisible");
+                  $(".deleteModalError").parents("div.modal").modal("hide");
+              },2000)
               })
             }
           })

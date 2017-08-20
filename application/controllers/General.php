@@ -1511,6 +1511,31 @@ class General extends CI_Controller {
 		</div>
 		</div>';
 	}
+	public function getTechnicalServiceUsers(){
+		$this->load->model("general_model");
+		$technicalServiceId = $this->input->post("technicalServiceId");
+		$technicalServiceUser = $this->general_model->getTechnicalServiceUsersById($technicalServiceId);
+		$allTechnicalServiceUsers = $this->general_model->getTechnicalServiceUsers();
+		$users = explode(",",$technicalServiceUser[0]->ids);
+		echo '<div class="row">
+		<input type="hidden" name="TechnicalServiceListID" value="'.$technicalServiceUser[0]->TechnicalServiceListID.'" />
+		<div class="col-md-12">
+		<div class="<div class="form-group form-group-default form-group-default-select2 required">
+		<select class="full-width" id="multiple" multiple data-init-plugin="select2" name="technicalServiceUsers">';
+		foreach ($allTechnicalServiceUsers as $key => $allTechnicalServiceUser) {
+				$selected = '';
+				foreach ($users as $key => $user) {
+					if($allTechnicalServiceUser->id == $user){
+						$selected = 'selected = "selected"';
+					}	
+				}
+				echo '<option '.$selected.' value="'.$allTechnicalServiceUser->id.'">'.$allTechnicalServiceUser->yetkili_kisi.'</option>';
+			}	
+		echo '</select>
+		</div>
+		</div>
+		</div>';
+	}
 	public function getTaps(){
 		header("Content-type:application/json");
 		$this->load->model("general_model");
@@ -1784,5 +1809,11 @@ class General extends CI_Controller {
 		$this->load->model("general_model");
 		$areas = $this->general_model->getTapStatuses();
 		echo json_encode($areas);
+	}
+	public function getTechnicalServiceList(){
+		header("Content-type:application/json");
+		$this->load->model("general_model");
+		$technicalServices = $this->general_model->getTechnicalServiceList();
+		echo json_encode($technicalServices);
 	}
 }
