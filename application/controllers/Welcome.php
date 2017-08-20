@@ -41,19 +41,15 @@ class Welcome extends CI_Controller {
 		header("Content-Type:application/json");
 		$email = $_POST["email"];
 		$data = array("email" => $email);
-		$data_string = json_encode($data);
-		$ch = curl_init(API_ENDPOINT.'token/forgot_password');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'Content-Type: application/json',
-		    'Content-Length: ' . strlen($data_string))
-		);                                                                                                                   
-		                                                                                                                     
-		$response = curl_exec($ch);
-		$response = json_decode($response);
-		if($response->result == 200){
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'login/forgotPassword',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$resp = curl_exec($curl);
+		$response = json_decode($resp);
+		if($response->resultCode == 0){
 			$result["success"] = true;
 		}else{
 			$result["success"] = false;
