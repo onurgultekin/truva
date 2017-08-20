@@ -1212,9 +1212,9 @@ function getTechnicalServices(){
                     <td>'+technicalService.InvoiceTelephone+'</td>\
                     <td>'+technicalService.InvoiceMobile+'</td>\
                     <td>'+technicalService.InvoiceEmail+'</td>\
-                    <td><div class="pull-left"><button class="btn btn-primary getTechnicalServiceUsers btn-xs">Kullanıcı Ata</button><button class="btn btn-warning getTechnicalServiceDetails btn-xs m-r-5 m-l-5" id="duzenle">Düzenle</button><button class="btn btn-danger deleteTechnicalServiceModal btn-xs">Sil</button></div></td></tr>')
+                    <td><div class="pull-left"><button class="btn btn-info getQualifiedUsers btn-xs m-r-5">Yetkili Kişiler</button><button class="btn btn-primary getTechnicalServiceUsers btn-xs">Kullanıcı Ata</button><button class="btn btn-warning getTechnicalServiceDetails btn-xs m-r-5 m-l-5" id="duzenle">Düzenle</button><button class="btn btn-danger deleteTechnicalServiceModal btn-xs">Sil</button></div></td></tr>')
             })
-            initTable(206);
+            initTable(291);
             Pace.stop();
         }
     })

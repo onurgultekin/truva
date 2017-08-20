@@ -74,9 +74,9 @@
               <tr>
               <th>Servis</th>
               <th>Adres</th>
-              <th>Yetkili Telefon</th>
-              <th>Yetkili Mobile</th>
-              <th>Yetkili Email</th>
+              <th>Telefon</th>
+              <th>Mobil Telefon</th>
+              <th>Email</th>
               <th class="no-sort"></th>
               </tr>
               </thead>
@@ -89,7 +89,7 @@
                     <td>'.$technicalService->InvoiceTelephone.'</td>
                     <td>'.$technicalService->InvoiceMobile.'</td>
                     <td>'.$technicalService->InvoiceEmail.'</td>
-                    <td><div class="pull-left"><button class="btn btn-primary getTechnicalServiceUsers btn-xs">Kullanıcı Ata</button><button class="btn btn-warning getTechnicalServiceDetails btn-xs m-r-5 m-l-5" id="duzenle">Düzenle</button><button class="btn btn-danger deleteTechnicalServiceModal btn-xs">Sil</button></div></td>
+                    <td><div class="pull-left"><button class="btn btn-info getQualifiedUsers btn-xs m-r-5">Yetkili Kişiler</button><button class="btn btn-primary getTechnicalServiceUsers btn-xs">Kullanıcı Ata</button><button class="btn btn-warning getTechnicalServiceDetails btn-xs m-r-5 m-l-5" id="duzenle">Düzenle</button><button class="btn btn-danger deleteTechnicalServiceModal btn-xs">Sil</button></div></td>
                   </tr>';
                 }
                 ?>
@@ -109,6 +109,33 @@
         <!-- END COPYRIGHT -->
       </div>
       <!-- END PAGE CONTENT WRAPPER -->
+    </div>
+    <div class="modal fade stick-up disable-scroll" id="showQualifiedUsers" tabindex="-1" role="dialog" aria-hidden="false">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content-wrapper">
+          <div class="modal-content">
+            <div class="modal-header clearfix text-left">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+              </button>
+              <h5>Teknik servise ait yetkili kişi <span class="semi-bold">bilgileri</span></h5>
+              <p class="p-b-10">Aşağıda teknik servise ait yetkili kişilerin bilgilerini bulabilirsiniz.</p>
+            </div>
+            <div class="modal-body">
+              <table class="table table-striped">
+                <thead>
+                  <th>Adı Soyadı</th>
+                  <th>Email</th>
+                  <th>Telefon</th>
+                </thead>
+                <tbody>
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
     <div class="modal fade stick-up disable-scroll" id="modalSlideUp" role="dialog" aria-hidden="false">
       <div class="modal-dialog ">
@@ -284,7 +311,7 @@
     <script src="<?php echo base_url() ?>truva/js/pages.min.js"></script>
     <script type="text/javascript">
       $(function(){
-        initTable(206);
+        initTable(291);
         getCitiesInModal();
         getDistrictsInModal();
         getAreasInModal();
@@ -324,6 +351,27 @@
             }
           })
         })
+        $("body").on("click",".getQualifiedUsers",function(){
+          Pace.restart();
+          var technicalServiceId = $(this).parents("tr").attr("id");
+        $.ajax({
+            type:"POST",
+            data:{technicalServiceId:technicalServiceId},
+            url:base_url+"/general/getQualifiedUsers",
+            success:function(data){
+              if(data.message.usernames!=""){
+                $("#showQualifiedUsers").find("table tbody").empty();
+                $.each(data.message.usernames,function(k,v){
+                  $("#showQualifiedUsers table tbody").append('<tr><td>'+v+'</td><td>'+data.message.emails[k]+'</td><td>'+data.message.phones[k]+'</td></tr>');
+                })
+              }else{
+                $("#showQualifiedUsers table tbody").html('<th class="text-center" colspan="3">Bu teknik servise ait kullanıcı bulunamadı.</th>');
+              }
+              $("#showQualifiedUsers").modal();
+              Pace.stop();
+            }
+          })
+    })
         $("body").on("click",".deleteTechnicalServiceModal",function(){
           var userId = $(this).parents("tr").attr("id");
           var userName = $(this).parents("tr").find("td:eq(0)").html();

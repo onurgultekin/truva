@@ -1536,6 +1536,20 @@ class General extends CI_Controller {
 		</div>
 		</div>';
 	}
+	public function getQualifiedUsers(){
+		header("Content-type:application/json");
+		$this->load->model("general_model");
+		$technicalServiceId = $this->input->post("technicalServiceId");
+		$technicalServiceUser = $this->general_model->getTechnicalServiceUsersById($technicalServiceId);
+		$allTechnicalServiceUsers = $this->general_model->getTechnicalServiceUsers();
+		$usernames = explode(",",$technicalServiceUser[0]->usernames);
+		$emails = explode(",",$technicalServiceUser[0]->emails);
+		$phones = explode(",",$technicalServiceUser[0]->phones);
+		$response["message"]["usernames"] = $usernames;
+		$response["message"]["emails"] = $emails;
+		$response["message"]["phones"] = $phones;
+		echo json_encode($response);
+	}
 	public function getTaps(){
 		header("Content-type:application/json");
 		$this->load->model("general_model");
