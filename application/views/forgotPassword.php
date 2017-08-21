@@ -1,6 +1,3 @@
-<?php 
-echo MD5(SHA1(MD5(MD5("password"))));
-?>
 <!DOCTYPE html>
 <html>
 <head>
