@@ -1074,5 +1074,26 @@ class Admin_model extends CI_Model
 		$response = json_decode(curl_exec($curl));
 		return $response;
 	}
+	public function changePassword($data){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$password = $_POST["password"];
+		$password2 = $_POST["password2"];
+		$changeUserId = $_POST["userId"];
+		$data = array(
+			"accessToken"=>$accessToken,
+			"userId"=>$userId,
+			"password" => $password,
+			"password2" => $password2,
+			"changeUserId"=>$changeUserId);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'user/changePassword',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response;
+	}
 }
 ?>

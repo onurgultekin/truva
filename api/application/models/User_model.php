@@ -313,5 +313,48 @@ class User_model extends CI_Model {
                 }
                 return $response;
         }
+        public function changePassword($parameters){
+                $i = 0;
+                $k = 0;
+                $mandatoryParameters = array("accessToken","userId","password","password2","changeUserId");
+                foreach ($mandatoryParameters as $mandatoryParameter) {
+                        if(!array_key_exists($mandatoryParameter,$parameters)){
+                                $k++;
+                        }
+                } 
+                if($k>0){
+                        $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
+                }else{
+                        $availableParameters = array("accessToken","userId","password","password2","changeUserId");
+                        foreach ($parameters as $key => $parameter) {
+                                if(!in_array($key,$availableParameters)){
+                                        $i++;
+                                }
+                        }
+                        if($i>0){
+                                $response = $this->globalfunctions->returnMessage(1001,"Geçersiz istek. Bilinmeyen parametre girdiniz.",true);
+                        }else{
+                                $accessToken = $parameters["accessToken"];
+                                $userId = $parameters["userId"];
+                                $password = $parameters["password"];
+                                $password2 = $parameters["password2"];
+                                $changeUserId = $parameters["changeUserId"];
+                                if(!is_numeric($userId)){
+                                        $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($changeUserId)){
+                                        $response = $this->globalfunctions->returnMessage(1003,"changeUserId parametresi numeric olmalıdır.",true);
+                                }else
+                                if($password2 != $password){
+                                        $response = $this->globalfunctions->returnMessage(5,"Şifreleriniz eşleşmiyor.",true);
+                                }else{
+                                        $query = $this->db->query("CALL CHANGE_PASSWORD('".$accessToken."',".$userId.",".$changeUserId.",'".$password."')");
+                                        $result = $query->row();
+                                        $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,$result->isError);
+                                }
+                        }
+                }
+                return $response;
+        }
 }
 ?>

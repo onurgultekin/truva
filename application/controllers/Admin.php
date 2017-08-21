@@ -569,4 +569,11 @@ class Admin extends CI_Controller {
 		$updateTap = $this->admin_model->updateTap($data);
 		echo json_encode($updateTap);
 	}
+	public function changePassword(){
+		header("Content-type:application/json");
+		$this->load->model("admin_model");
+		$data = $this->input->post();
+		$changePassword = $this->admin_model->changePassword($data);
+		echo json_encode($changePassword);
+	}
 }

@@ -45,4 +45,8 @@ class User extends REST_Controller {
 		$message = $this->User_model->updateUser($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function changePassword_post(){
+		$message = $this->User_model->changePassword($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 }

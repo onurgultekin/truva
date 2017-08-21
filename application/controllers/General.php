@@ -1830,4 +1830,186 @@ class General extends CI_Controller {
 		$technicalServices = $this->general_model->getTechnicalServiceList();
 		echo json_encode($technicalServices);
 	}
+	public function getTechnicalServiceFormById(){
+		$formFields= [
+		          	[
+		            "name"=>"Rapor Tipi",
+		            "id"=>"technicalServiceReportTypeID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Başlangıç Tarihi",
+		            "id"=>"beginDate",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"Bitiş Tarihi",
+		            "id"=>"endDate",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"Gönderen Kullanıcı",
+		            "id"=>"declaredUserID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Alan Kullanıcı",
+		            "id"=>"receivedUserID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Tamamlayan Kullanıcı",
+		            "id"=>"completedUserID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Açıklama",
+		            "id"=>"description",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"Öncelik",
+		            "id"=>"technicalServicePriorityID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Durum",
+		            "id"=>"technicalServiceStatusID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Şirket seçin",
+		            "id"=>"CompanyID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Musluk",
+		            "id"=>"tapID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Id",
+		            "id"=>"technicalServiceFormID",
+		            "type"=>"hidden"
+		          	]
+	          	];
+		$this->load->model("general_model");
+		$this->load->model("admin_model");
+		$TechnicalServiceFormId = $this->input->post("TechnicalServiceFormId");
+		$technicalServiceForm = $this->general_model->getTechnicalServiceFormById($TechnicalServiceFormId);
+		$technicalServiceUsers = $this->general_model->getTechnicalServiceUsers();
+		$users = $this->admin_model->getUsers();
+		$companies = $this->general_model->getCompanies();
+		$taps = $this->general_model->getTaps();
+		$i=0;
+	              echo '<div class="row">';
+	              foreach ($formFields as $key => $field) {
+	                $i++;
+	                $message = "Bu alan zorunludur";
+	                if($field["type"] == "email"){
+	                  $message = "Lütfen geçerli bir mail adresi giriniz.";
+	                }
+	                $class = "";
+	                if($field["type"] == "hidden"){
+	                  $class ="unvisible";
+	                }
+	                if($i%2==1 && $i!=1){
+	                  echo '</div><div class="row">';
+	                }
+	                if($field["type"]!="select"){
+	                  echo '<div class="col-sm-6">
+	                  <div class="form-group form-group-default required '.$class.' ">
+	                    <label>'.$field["name"].':</label>
+	                    <div class="controls">
+	                      <input type="'.$field["type"].'" class="form-control" name="'.$field["id"].'" id="'.$field["id"].'" required data-msg="'.$message.'" value="'.$technicalServiceForm[0]->{$field["id"]}.'">
+	                    </div>
+	                  </div>
+	                </div>';
+	                }else{
+	                if($field["id"] == "completedUserID" || $field["id"] == "receivedUserID" || $field["id"] == "declaredUserID"){
+	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+	                    <label class="">'.$field["name"].'</label>
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
+	                      <option value="0">Lütfen seçin</option>';
+	                      if($field["id"] == "completedUserID" || $field["id"] == "receivedUserID"){
+	                        foreach ($technicalServiceUsers as $key => $technicalServiceUser) {
+	                        	$completedSelected = '';
+	                      	$receivedSelected = '';
+	                        	if($technicalServiceUser->id == $technicalServiceForm[0]->CompletedUserID){
+				$completedSelected = 'selected = "selected"';
+			}
+			if($technicalServiceUser->id == $technicalServiceForm[0]->ReceivedUserID){
+				$receivedSelected = 'selected = "selected"';
+			}
+	                          echo '<option '.$receivedSelected.' '.$completedSelected.' value='.$technicalServiceUser->id.'>'.$technicalServiceUser->yetkili_kisi.'</option>';
+	                        }
+	                      }
+	                      if($field["id"] == "declaredUserID"){
+	                        foreach ($users as $key => $user) {
+	                        	$declaredSelected = '';
+	                        	if($user->id == $technicalServiceForm[0]->DeclaredUserID){
+				$declaredSelected = 'selected = "selected"';
+			}
+	                          echo '<option '.$declaredSelected.' value='.$user->id.'>'.$user->first_name.' '.$user->last_name.'</option>';
+	                        }
+	                      }
+	                      echo '</select>
+	                    </div></div>';
+	                  }else
+	                  if($field["id"] == "tapID"){
+	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+	                    <label class="">'.$field["name"].'</label>
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Şirket Tipi seçin" data-init-plugin="select2">
+	                      <option value="0">Lütfen seçin</option>';
+	                      foreach ($taps as $key => $tap) {
+	                      	$selected = '';
+			if($tap->TapID == $technicalServiceForm[0]->TapID){
+				$selected = 'selected = "selected"';
+			}
+	                        echo '<option '.$selected.' value='.$tap->TapID.'>'.$tap->Name.'</option>';
+	                      }
+	                      echo '</select>
+	                    </div></div>';
+	                  }else
+	                  if($field["id"] == "CompanyID"){
+	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+	                    <label class="">'.$field["name"].'</label>
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Şirket Tipi seçin" data-init-plugin="select2">
+	                      <option value="0">Lütfen seçin</option>';
+	                      foreach ($companies as $key => $company) {
+	                      	$selected = '';
+			if($company->CompanyID == $technicalServiceForm[0]->CompanyID){
+				$selected = 'selected = "selected"';
+			}
+	                        echo '<option '.$selected.' value='.$company->CompanyID.'>'.$company->CompanyName.'</option>';
+	                      }
+	                      echo '</select>
+	                    </div></div>';
+	                  }else{
+	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+	                    <label class="">'.$field["name"].'</label>
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" '.$field["disabled"].' data-placeholder="Ülke seçin" data-init-plugin="select2">
+	                      <option value="0">Lütfen seçin</option>
+	                    </select>
+	                  </div></div>';
+	                  }
+	                }
+	              }
+	}
 }

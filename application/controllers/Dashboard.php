@@ -1088,4 +1088,88 @@ class Dashboard extends CI_Controller {
 		$data["companies"] = $this->general_model->getCompanies();
 		$this->load->view('totalDailyGuests',$data);
 	}
+	public function troubleDemand(){
+		$data["formFields"]= [
+		          	[
+		            "name"=>"Rapor Tipi",
+		            "id"=>"technicalServiceReportTypeID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Başlangıç Tarihi",
+		            "id"=>"beginDate",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"Bitiş Tarihi",
+		            "id"=>"endDate",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"Gönderen Kullanıcı",
+		            "id"=>"declaredUserID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Alan Kullanıcı",
+		            "id"=>"receivedUserID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Tamamlayan Kullanıcı",
+		            "id"=>"completedUserID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Açıklama",
+		            "id"=>"description",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"Öncelik",
+		            "id"=>"technicalServicePriorityID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Durum",
+		            "id"=>"technicalServiceStatusID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Şirket seçin",
+		            "id"=>"CompanyID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Musluk",
+		            "id"=>"tapID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	]
+	          	];
+		$this->load->model("general_model");
+		$this->load->model("admin_model");
+		$data["leftsidemenuitems"] = $this->general_model->getLeftSideMenu();
+		$data["technicalServiceForms"] = $this->general_model->getTechnicalServiceForm();
+		$data["technicalServiceUsers"] = $this->general_model->getTechnicalServiceUsers();
+		$data["users"] = $this->admin_model->getUsers();
+		$data["companies"] = $this->general_model->getCompanies();
+		$data["taps"] = $this->general_model->getTaps();
+		$this->load->view('troubleDemand',$data);
+	}
 }

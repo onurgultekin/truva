@@ -49,7 +49,7 @@
           <div class="jumbotron  no-margin" data-pages="parallax">
             <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
             <div class="inner" style="transform: translateY(0px); opacity: 1;">
-            <h3 class="">Kullanıcı Listesi</h3>
+            <h3 class="">Arıza / Talep Listesi</h3>
             </div>
             </div>
             </div>
@@ -58,12 +58,12 @@
           <div class="container-fluid container-fixed-lg m-t-10">
             <!-- BEGIN PlACE PAGE CONTENT HERE -->
             <div class="row">
-              <div class="col-md-4">
-              <button class="btn btn-primary pull-left addNewUser m-b-10" data-toggle="modal" data-target="#addNewUserModal">Yeni Kullanıcı Ekle</button>
-              </div>
               <div class="col-md-4 pull-right">
+              <button class="btn btn-primary pull-right addNewTechnicalServiceForm m-b-10" data-toggle="modal" data-target="#addNewTechnicalServiceFormModal">Yeni Arıza / Talep Ekle</button>
+              </div>
+              <div class="col-md-4 pull-left" style="padding-left: 0px">
                 <div class="col-xs-12">
-                <input type="text" id="search-table" class="form-control pull-right" placeholder="Kullanıcı Ara">
+                <input type="text" id="search-table" class="form-control pull-left" placeholder="Arıza / Talep Ara">
                 </div>
               </div>
             </div>
@@ -72,26 +72,30 @@
               <table class="table table-striped" id="tableWithExportOptions">
               <thead>
               <tr>
-              <th>E-mail</th>
-              <th>Adı</th>
-              <th>Soyadı</th>
-              <th>Adres</th>
-              <th>Telefon</th>
-              <th>Rol</th>
+              <th>Bildirme Tipi</th>
+              <th>Başlangıç Tarihi</th>
+              <th>Bitiş Tarihi</th>
+              <th>Bildiren</th>
+              <th>Tamamlayan</th>
+              <th>Açıklama</th>
+              <th>Öncelik</th>
+              <th>Durum</th>
               <th class="no-sort"></th>
               </tr>
               </thead>
               <tbody>
                 <?php
-                foreach ($users as $key => $user) {
-                  echo '<tr id="'.$user->id.'">
-                    <td>'.$user->email.'</td>
-                    <td>'.$user->first_name.'</td>
-                    <td>'.$user->last_name.'</td>
-                    <td>'.$user->address.'</td>
-                    <td>'.$user->phone.'</td>
-                    <td>'.$user->userRole.'</td>
-                    <td><div class="pull-right"><button class="btn btn-primary changeUserPassword btn-xs">Şifre Değiştir</button><button class="btn btn-warning getUserDetails btn-xs m-l-5 m-r-5" id="duzenle">Düzenle</button><button class="btn btn-danger deleteUserModal btn-xs">Sil</button></div></td>
+                foreach ($technicalServiceForms as $key => $technicalServiceForm) {
+                  echo '<tr id="'.$technicalServiceForm->technicalServiceFormID.'">
+                    <td>'.$technicalServiceForm->ReceivedBy.'</td>
+                    <td>'.$technicalServiceForm->beginDate.' '.$technicalServiceForm->beginTime.'</td>
+                    <td>'.$technicalServiceForm->endDate.' '.$technicalServiceForm->endTime.'</td>
+                    <td>'.$technicalServiceForm->declaredUser.'</td>
+                    <td>'.$technicalServiceForm->completedUser.'</td>
+                    <td>'.$technicalServiceForm->description.'</td>
+                    <td>'.$technicalServiceForm->Priority.'</td>
+                    <td>'.$technicalServiceForm->EventStatus.'</td>
+                    <td><div class="pull-left"><button class="btn btn-warning getTechnicalServiceFormDetails btn-xs" id="duzenle">Düzenle</button><button class="btn btn-info handleTechnicalServiceFormModal btn-xs m-r-5 m-l-5">Al</button><button class="btn btn-danger completeTechnicalServiceFormModal btn-xs">Tamamla</button></div></td>
                   </tr>';
                 }
                 ?>
@@ -107,20 +111,7 @@
         <!-- START COPYRIGHT -->
         <!-- START CONTAINER FLUID -->
         <!-- START CONTAINER FLUID -->
-        <div class="container-fluid container-fixed-lg footer">
-          <div class="copyright sm-text-center">
-            <p class="small no-margin pull-left sm-pull-reset">
-              <span class="hint-text">Copyright &copy; 2017 </span>
-              <span class="font-montserrat">TRUVA</span>.
-              <span class="hint-text">All rights reserved. </span>
-              <!-- <span class="sm-block"><a href="#" class="m-l-10 m-r-10">Terms of use</a> | <a href="#" class="m-l-10">Privacy Policy</a></span>-->
-            </p>
-            <p class="small no-margin pull-right sm-pull-reset">
-              <a href="#">Hand-crafted</a> <span class="hint-text">&amp; Made with Love ®</span>
-            </p>
-            <div class="clearfix"></div>
-          </div>
-        </div>
+        <?php $this->load->view("footer"); ?>
         <!-- END COPYRIGHT -->
       </div>
       <!-- END PAGE CONTENT WRAPPER -->
@@ -132,48 +123,15 @@
             <div class="modal-header clearfix text-left">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
               </button>
-              <h5>Kullanıcı <span class="semi-bold">Bilgileri</span></h5>
-              <p class="p-b-10">Aşağıda kullanıcı ile ilgili bilgileri bulabilirsiniz.</p>
+              <h5>Arıza / Talep <span class="semi-bold">Bilgileri</span></h5>
+              <p class="p-b-10">Aşağıda günlük kişi ile ilgili bilgileri bulabilirsiniz.</p>
             </div>
             <div class="modal-body">
-              <form role="form" id="updateUserData">
-                <div class="form-group appendUserDataHere">
+              <form role="form" id="updateTechnicalServiceFormData">
+                <div class="form-group appendTechnicalServiceFormDataHere">
                 </div>
-                <button type="submit" class="btn btn-primary btn-block m-t-5 updateUser">Bilgileri Düzenle</button>
+                <button type="submit" class="btn btn-primary m-t-5 updateTechnicalServiceForm">Bilgileri Düzenle</button>
                 <div class="alert alert-success updateModalError unvisible m-t-10"></div>
-              </form>
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal fade stick-up disable-scroll" id="changeUserPassword" role="dialog" aria-hidden="false">
-      <div class="modal-dialog ">
-        <div class="modal-content-wrapper">
-          <div class="modal-content">
-            <div class="modal-header clearfix text-left">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
-              </button>
-              <h5>Şifre <span class="semi-bold">Değiştir</span></h5>
-              <p class="p-b-10">Aşağıdaki formu doldurarak kullanıcı şifresini değiştirebilirsiniz.</p>
-            </div>
-            <div class="modal-body">
-              <form role="form" id="changePasswordForm">
-                  <div class="form-group form-group-default required">
-                    <label>Yeni şifre:</label>
-                    <div class="controls">
-                      <input type="password" class="form-control" name="password" id="password" required data-msg="Bu alan zorunludur.">
-                    </div>
-                  </div>
-                  <div class="form-group form-group-default required">
-                    <label>Yeni şifre (tekrar):</label>
-                    <div class="controls">
-                      <input type="password" class="form-control" name="password2" id="password2" required data-msg="Şifreler eşleşmiyor.">
-                    </div>
-                  </div>
-                <button type="submit" class="btn btn-primary btn-block m-t-5 changePassword">Şifre Değiştir</button>
-                <div class="alert alert-success changePasswordModalError unvisible m-t-10"></div>
               </form>
             </div>
           </div>
@@ -181,19 +139,19 @@
 
       </div>
     </div>
-    <div class="modal fade stick-up disable-scroll" id="addNewUserModal" role="dialog" aria-hidden="false">
+    <div class="modal fade stick-up disable-scroll" id="addNewTechnicalServiceFormModal" role="dialog" aria-hidden="false">
       <div class="modal-dialog ">
         <div class="modal-content-wrapper">
           <div class="modal-content">
             <div class="modal-header clearfix text-left">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
               </button>
-              <h5>Yeni Kullanıcı <span class="semi-bold">Ekle</span></h5>
+              <h5>Yeni Günlük Kişi <span class="semi-bold">Ekle</span></h5>
             </div>
             <div class="modal-body" style="overflow:hidden;">
-              <form role="form" class="form-group" id="appendNewUserData">
+              <form role="form" class="form-group" id="appendNewTechnicalServiceFormData">
               <?php
-              $i = 0; 
+             $i=0;
               echo '<div class="row">';
               foreach ($formFields as $key => $field) {
                 $i++;
@@ -201,101 +159,81 @@
                 if($field["type"] == "email"){
                   $message = "Lütfen geçerli bir mail adresi giriniz.";
                 }
-                if($i%2==1 && $i!=1){
-                    echo '</div><div class="row">';
-                  }
-                if($field["type"]!="select"){
-                  echo '
-                  <div class="col-sm-6">
-                        <div class="form-group form-group-default required">
-                          <label>'.$field["name"].':</label>
-                          <div class="controls">
-                          <input type="'.$field["type"].'" class="form-control" name="'.$field["id"].'" id="'.$field["id"].'" required data-msg="'.$message.'">
-                          </div>
-                        </div>
-                  </div>';
-                }else{
-                  if($field["id"] == "country_id"){
-                  echo '
-                  <div class="col-sm-6">
-                  <div class="form-group form-group-default form-group-default-select2 required">
-                        <label class="">'.$field["name"].'</label>
-                          <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
-                          <option value="0">Lütfen seçin</option>';
-                            foreach ($countries as $key => $country) {
-                              echo '
-                              <option value='.$country->CountryID.'>'.$country->CountryName.'</option>
-                              ';
-                            }
-                          echo '</select>
-                        </div>
-                  </div>';
-                }else
-                if($field["id"] == "group_id"){
-                  echo '
-                  <div class="col-sm-6">
-                  <div class="form-group form-group-default form-group-default-select2 required">
-                        <label class="">'.$field["name"].'</label>
-                          <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
-                          <option value="0">Lütfen seçin</option>';
-                            foreach ($userGroups as $key => $userGroup) {
-                              echo '
-                              <option value='.$userGroup->id.'>'.$userGroup->description.'</option>
-                              ';
-                            }
-                          echo '</select>
-                        </div>
-                  </div>';
-                }else
-                if($field["id"] == "CompanyID"){
-                  echo '<div class="col-sm-6">
-                  <div class="form-group form-group-default form-group-default-select2 required">
-                        <label class="">'.$field["name"].'</label>
-                          <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
-                          <option value="0">Lütfen seçin</option>';
-                            foreach ($companies as $key => $company) {
-                              echo '
-                              <option value='.$company->CompanyID.'>'.$company->CompanyName.'</option>
-                              ';
-                            }
-                          echo '</select>
-                        </div></div>';
-                }else
-                if($field["id"] == "HoldingID"){
-                  echo '<div class="col-sm-6">
-                  <div class="form-group form-group-default form-group-default-select2">
-                        <label class="">'.$field["name"].'</label>
-                          <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
-                          <option value="0">Lütfen seçin</option>';
-                            foreach ($holdings as $key => $holding) {
-                              echo '
-                              <option value='.$holding->HoldingID.'>'.$holding->HoldingName.'</option>
-                              ';
-                            }
-                          echo '</select>
-                        </div></div>';
-                }else
-                {
-                  echo '
-                  <div class="col-sm-6">
-                  <div class="form-group form-group-default form-group-default-select2 required">
-                        <label class="">'.$field["name"].'</label>
-                          <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" '.$field["disabled"].' data-placeholder="Ülke seçin" data-init-plugin="select2">
-                          <option value="0">Lütfen seçin</option>
-                          </select>
-                        </div>
-                  </div>';
+                $class = "";
+                if($field["type"] == "hidden"){
+                  $class ="unvisible";
                 }
+                if($i%2==1 && $i!=1){
+                  echo '</div><div class="row">';
+                }
+                if($field["type"]!="select"){
+                  echo '<div class="col-sm-6">
+                  <div class="form-group form-group-default required '.$class.' ">
+                    <label>'.$field["name"].':</label>
+                    <div class="controls">
+                      <input type="'.$field["type"].'" class="form-control" name="'.$field["id"].'" id="'.$field["id"].'" required data-msg="'.$message.'">
+                    </div>
+                  </div>
+                </div>';
+                }else{
+                  if($field["id"] == "completedUserID" || $field["id"] == "receivedUserID" || $field["id"] == "declaredUserID"){
+                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+                    <label class="">'.$field["name"].'</label>
+                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
+                      <option value="0">Lütfen seçin</option>';
+                      if($field["id"] == "completedUserID" || $field["id"] == "receivedUserID"){
+                        foreach ($technicalServiceUsers as $key => $technicalServiceUser) {
+                          echo '<option value='.$technicalServiceUser->id.'>'.$technicalServiceUser->yetkili_kisi.'</option>';
+                        }
+                      }
+                      if($field["id"] == "declaredUserID"){
+                        foreach ($users as $key => $user) {
+                          echo '<option value='.$user->id.'>'.$user->first_name.' '.$user->last_name.'</option>';
+                        }
+                      }
+                      echo '</select>
+                    </div></div>';
+                  }else
+                  if($field["id"] == "tapID"){
+                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+                    <label class="">'.$field["name"].'</label>
+                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Şirket Tipi seçin" data-init-plugin="select2">
+                      <option value="0">Lütfen seçin</option>';
+                      foreach ($taps as $key => $tap) {
+                        echo '<option value='.$tap->TapID.'>'.$tap->Name.'</option>';
+                      }
+                      echo '</select>
+                    </div></div>';
+                  }else
+                  if($field["id"] == "CompanyID"){
+                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+                    <label class="">'.$field["name"].'</label>
+                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Şirket Tipi seçin" data-init-plugin="select2">
+                      <option value="0">Lütfen seçin</option>';
+                      foreach ($companies as $key => $company) {
+                        echo '<option value='.$company->CompanyID.'>'.$company->CompanyName.'</option>';
+                      }
+                      echo '</select>
+                    </div></div>';
+                  }else{
+                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+                    <label class="">'.$field["name"].'</label>
+                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" '.$field["disabled"].' data-placeholder="Ülke seçin" data-init-plugin="select2">
+                      <option value="0">Lütfen seçin</option>
+                    </select>
+                  </div></div>';
+                  }
                 }
               }
               ?>
-                <button type="submit" class="btn btn-primary btn-block addNewUserButton">Yeni Kullanıcı Ekle</button>
+              <div class="clearfix"></div>
+                <button type="submit" class="btn btn-primary addNewTechnicalServiceFormButton">Yeni Günlük Kişi Ekle</button>
                 <div class="alert alert-success modalError unvisible m-t-10"></div>
               </form>
             </div>
           </div>
         </div>
-        </div>
+
       </div>
     </div>
     <div class="modal fade slide-right" id="modalSlideLeft" tabindex="-1" role="dialog" aria-hidden="true">
@@ -307,10 +245,11 @@
       <div class="container-xs-height full-height">
       <div class="row-xs-height">
       <div class="modal-body col-xs-height col-middle text-center   ">
-      <h5 class="text-primary "><span class="semi-bold userNameinModal"></span> adlı kullanıcıyı silmek istediğinizden emin misiniz? Lütfen bu işlemi geri alamayacağınızı unutmayın.</h5>
+      <h5 class="text-primary "><span class="semi-bold TechnicalServiceFormNameinModal"></span> adlı şirkete ait günlük kişi sayısını silmek istediğinizden emin misiniz? Lütfen bu işlemi geri alamayacağınızı unutmayın.</h5>
       <br>
-      <button type="button" class="btn btn-success btn-block deleteUserButton">Evet</button>
+      <button type="button" class="btn btn-success btn-block deleteTechnicalServiceFormButton">Evet</button>
       <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Hayır</button>
+      <div class="alert alert-success m-t-10 deleteModalError unvisible"></div>
       </div>
       </div>
       </div>
@@ -336,6 +275,10 @@
     <script type="text/javascript" src="<?php echo base_url() ?>assets/plugins/select2/js/select2.full.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url() ?>assets/plugins/classie/classie.js"></script>
     <script src="<?php echo base_url() ?>assets/plugins/switchery/js/switchery.min.js" type="text/javascript"></script>
+    <!-- END VENDOR JS -->
+    <!-- BEGIN CORE TEMPLATE JS -->
+    <!-- END CORE TEMPLATE JS -->
+    <!-- BEGIN PAGE LEVEL JS -->
     <script src="<?php echo base_url() ?>assets/js/functions.js?v=<?php echo time(); ?>" type="text/javascript"></script>
     <script type="text/javascript" src="<?php echo base_url() ?>assets/plugins/jquery-inputmask/jquery.inputmask.min.js"></script>
     <script src="<?php echo base_url() ?>assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
@@ -344,60 +287,45 @@
     <script src="<?php echo base_url() ?>assets/plugins/jquery-datatable/extensions/Bootstrap/jquery-datatable-bootstrap.js" type="text/javascript"></script>
     <script type="text/javascript" src="<?php echo base_url() ?>assets/plugins/datatables-responsive/js/datatables.responsive.js"></script>
     <script type="text/javascript" src="<?php echo base_url() ?>assets/plugins/datatables-responsive/js/lodash.min.js"></script>
+    <script src="<?php echo base_url() ?>assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="<?php echo base_url() ?>assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="<?php echo base_url() ?>assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
     <script src="<?php echo base_url() ?>assets/plugins/moment/moment.min.js"></script>
     <script src="<?php echo base_url() ?>assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
     <script src="<?php echo base_url() ?>assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
     <script src="<?php echo base_url() ?>assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
     <script src="<?php echo base_url() ?>assets/js/scripts.js?v=<?php echo time(); ?>" type="text/javascript"></script>
     <script src="<?php echo base_url() ?>assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="<?php echo base_url() ?>assets/plugins/jquery-autonumeric/autoNumeric.js"></script>
     <script src="<?php echo base_url() ?>truva/js/pages.min.js"></script>
     <script type="text/javascript">
       $(function(){
-        initTable(214);
-        getCitiesInModal();
-        getDistrictsInModal();
-        getAreasInModal();
-        getDetails(".getUserDetails","/admin/getUserById","userId",".appendUserDataHere");
-        $("#appendNewUserData").validate({
-          rules: {
-            group_id:{min:1},
-            country_id:{min:1},
-            city_id:{min:1},
-            county_id:{min:1},
-            CompanyID:{min:1}
-        },
+        initTable(187);
+        $('#beginDate,#endDate').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true
+          }).on("changeDate",function(){
+            $(this).trigger("focus").trigger("blur");
+          })
+        getDetails(".getTechnicalServiceFormDetails","/general/getTechnicalServiceFormById","TechnicalServiceFormId",".appendTechnicalServiceFormDataHere");
+        $("#appendNewTechnicalServiceFormData").validate({
           submitHandler: function(form) {
-            addNewUser();
+            addNewTechnicalServiceForm();
             }
         });
-        $('#changePasswordForm').validate({
-          rules: {
-              password2: {
-                equalTo: "#password"
-              }
-            },
+        $("#updateTechnicalServiceFormData").validate({
           submitHandler: function(form) {
-            changePassword();
+            updateTechnicalServiceForm();
             }
-        })
-        $("#postcode").mask("99999");
-
-        $("#addNewUserModal").on("shown.bs.modal",function(){
-          setTimeout(function () {$('select').select2();}, 300);
-        })
-        $("body").on("click",".deleteUserModal",function(){
-          var userId = $(this).parents("tr").attr("id");
-          var userName = $(this).parents("tr").find("td:eq(1)").html();
-          $(".userNameinModal").html(userName);
-          $(".deleteUserButton").attr("id",userId);
-          $("#modalSlideLeft").modal();
-        })
-        $("body").on("click",".changeUserPassword",function(){
-          var userId = $(this).parents("tr").attr("id");
-          var userName = $(this).parents("tr").find("td:eq(1)").html();
-          $(".userNameinModal").html(userName);
-          $(".changePassword").attr("id",userId);
-          $("#changeUserPassword").modal();
+        });
+        $("#addNewTechnicalServiceFormModal").on("shown.bs.modal",function(){
+          setTimeout(function () {
+            $('select').select2();
+            $("#TotalGuest").autoNumeric('init', {
+              aSep: '',
+              aPad: false
+            });
+          }, 300);
         })
       })
     </script>

@@ -177,12 +177,23 @@ function getDetails(button,endpoint,elementName,appendableDiv){
                 }
                 if(button == ".getCompanyDailyGuestDetails"){
                     $('#Date').datepicker({
-                      format: 'yyyy-mm-dd',
-                    });
+                        format: 'yyyy-mm-dd',
+                        autoclose: true
+                      }).on("changeDate",function(){
+                        $(this).trigger("focus").trigger("blur");
+                      })
                     $("#TotalGuest").autoNumeric('init', {
                       aSep: '',
                       aPad: false
                     });
+                }
+                if(button == ".getTechnicalServiceFormDetails"){
+                    $('#beginDate,#endDate').datepicker({
+                        format: 'yyyy-mm-dd',
+                        autoclose: true
+                      }).on("changeDate",function(){
+                        $(this).trigger("focus").trigger("blur");
+                      })
                 }
             }
         })
@@ -1390,3 +1401,25 @@ function updateTap(){
         }
     })
 }
+function changePassword(){
+        var password = $("#password").val();
+        var password2 = $("#password2").val();
+        var userId = $(".changePassword").attr("id");
+        Pace.restart();
+        $.ajax({
+          type:"POST",
+          url:"/admin/changePassword",
+          dataType:"json",
+          data:{password:password,password2:password2,userId:userId},
+          success:function(data){
+            Pace.stop();
+            if(data.resultCode == 0){
+              $(".changePasswordModalError").html(data.message).removeClass("unvisible");
+                  setTimeout(function(){
+                    $(".changePasswordModalError").addClass("unvisible");
+                    $("#changeUserPassword").modal("hide");
+                },modalCloseTimeout)
+            }
+          }
+        })
+      }

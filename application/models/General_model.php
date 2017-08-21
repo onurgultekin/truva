@@ -963,5 +963,61 @@ class General_model extends CI_Model
 		$response = json_decode(curl_exec($curl));
 		return $response->message;
 	}
+	public function getTechnicalServiceForm(){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array(
+			"accessToken" => $accessToken, 
+			"userId" => $userId,
+			"technicalServiceFormID" => "null",
+			"technicalServiceReportTypeID" => "null",
+			"beginDate" => "null",
+			"endDate" => "null",
+			"declaredUserID" => "null",
+			"receivedUserID" => "null",
+			"completedUserID" => "null",
+			"description" => "null",
+			"technicalServicePriorityID" => "null",
+			"technicalServiceStatusID" => "null",
+			"companyID" => "null",
+			"tapID" => "null"
+			);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'technicalserviceform/getTechnicalServiceForm',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response->message;
+	}
+	public function getTechnicalServiceFormById($TechnicalServiceFormId){
+		$accessToken = $this->session->userdata("accessToken");
+		$userId = $this->session->userdata("userId");
+		$data = array(
+			"accessToken" => $accessToken, 
+			"userId" => $userId,
+			"technicalServiceFormID" => $TechnicalServiceFormId,
+			"technicalServiceReportTypeID" => "null",
+			"beginDate" => "null",
+			"endDate" => "null",
+			"declaredUserID" => "null",
+			"receivedUserID" => "null",
+			"completedUserID" => "null",
+			"description" => "null",
+			"technicalServicePriorityID" => "null",
+			"technicalServiceStatusID" => "null",
+			"companyID" => "null",
+			"tapID" => "null"
+			);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL => NEW_API_ENDPOINT.'technicalserviceform/getTechnicalServiceForm',
+		CURLOPT_POSTFIELDS => http_build_query($data)
+		));
+		$response = json_decode(curl_exec($curl));
+		return $response->message;
+	}
 }
 ?>
