@@ -856,7 +856,7 @@ class Dashboard extends CI_Controller {
 		$this->load->view('tapWizard',$data);
 	}
 	public function consumption(){
-		$dateBegin = date("Y-m-d", strtotime("-7 day"));
+		$dateBegin = date("Y-m-d", strtotime("-1 month"));
 		$dateEnd = date("Y-m-d");
 		$this->load->model("general_model");
 		$data["reports"] = $this->general_model->getDailyConsumedAlcoholFilteredByDate($dateBegin,$dateEnd,0,0,0,0);
