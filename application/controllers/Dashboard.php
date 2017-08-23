@@ -1167,6 +1167,10 @@ class Dashboard extends CI_Controller {
 		$data["leftsidemenuitems"] = $this->general_model->getLeftSideMenu();
 		$data["technicalServiceForms"] = $this->general_model->getTechnicalServiceForm();
 		$data["technicalServiceUsers"] = $this->general_model->getTechnicalServiceUsers();
+		$data["technicalServiceStatuses"] = $this->general_model->getTechnicalServiceStatuses();
+		print_r($data["technicalServiceStatuses"]);
+		$data["technicalServiceReportTypes"] = $this->general_model->getTechnicalServiceReportTypes();
+		$data["technicalServicePriorities"] = $this->general_model->getTechnicalServicePriorities();
 		$data["users"] = $this->admin_model->getUsers();
 		$data["companies"] = $this->general_model->getCompanies();
 		$data["taps"] = $this->general_model->getTaps();

@@ -86,6 +86,20 @@
               <tbody>
                 <?php
                 foreach ($technicalServiceForms as $key => $technicalServiceForm) {
+                  $labelClassForPriority = 'label label-info';
+                  $labelClassForStatus = 'label label-inverse';
+                  if($technicalServiceForm->technicalServicePriorityID == 1){
+                    $labelClassForPriority = 'label label-danger';
+                  }
+                  if($technicalServiceForm->technicalServiceStatusID == 2){
+                    $labelClassForStatus = 'label label-success';
+                  }
+                  if($technicalServiceForm->technicalServiceStatusID == 3){
+                    $labelClassForStatus = 'label label-warning';
+                  }
+                  if($technicalServiceForm->technicalServiceStatusID == 4){
+                    $labelClassForStatus = 'label label-danger';
+                  }
                   echo '<tr id="'.$technicalServiceForm->technicalServiceFormID.'">
                     <td>'.$technicalServiceForm->ReceivedBy.'</td>
                     <td>'.$technicalServiceForm->beginDate.' '.$technicalServiceForm->beginTime.'</td>
@@ -93,8 +107,8 @@
                     <td>'.$technicalServiceForm->declaredUser.'</td>
                     <td>'.$technicalServiceForm->completedUser.'</td>
                     <td>'.$technicalServiceForm->description.'</td>
-                    <td>'.$technicalServiceForm->Priority.'</td>
-                    <td>'.$technicalServiceForm->EventStatus.'</td>
+                    <td><span class="'.$labelClassForPriority.'">'.$technicalServiceForm->Priority.'</span></td>
+                    <td><span class="'.$labelClassForStatus.'">'.$technicalServiceForm->EventStatus.'</span></td>
                     <td><div class="pull-left"><button class="btn btn-warning getTechnicalServiceFormDetails btn-xs" id="duzenle">Düzenle</button><button class="btn btn-info handleTechnicalServiceFormModal btn-xs m-r-5 m-l-5">Al</button><button class="btn btn-danger completeTechnicalServiceFormModal btn-xs">Tamamla</button></div></td>
                   </tr>';
                 }
@@ -212,6 +226,39 @@
                       <option value="0">Lütfen seçin</option>';
                       foreach ($companies as $key => $company) {
                         echo '<option value='.$company->CompanyID.'>'.$company->CompanyName.'</option>';
+                      }
+                      echo '</select>
+                    </div></div>';
+                  }else
+                  if($field["id"] == "technicalServiceReportTypeID"){
+                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+                    <label class="">'.$field["name"].'</label>
+                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Şirket Tipi seçin" data-init-plugin="select2">
+                      <option value="0">Lütfen seçin</option>';
+                      foreach ($technicalServiceReportTypes as $key => $technicalServiceReportType) {
+                        echo '<option value='.$technicalServiceReportType->TechnicalServiceReportTypeID.'>'.$technicalServiceReportType->Name.'</option>';
+                      }
+                      echo '</select>
+                    </div></div>';
+                  }else
+                  if($field["id"] == "technicalServicePriorityID"){
+                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+                    <label class="">'.$field["name"].'</label>
+                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Şirket Tipi seçin" data-init-plugin="select2">
+                      <option value="0">Lütfen seçin</option>';
+                      foreach ($technicalServicePriorities as $key => $technicalServicePriority) {
+                        echo '<option value='.$technicalServicePriority->TechnicalServicePriorityID.'>'.$technicalServicePriority->Name.'</option>';
+                      }
+                      echo '</select>
+                    </div></div>';
+                  }else
+                  if($field["id"] == "technicalServiceStatusID"){
+                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+                    <label class="">'.$field["name"].'</label>
+                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Şirket Tipi seçin" data-init-plugin="select2">
+                      <option value="0">Lütfen seçin</option>';
+                      foreach ($technicalServiceStatuses as $key => $technicalServiceStatus) {
+                        echo '<option value='.$technicalServiceStatus->TechnicalServiceStatusID.'>'.$technicalServiceStatus->Name.'</option>';
                       }
                       echo '</select>
                     </div></div>';
