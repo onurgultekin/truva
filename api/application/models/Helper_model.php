@@ -83,14 +83,18 @@ class Helper_model extends CI_Model {
                                                     $items[$item['MenuID']]['children'] = array();
                                                 }
                                                 foreach($result as $key => &$item){
-                                                    if($item['ParentId'] && isset($items[$item['ParentId']]))
+                                                    if($item['ParentId'] && isset($items[$item['ParentId']])){
                                                         $items [$item['ParentId']]['children'][] = &$item;
+                                                    }
                                                 }
                                                 $i = 0;
-
                                                 foreach($result as $key => &$item) {
-                                                    if($item['ParentId'] && isset($items[$item['ParentId']])) unset($result[$key]); }
-                                                        foreach ($result as $row) { $data[$i++] = $row; 
+                                                    if($item['ParentId'] && isset($items[$item['ParentId']])){
+                                                        unset($result[$key]);
+                                                    } 
+                                                }
+                                                foreach ($result as $row) {
+                                                    $data[$i++] = $row; 
                                                 }
                                                 $response["result"] = true;
                                                 $response["resultCode"] = 0;
