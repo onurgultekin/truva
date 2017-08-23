@@ -162,7 +162,7 @@ class TechnicalServiceForm_model extends CI_Model {
         public function getTechnicalServiceStatus($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","technicalServiceStatusId"); 
+                $mandatoryParameters = array("accessToken","userId");
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -209,7 +209,7 @@ class TechnicalServiceForm_model extends CI_Model {
         public function getTechnicalServiceReportType($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","technicalServiceReportTypeId"); 
+                $mandatoryParameters = array("accessToken","userId");
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -256,7 +256,7 @@ class TechnicalServiceForm_model extends CI_Model {
         public function getTechnicalServicePriority($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","technicalServicePriorityId"); 
+                $mandatoryParameters = array("accessToken","userId");
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;

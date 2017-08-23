@@ -1022,7 +1022,7 @@ class General_model extends CI_Model
 	public function getTechnicalServiceStatuses(){
 		$accessToken = $this->session->userdata("accessToken");
 		$userId = $this->session->userdata("userId");
-		$data = array("accessToken" => $accessToken, "userId" => $userId,"technicalServiceStatusId"=>"null");
+		$data = array("accessToken" => $accessToken, "userId" => $userId);
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
 		CURLOPT_RETURNTRANSFER => 1,
@@ -1035,7 +1035,7 @@ class General_model extends CI_Model
 	public function getTechnicalServicePriorities(){
 		$accessToken = $this->session->userdata("accessToken");
 		$userId = $this->session->userdata("userId");
-		$data = array("accessToken" => $accessToken, "userId" => $userId,"technicalServicePriorityId"=>"null");
+		$data = array("accessToken" => $accessToken, "userId" => $userId);
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
 		CURLOPT_RETURNTRANSFER => 1,
@@ -1048,7 +1048,7 @@ class General_model extends CI_Model
 	public function getTechnicalServiceReportTypes(){
 		$accessToken = $this->session->userdata("accessToken");
 		$userId = $this->session->userdata("userId");
-		$data = array("accessToken" => $accessToken, "userId" => $userId,"technicalServiceReportTypeId"=>"null");
+		$data = array("accessToken" => $accessToken, "userId" => $userId);
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
 		CURLOPT_RETURNTRANSFER => 1,
