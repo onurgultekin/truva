@@ -40,7 +40,6 @@ class TechnicalServiceForm_model extends CI_Model {
                                 $technicalServiceStatusID = $parameters["technicalServiceStatusID"];
                                 $companyID = $parameters["companyID"];
                                 $tapID = $parameters["tapID"];
-
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
                                 }else{
@@ -93,8 +92,6 @@ class TechnicalServiceForm_model extends CI_Model {
                                 $technicalServiceStatusID = $parameters["technicalServiceStatusID"];
                                 $companyID = $parameters["companyID"];
                                 $tapID = $parameters["tapID"];
-                                
-                                
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
                                 }else{
@@ -143,8 +140,6 @@ class TechnicalServiceForm_model extends CI_Model {
                                 $technicalServiceStatusID = $parameters["technicalServiceStatusID"];
                                 $companyID = $parameters["companyID"];
                                 $tapID = $parameters["tapID"];
-                                
-                                
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
                                 }else{
@@ -300,7 +295,5 @@ class TechnicalServiceForm_model extends CI_Model {
                 }
                 return $response;
         }
-
-
 }
 ?>

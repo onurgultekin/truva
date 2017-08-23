@@ -37,8 +37,6 @@ class Technicalserviceform extends REST_Controller {
 		$message = $this->TechnicalServiceForm_model->updateTechnicalServiceForm($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
-
-
 	public function getTechnicalServiceStatus_post(){
 		$message = $this->TechnicalServiceForm_model->getTechnicalServiceStatus($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
@@ -51,9 +49,4 @@ class Technicalserviceform extends REST_Controller {
 		$message = $this->TechnicalServiceForm_model->getTechnicalServicePriority($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
-
-
-
-
-
 }
