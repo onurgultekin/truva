@@ -1914,6 +1914,9 @@ class General extends CI_Controller {
 		$TechnicalServiceFormId = $this->input->post("TechnicalServiceFormId");
 		$technicalServiceForm = $this->general_model->getTechnicalServiceFormById($TechnicalServiceFormId);
 		$technicalServiceUsers = $this->general_model->getTechnicalServiceUsers();
+		$technicalServiceStatuses = $this->general_model->getTechnicalServiceStatuses();
+		$technicalServiceReportTypes = $this->general_model->getTechnicalServiceReportTypes();
+		$technicalServicePriorities = $this->general_model->getTechnicalServicePriorities();
 		$users = $this->admin_model->getUsers();
 		$companies = $this->general_model->getCompanies();
 		$taps = $this->general_model->getTaps();
@@ -1998,6 +2001,51 @@ class General extends CI_Controller {
 				$selected = 'selected = "selected"';
 			}
 	                        echo '<option '.$selected.' value='.$company->CompanyID.'>'.$company->CompanyName.'</option>';
+	                      }
+	                      echo '</select>
+	                    </div></div>';
+	                  }else
+	                  if($field["id"] == "technicalServiceReportTypeID"){
+	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+	                    <label class="">'.$field["name"].'</label>
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Şirket Tipi seçin" data-init-plugin="select2">
+	                      <option value="0">Lütfen seçin</option>';
+	                      foreach ($technicalServiceReportTypes as $key => $technicalServiceReportType) {
+	                      	$selected = '';
+			if($technicalServiceReportType->TechnicalServiceReportTypeID == $technicalServiceForm[0]->technicalServiceReportTypeID){
+				$selected = 'selected = "selected"';
+			}
+	                        echo '<option '.$selected.' value='.$technicalServiceReportType->TechnicalServiceReportTypeID.'>'.$technicalServiceReportType->Name.'</option>';
+	                      }
+	                      echo '</select>
+	                    </div></div>';
+	                  }else
+	                  if($field["id"] == "technicalServiceStatusID"){
+	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+	                    <label class="">'.$field["name"].'</label>
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Şirket Tipi seçin" data-init-plugin="select2">
+	                      <option value="0">Lütfen seçin</option>';
+	                      foreach ($technicalServiceStatuses as $key => $technicalServiceStatus) {
+	                      	$selected = '';
+			if($technicalServiceStatus->TechnicalServiceStatusID == $technicalServiceForm[0]->technicalServiceStatusID){
+				$selected = 'selected = "selected"';
+			}
+	                        echo '<option '.$selected.' value='.$technicalServiceStatus->TechnicalServiceStatusID.'>'.$technicalServiceStatus->Name.'</option>';
+	                      }
+	                      echo '</select>
+	                    </div></div>';
+	                  }else
+	                  if($field["id"] == "technicalServicePriorityID"){
+	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
+	                    <label class="">'.$field["name"].'</label>
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Şirket Tipi seçin" data-init-plugin="select2">
+	                      <option value="0">Lütfen seçin</option>';
+	                      foreach ($technicalServicePriorities as $key => $technicalServicePriority) {
+	                      	$selected = '';
+			if($technicalServicePriority->TechnicalServicePriorityID == $technicalServiceForm[0]->technicalServicePriorityID){
+				$selected = 'selected = "selected"';
+			}
+	                        echo '<option '.$selected.' value='.$technicalServicePriority->TechnicalServicePriorityID.'>'.$technicalServicePriority->Name.'</option>';
 	                      }
 	                      echo '</select>
 	                    </div></div>';
