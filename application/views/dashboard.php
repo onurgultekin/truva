@@ -567,7 +567,7 @@
         }
     },
     tooltip: {
-        pointFormat: '{series.name} kişi başı ortalama <b>{point.y:,.0f} CL </b> '
+        pointFormat: '{series.name} kişi başı ortalama <b>{point.y:,.2f} CL </b> '
     },
     series: <?php echo json_encode($averageConsumed->graphData); ?>
 });

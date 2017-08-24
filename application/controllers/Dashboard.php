@@ -1049,7 +1049,17 @@ class Dashboard extends CI_Controller {
 		            "type"=>"select",
 		            "disabled"=>"",
 		            "class"=>"alcoholbrandsinmodal"
-		            ]
+		            ],
+		          	[
+		            "name"=>"CL Başı Maliyet",
+		            "id"=>"NetPrice",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"Satış Fiyatı",
+		            "id"=>"SalePrice",
+		            "type"=>"text"
+		          	]
 	          	];
 		$this->load->model("general_model");
 		$data["leftsidemenuitems"] = $this->general_model->getLeftSideMenu();

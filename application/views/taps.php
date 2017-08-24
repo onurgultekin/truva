@@ -165,11 +165,15 @@
                   echo '</div><div class="row">';
                 }
                 if($field["type"]!="select"){
+                  $placeholder = '';
+                  if($field["id"] == "NetPrice" || $field["id"] == "SalePrice"){
+                    $placeholder = 'placeholder="0.00"';
+                  }
                   echo '<div class="col-sm-6">
                   <div class="form-group form-group-default required '.$class.' ">
                     <label>'.$field["name"].':</label>
                     <div class="controls">
-                      <input type="'.$field["type"].'" class="form-control" name="'.$field["id"].'" id="'.$field["id"].'" required data-msg="'.$message.'">
+                      <input type="'.$field["type"].'" class="form-control" name="'.$field["id"].'" id="'.$field["id"].'" required data-msg="'.$message.'" '.$placeholder.'>
                     </div>
                   </div>
                 </div>';
@@ -250,6 +254,41 @@
                 }
               }
               ?>
+              <div class="clearfix"></div>
+              <div class="row m-b-10">
+                  <div class="col-md-4">
+                  <div class="form-group form-group-default required m-t-10">
+                    <label>Button Adı</label>
+                    <div class="controls">
+                    <input type="text" class="form-control" id="buttonName">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-default required m-t-10">
+                    <label>Button CL Real</label>
+                    <div class="controls">
+                    <input type="text" class="form-control" id="buttonClReal" placeholder="0.00">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-default required m-t-10">
+                    <label>Button CL Shown</label>
+                    <div class="controls">
+                    <input type="text" class="form-control" id="buttonClShown" placeholder="0.00">
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-primary pull-right addButtonDataToTable"><i class="fa fa-angle-double-right"></i></button>
+                  </div>
+                  <div class="col-md-8">
+                    <table class="table table-striped buttonTable">
+                        <thead>
+                          <th style="text-transform: none !important; padding-top: 0px;">Button Adı</th>
+                          <th style="text-transform: none !important; padding-top: 0px;">Button CL Real</th>
+                          <th style="text-transform: none !important; padding-top: 0px;">Button CL Shown</th>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                  </div>
+                  </div>
                 <button type="submit" class="btn btn-primary btn-block addNewTapButton">Yeni Musluk Ekle</button>
                 <div class="alert alert-success modalError unvisible m-t-10"></div>
               </form>
@@ -298,6 +337,7 @@
     <script type="text/javascript" src="<?php echo base_url() ?>assets/plugins/select2/js/select2.full.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url() ?>assets/plugins/classie/classie.js"></script>
     <script src="<?php echo base_url() ?>assets/plugins/switchery/js/switchery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="<?php echo base_url() ?>assets/plugins/jquery-autonumeric/autoNumeric.js"></script>
     <!-- END VENDOR JS -->
     <!-- BEGIN CORE TEMPLATE JS -->
     <script src="<?php echo base_url() ?>truva/js/pages.min.js"></script>
@@ -320,11 +360,21 @@
     <script src="<?php echo base_url() ?>truva/js/pages.min.js"></script>
     <script type="text/javascript">
       $(function(){
+        var buttonsArray = [];
         initTable();
         getDetails(".getTapDetails","/general/getTapById","TapId",".appendTapDataHere");
         $("#appendNewTapData").validate({
+          rules: {
+              collector_id:{min:1},
+              AlcoholBrandID:{min:1},
+              AlcoholTypeID:{min:1},
+              AlcoholGroupID:{min:1},
+              BarGroupID:{min:1},
+              CompanyID:{min:1},
+              TapStatusID:{min:1}
+          },
           submitHandler: function(form) {
-            addNewTap();
+            addNewTap(buttonsArray);
             }
         });
         $("#updateTapData").validate({
@@ -361,6 +411,29 @@
               })
             }
           })
+        })
+        $('#buttonClReal,#buttonClShown,#NetPrice,#SalePrice').autoNumeric('init');
+        $("body").on("click",".addButtonDataToTable",function(){
+          $(".modalError").html('').addClass("unvisible");
+          var buttonName = $("#buttonName").val();
+          var buttonClReal = $("#buttonClReal").val();
+          var buttonClShown = $("#buttonClShown").val();
+          var tableLength = $(".buttonTable tbody tr").length;
+          if(tableLength < 4 && buttonName.length!=0 && buttonClReal.length!=0 && buttonClShown.length!=0){
+            $(".buttonTable tbody").append('<tr><td>'+buttonName+'</td><td>'+buttonClReal+'</td><td>'+buttonClShown+'</td></tr>');
+            buttons = {
+              buttonName:buttonName,
+              buttonClReal:buttonClReal,
+              buttonClShown:buttonClShown
+            }
+            buttonsArray.push(buttons);
+          }else{
+            if(tableLength >= 4){
+              $(".modalError").html("4 butondan fazla giremezsiniz.").removeClass("unvisible");
+            }else{
+              $(".modalError").html("Lütfen bütün button alanlarını doldurun.").removeClass("unvisible");
+            }
+          }
         })
       })
     </script>

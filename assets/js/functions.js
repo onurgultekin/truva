@@ -1340,8 +1340,9 @@ function updateTechnicalServiceUser(){
         }
     })
 }
-function addNewTap(){
+function addNewTap(buttonsArray){
     var data = $("#appendNewTapData" ).serializeObject();
+    data.buttons = buttonsArray;
     $(".modalError").html('Lütfen bekleyiniz...');
     $.ajax({
         type:"POST",
