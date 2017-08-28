@@ -1054,6 +1054,9 @@ class Admin_model extends CI_Model
 		$AlcoholBrandID = $_POST["AlcoholBrandID"];
 		$TapStatusID = $_POST["TapStatusID"];
 		$collector_id = $_POST["collector_id"];
+		$buttons = $_POST["buttons"];
+		$NetPrice = $_POST["NetPrice"];
+		$SalePrice = $_POST["SalePrice"];
 		$data = array(
 			"accessToken"=>$accessToken,
 			"userId"=>$userId,
@@ -1070,7 +1073,10 @@ class Admin_model extends CI_Model
 			"AlcoholTypeID" => $AlcoholTypeID,
 			"AlcoholBrandID"=>$AlcoholBrandID,
 			"TapStatusID"=>$TapStatusID,
-			"collector_id"=>$collector_id);
+			"collector_id"=>$collector_id,
+			"buttons"=>$buttons,
+			"NetPrice"=>$NetPrice,
+			"SalePrice"=>$SalePrice);
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
 		CURLOPT_RETURNTRANSFER => 1,

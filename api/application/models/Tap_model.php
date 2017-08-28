@@ -225,7 +225,7 @@ class Tap_model extends CI_Model {
         public function updateTap($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","TapID","Name","ID1","ID2","ID3","Version","HoldingID","CompanyID","BarGroupID","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","collector_id","TapStatusID"); 
+                $mandatoryParameters = array("accessToken","userId","TapID","Name","ID1","ID2","ID3","Version","HoldingID","CompanyID","BarGroupID","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","collector_id","TapStatusID","buttons","NetPrice","SalePrice"); 
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -234,7 +234,7 @@ class Tap_model extends CI_Model {
                 if($k>0){
                         $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
                 }else{
-                        $availableParameters = array("accessToken","userId","TapID","Name","ID1","ID2","ID3","Version","HoldingID","CompanyID","BarGroupID","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","collector_id","TapStatusID");
+                        $availableParameters = array("accessToken","userId","TapID","Name","ID1","ID2","ID3","Version","HoldingID","CompanyID","BarGroupID","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","collector_id","TapStatusID","buttons","NetPrice","SalePrice");
                         foreach ($parameters as $key => $parameter) {
                                 if(!in_array($key,$availableParameters)){
                                         $i++;
@@ -259,6 +259,9 @@ class Tap_model extends CI_Model {
                                 $AlcoholBrandID = $parameters["AlcoholBrandID"];
                                 $collector_id = $parameters["collector_id"];
                                 $TapStatusID = $parameters["TapStatusID"];
+                                $buttons = $parameters["buttons"];
+                                $NetPrice = $parameters["NetPrice"];
+                                $SalePrice = $parameters["SalePrice"];
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
                                 }else
@@ -291,7 +294,19 @@ class Tap_model extends CI_Model {
                                 }else{
                                         $query = $this->db->query("CALL ADD_OR_UPDATE_TAPS('".$accessToken."',".$userId.",".$TapID.",'".$Name."','".$ID1."','".$ID2."','".$ID3."','".$Version."',".$HoldingID.",".$CompanyID.",".$BarGroupID.",".$AlcoholGroupID.",".$AlcoholTypeID.",".$AlcoholBrandID.",".$collector_id.",".$TapStatusID.")");
                                         $result = $query->row();
-                                        $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
+                                        if($result->isError == 1){
+                                                $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
+                                        }else{
+                                                $this->db->close();
+                                                $query = $this->db->query("delete from tapButtonsPrice where TapID = $TapID");
+                                                foreach ($buttons as $key => $button) {
+                                                        $this->db->close();
+                                                        $query = $this->db->query("CALL ADD_BUTTON_TO_TAP('".$accessToken."',".$userId.",".$TapID.",".($key+1).",'".$button["buttonName"]."','".$button["buttonClReal"]."','".$button["buttonClShown"]."','".$NetPrice."','".$SalePrice."')");
+                                                }
+                                                $response["result"] = true;
+                                                $response["resultCode"] = 0;
+                                                $response["message"] = "Musluk başarıyla güncellendi.";
+                                        }
                                 }
                         }
                 }

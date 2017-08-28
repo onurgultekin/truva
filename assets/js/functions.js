@@ -102,6 +102,20 @@ var initTable = function(width = 184) {
     });
     
 }
+function _updateButtonsArray(array,tableClass){
+  $.each($(tableClass+" tbody tr"),function(){
+      var buttonId = $(this).attr("id");
+      var buttonName = $(this).find("td").eq(0).text();
+      var buttonClReal = $(this).find("td").eq(1).text();
+      var buttonClShown = $(this).find("td").eq(2).text();
+      buttons = {
+        buttonName:buttonName,
+        buttonClReal:buttonClReal,
+        buttonClShown:buttonClShown
+      }
+      array.push(buttons);
+  })
+}
 function getDetails(button,endpoint,elementName,appendableDiv){
     $("body").on("click",button,function(){
         Pace.restart();
@@ -197,24 +211,9 @@ function getDetails(button,endpoint,elementName,appendableDiv){
                 }
                 if(button == ".getTapDetails"){
                     var updateButtonsArray = [];
-                    function _updateButtonsArray(updateButtonsArray){
-                        $.each($(".updateButtonTable tbody tr"),function(){
-                            var buttonId = $(this).attr("id");
-                            var buttonName = $(this).find("td").eq(0).text();
-                            var buttonClReal = $(this).find("td").eq(1).text();
-                            var buttonClShown = $(this).find("td").eq(2).text();
-                            buttons = {
-                              buttonId:buttonId,
-                              buttonName:buttonName,
-                              buttonClReal:buttonClReal,
-                              buttonClShown:buttonClShown
-                            }
-                            updateButtonsArray.push(buttons);
-                        })
-                    }
-                    _updateButtonsArray(updateButtonsArray);
+                    _updateButtonsArray(updateButtonsArray,".updateButtonTable");
                     $('#buttonClReal,#buttonClShown,#NetPrice,#SalePrice').autoNumeric('init');
-                    $("body").on("click",".addButtonDataToTable",function(){
+                    $("body").on("click",".addButtonDataToTableForUpdate",function(){
                       $(".modalError").html('').addClass("unvisible");
                       var buttonId = $(this).parents("tr").attr("id");
                       var buttonName = $("#buttonName").val();
@@ -222,9 +221,17 @@ function getDetails(button,endpoint,elementName,appendableDiv){
                       var buttonClShown = $("#buttonClShown").val();
                       var tableLength = $(".updateButtonTable tbody tr").length;
                       if(tableLength < 4 && buttonName.length!=0 && buttonClReal.length!=0 && buttonClShown.length!=0){
-                        $(".updateButtonTable tbody").append('<tr><td>'+buttonName+'</td><td>'+buttonClReal+'</td><td>'+buttonClShown+'</td></tr>');
+                        $(".updateButtonTable tbody").append('<tr>\
+                            <td>'+buttonName+'</td>\
+                            <td>'+buttonClReal+'</td>\
+                            <td>'+buttonClShown+'</td>\
+                            <td>\
+                                <div class="pull-right">\
+                                <button type="button" class="btn btn-danger btn-xs deleteButtonForUpdate"><i class="fa fa-times"></i></button>\
+                                </div>\
+                                </td>\
+                            </tr>');
                         buttons = {
-                          buttonId:buttonId,
                           buttonName:buttonName,
                           buttonClReal:buttonClReal,
                           buttonClShown:buttonClShown
@@ -238,6 +245,20 @@ function getDetails(button,endpoint,elementName,appendableDiv){
                         }
                       }
                     })
+                    $("body").on("click",".deleteButtonForUpdate",function(){
+                        $(this).parents("tr").fadeOut(500,function(){
+                            $(this).remove();
+                            var updateButtonsArray = [];
+                            _updateButtonsArray(updateButtonsArray,".updateButtonTable");
+                        })
+                    })
+                    $("#updateTapData").validate({
+                      submitHandler: function(form) {
+                        var updateButtonsArray = [];
+                        _updateButtonsArray(updateButtonsArray,".updateButtonTable");
+                        updateTap(updateButtonsArray);
+                        }
+                    });
                 }
             }
         })
@@ -1429,8 +1450,9 @@ function getTaps(){
         }
     })
 }
-function updateTap(){
+function updateTap(buttonsArray){
     var data = $("#updateTapData" ).serializeObject();
+    data.buttons = buttonsArray;
     $(".updateModalError").html('Lütfen bekleyiniz...').removeClass("unvisible");
     $.ajax({
         type:"POST",

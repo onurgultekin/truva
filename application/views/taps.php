@@ -283,6 +283,7 @@
                           <th style="text-transform: none !important; padding-top: 0px;">Button Adı</th>
                           <th style="text-transform: none !important; padding-top: 0px;">Button CL Real</th>
                           <th style="text-transform: none !important; padding-top: 0px;">Button CL Shown</th>
+                          <th style="text-transform: none !important; padding-top: 0px;"></th>
                         </thead>
                         <tbody>
                         </tbody>
@@ -377,11 +378,6 @@
             addNewTap(buttonsArray);
             }
         });
-        $("#updateTapData").validate({
-          submitHandler: function(form) {
-            updateTap();
-            }
-        });
         $('#datepicker-range').datepicker({
           format: 'yyyy-mm-dd',
           endDate: '+0d'
@@ -420,7 +416,16 @@
           var buttonClShown = $("#buttonClShown").val();
           var tableLength = $(".buttonTable tbody tr").length;
           if(tableLength < 4 && buttonName.length!=0 && buttonClReal.length!=0 && buttonClShown.length!=0){
-            $(".buttonTable tbody").append('<tr><td>'+buttonName+'</td><td>'+buttonClReal+'</td><td>'+buttonClShown+'</td></tr>');
+            $(".buttonTable tbody").append('<tr>\
+            <td>'+buttonName+'</td>\
+            <td>'+buttonClReal+'</td>\
+            <td>'+buttonClShown+'</td>\
+            <td>\
+                <div class="pull-right">\
+                <button type="button" class="btn btn-danger btn-xs deleteButton"><i class="fa fa-times"></i></button>\
+                </div>\
+                </td>\
+            </tr>');
             buttons = {
               buttonName:buttonName,
               buttonClReal:buttonClReal,
@@ -434,6 +439,14 @@
               $(".modalError").html("Lütfen bütün button alanlarını doldurun.").removeClass("unvisible");
             }
           }
+        })
+        $("body").on("click",".deleteButton",function(){
+            $(this).parents("tr").fadeOut(500,function(){
+                $(this).remove();
+                var buttonsArray = [];
+                _updateButtonsArray(buttonsArray,".buttonTable");
+                console.log(buttonsArray);
+            })
         })
       })
     </script>

@@ -1640,6 +1640,16 @@ class General extends CI_Controller {
 		            "class"=>"alcoholbrandsinmodal"
 		            ],
 		          	[
+		            "name"=>"CL Başı Maliyet",
+		            "id"=>"NetPrice",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"Satış Fiyatı",
+		            "id"=>"SalePrice",
+		            "type"=>"text"
+		          	],
+		          	[
 		            "name"=>"Id",
 		            "id"=>"TapID",
 		            "type"=>"hidden"
@@ -1833,7 +1843,7 @@ class General extends CI_Controller {
                     <input type="text" class="form-control" id="buttonClShown" placeholder="0.00">
                     </div>
                   </div>
-                  <button type="button" class="btn btn-primary pull-right addButtonDataToTable"><i class="fa fa-angle-double-right"></i></button>
+                  <button type="button" class="btn btn-primary pull-right addButtonDataToTableForUpdate"><i class="fa fa-angle-double-right"></i></button>
                   </div>
                   <div class="col-md-8">
                     <table class="table table-striped updateButtonTable">
@@ -1853,8 +1863,7 @@ class General extends CI_Controller {
                         		<td>'.$button->clShown.'</td>
                         		<td>
                         		<div class="pull-right">
-                        		<button type="button" class="btn btn-warning btn-xs editButton"><i class="fa fa-edit"></i></button>
-                        		<button type="button" class="btn btn-danger btn-xs m-t-5 deleteButton"><i class="fa fa-times"></i></button>
+                        		<button type="button" class="btn btn-danger btn-xs deleteButtonForUpdate"><i class="fa fa-times"></i></button>
                         		</div>
                         		</td>
                         	</tr>';
