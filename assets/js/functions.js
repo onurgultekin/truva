@@ -195,6 +195,50 @@ function getDetails(button,endpoint,elementName,appendableDiv){
                         $(this).trigger("focus").trigger("blur");
                       })
                 }
+                if(button == ".getTapDetails"){
+                    var updateButtonsArray = [];
+                    function _updateButtonsArray(updateButtonsArray){
+                        $.each($(".updateButtonTable tbody tr"),function(){
+                            var buttonId = $(this).attr("id");
+                            var buttonName = $(this).find("td").eq(0).text();
+                            var buttonClReal = $(this).find("td").eq(1).text();
+                            var buttonClShown = $(this).find("td").eq(2).text();
+                            buttons = {
+                              buttonId:buttonId,
+                              buttonName:buttonName,
+                              buttonClReal:buttonClReal,
+                              buttonClShown:buttonClShown
+                            }
+                            updateButtonsArray.push(buttons);
+                        })
+                    }
+                    _updateButtonsArray(updateButtonsArray);
+                    $('#buttonClReal,#buttonClShown,#NetPrice,#SalePrice').autoNumeric('init');
+                    $("body").on("click",".addButtonDataToTable",function(){
+                      $(".modalError").html('').addClass("unvisible");
+                      var buttonId = $(this).parents("tr").attr("id");
+                      var buttonName = $("#buttonName").val();
+                      var buttonClReal = $("#buttonClReal").val();
+                      var buttonClShown = $("#buttonClShown").val();
+                      var tableLength = $(".updateButtonTable tbody tr").length;
+                      if(tableLength < 4 && buttonName.length!=0 && buttonClReal.length!=0 && buttonClShown.length!=0){
+                        $(".updateButtonTable tbody").append('<tr><td>'+buttonName+'</td><td>'+buttonClReal+'</td><td>'+buttonClShown+'</td></tr>');
+                        buttons = {
+                          buttonId:buttonId,
+                          buttonName:buttonName,
+                          buttonClReal:buttonClReal,
+                          buttonClShown:buttonClShown
+                        }
+                        updateButtonsArray.push(buttons);
+                      }else{
+                        if(tableLength >= 4){
+                          $(".updateModalError").html("4 butondan fazla giremezsiniz.").removeClass("unvisible");
+                        }else{
+                          $(".updateModalError").html("Lütfen bütün button alanlarını doldurun.").removeClass("unvisible");
+                        }
+                      }
+                    })
+                }
             }
         })
         Pace.stop();

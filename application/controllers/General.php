@@ -1810,6 +1810,60 @@ class General extends CI_Controller {
 	                  }
 	                }
 	              }
+	              $buttons = @json_decode($tap[0]->Buttons);
+	              echo '
+	              <div class="clearfix"></div>
+              <div class="row m-b-10">
+                  <div class="col-md-4">
+                  <div class="form-group form-group-default required m-t-10">
+                    <label>Button Adı</label>
+                    <div class="controls">
+                    <input type="text" class="form-control" id="buttonName">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-default required m-t-10">
+                    <label>Button CL Real</label>
+                    <div class="controls">
+                    <input type="text" class="form-control" id="buttonClReal" placeholder="0.00">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-default required m-t-10">
+                    <label>Button CL Shown</label>
+                    <div class="controls">
+                    <input type="text" class="form-control" id="buttonClShown" placeholder="0.00">
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-primary pull-right addButtonDataToTable"><i class="fa fa-angle-double-right"></i></button>
+                  </div>
+                  <div class="col-md-8">
+                    <table class="table table-striped updateButtonTable">
+                        <thead>
+                          <th style="text-transform: none !important; padding-top: 0px;">Button Adı</th>
+                          <th style="text-transform: none !important; padding-top: 0px;">Button CL Real</th>
+                          <th style="text-transform: none !important; padding-top: 0px;">Button CL Shown</th>
+                          <th style="text-transform: none !important; padding-top: 0px;"></th>
+                        </thead>
+                        <tbody>';
+                        if(count(@$buttons->buttons) > 0){
+                        foreach (@$buttons->buttons as $key => $button) {
+                        	echo '
+                        	<tr id="'.$button->id.'">
+                        		<td>'.$button->name.'</td>
+                        		<td>'.$button->clReal.'</td>
+                        		<td>'.$button->clShown.'</td>
+                        		<td>
+                        		<div class="pull-right">
+                        		<button type="button" class="btn btn-warning btn-xs editButton"><i class="fa fa-edit"></i></button>
+                        		<button type="button" class="btn btn-danger btn-xs m-t-5 deleteButton"><i class="fa fa-times"></i></button>
+                        		</div>
+                        		</td>
+                        	</tr>';
+                        	}
+                        }
+                        echo '</tbody>
+                    </table>
+                  </div>
+                  </div>';
 	}
 	public function getTapByBarGroupId(){
 		header("Content-type:application/json");
