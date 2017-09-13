@@ -454,11 +454,12 @@
                   <button type="button" class="btn btn-primary pull-right addButtonDataToTable"><i class="fa fa-angle-double-right"></i></button>
                   </div>
                   <div class="col-md-8">
-                    <table class="table table-striped">
+                    <table class="table table-striped buttonTable">
                         <thead>
                           <th style="text-transform: none !important">Button Adı</th>
                           <th style="text-transform: none !important">Button CL Real</th>
                           <th style="text-transform: none !important">Button CL Shown</th>
+                          <th style="text-transform: none !important; padding-top: 0px;"></th>
                         </thead>
                         <tbody>
                         </tbody>
@@ -537,7 +538,7 @@
                   </div>
                   <div class="form-group form-group-default disabled m-t-10">
                     <label>Butonlar</label>
-                    <table class="table table-striped">
+                    <table class="table table-striped previewTable">
                         <thead>
                           <th style="text-transform: none !important">Button Adı</th>
                           <th style="text-transform: none !important">Button CL Real</th>
@@ -551,7 +552,7 @@
                 <div class="panel-footer">
                   <div class="pull-right">
                     <button type="button" class="btn btn-danger backBtn">Geri</button>
-                    <button type="button" class="btn btn-info">Tamamla</button>
+                    <button type="button" class="btn btn-info complete">Tamamla</button>
                   </div>
                   <div class="clearfix"></div>
                 </div>
@@ -1053,13 +1054,34 @@
             }
         });
         $('#buttonClReal,#buttonClShown,#pricePerCl,#priceForSale').autoNumeric('init');
+        var buttonsArray = [];
         $("body").on("click",".addButtonDataToTable",function(){
           var buttonName = $("#buttonName").val();
           var buttonClReal = $("#buttonClReal").val();
           var buttonClShown = $("#buttonClShown").val();
-          var tableLength = $("#step-10 .table tbody tr").length;
+          var tableLength = $("#step-10 .buttonTable tbody tr").length;
           if(tableLength < 4 && buttonName.length!=0 && buttonClReal.length!=0 && buttonClShown.length!=0){
-            $(".table tbody").append('<tr><td>'+buttonName+'</td><td>'+buttonClReal+'</td><td>'+buttonClShown+'</td></tr>');
+            $(".buttonTable tbody").append('<tr>\
+            <td>'+buttonName+'</td>\
+            <td>'+buttonClReal+'</td>\
+            <td>'+buttonClShown+'</td>\
+            <td>\
+                <div class="pull-right">\
+                <button type="button" class="btn btn-danger btn-xs deleteButton"><i class="fa fa-times"></i></button>\
+                </div>\
+                </td>\
+            </tr>');
+            $(".previewTable tbody").append('<tr>\
+            <td>'+buttonName+'</td>\
+            <td>'+buttonClReal+'</td>\
+            <td>'+buttonClShown+'</td>\
+            </tr>');
+            buttons = {
+              buttonName:buttonName,
+              buttonClReal:buttonClReal,
+              buttonClShown:buttonClShown
+            }
+            buttonsArray.push(buttons);
           }else{
             if(tableLength>=4){
               $("#modalSlideUpSmall").find("h4").html("4 butondan fazla giremezsiniz.");
@@ -1068,6 +1090,46 @@
             }
             $("#modalSlideUpSmall").modal();
           }
+        })
+        $("body").on("click",".deleteButton",function(){
+            var index = $(this).parents("tr").index();
+            $(".previewTable tbody tr").eq(index).remove();
+            $(this).parents("tr").fadeOut(500,function(){
+                $(this).remove();
+                var buttonsArray = [];
+                _updateButtonsArray(buttonsArray,".buttonTable");
+            })
+        })
+        $(".complete").on("click",function(e){
+          var buttonsArray = [];
+          _updateButtonsArray(buttonsArray,".buttonTable");
+          var collector_id = $(".collectors").val();
+          var id = $("#muslukId").val();
+          var name = $("#muslukName").val();
+          var holding = $(".holdings").val();
+          var company = $(".companies").val();
+          var bargroup = $(".bars").val();
+          var alcoholType = $(".alcoholTypes").val();
+          var alcoholBrand = $(".alcoholBrands").val();
+          var netPrice = $("#pricePerCl").val();
+          var salePrice = $("#priceForSale").val();
+          var buttons = buttonsArray;
+          var data = {collector_id:collector_id,id:id,name:name,holding:holding,company:company,bargroup:bargroup,alcoholType:alcoholType,alcoholBrand:alcoholBrand,netPrice:netPrice,salePrice:salePrice,buttons:buttons};
+          $.ajax({
+            type:"POST",
+            url:base_url+"/admin/tapWizard",
+            data:data,
+            success:function(response){
+                if(response.resultCode == 0){
+                  $("#modalSlideUpSmall").find("h4").html(response.message);
+                  $("#modalSlideUpSmall").modal();
+                  setTimeout(function(){
+                    location.reload();
+                  },2000);
+                }
+            }
+        })
+          e.preventDefault();
         })
       })
     </script>

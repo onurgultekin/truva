@@ -350,5 +350,79 @@ class Tap_model extends CI_Model {
                 }
                 return $response;
         }
+        public function tapWizard($parameters){
+                $i = 0;
+                $k = 0;
+                $mandatoryParameters = array("accessToken","userId","Name","ID1","HoldingID","CompanyID","BarGroupID","AlcoholTypeID","AlcoholBrandID","collector_id","buttons","NetPrice","SalePrice"); 
+                foreach ($mandatoryParameters as $mandatoryParameter) {
+                        if(!array_key_exists($mandatoryParameter,$parameters)){
+                                $k++;
+                        }
+                } 
+                if($k>0){
+                        $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
+                }else{
+                        $availableParameters = array("accessToken","userId","Name","ID1","HoldingID","CompanyID","BarGroupID","AlcoholTypeID","AlcoholBrandID","collector_id","buttons","NetPrice","SalePrice");
+                        foreach ($parameters as $key => $parameter) {
+                                if(!in_array($key,$availableParameters)){
+                                        $i++;
+                                }
+                        }
+                        if($i>0){
+                                $response = $this->globalfunctions->returnMessage(1001,"Geçersiz istek. Bilinmeyen parametre girdiniz.",true);
+                        }else{
+                                $accessToken = $parameters["accessToken"];
+                                $userId = $parameters["userId"];
+                                $Name = addslashes($parameters["Name"]);
+                                $ID1 = addslashes($parameters["ID1"]);
+                                $HoldingID = $parameters["HoldingID"];
+                                $CompanyID = $parameters["CompanyID"];
+                                $BarGroupID = $parameters["BarGroupID"];
+                                $AlcoholTypeID = $parameters["AlcoholTypeID"];
+                                $AlcoholBrandID = $parameters["AlcoholBrandID"];
+                                $collector_id = $parameters["collector_id"];
+                                $buttons = $parameters["buttons"];
+                                $NetPrice = $parameters["NetPrice"];
+                                $SalePrice = $parameters["SalePrice"];
+                                if(!is_numeric($userId)){
+                                        $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($HoldingID)){
+                                        $response = $this->globalfunctions->returnMessage(1003,"HoldingID parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($CompanyID)){
+                                        $response = $this->globalfunctions->returnMessage(1004,"CompanyID parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($BarGroupID)){
+                                        $response = $this->globalfunctions->returnMessage(1005,"BarGroupID parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($AlcoholTypeID)){
+                                        $response = $this->globalfunctions->returnMessage(1007,"AlcoholTypeID parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($AlcoholBrandID)){
+                                        $response = $this->globalfunctions->returnMessage(1008,"AlcoholBrandID parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($collector_id)){
+                                        $response = $this->globalfunctions->returnMessage(1009,"collector_id parametresi numeric olmalıdır.",true);
+                                }else{
+                                        $query = $this->db->query("CALL TAP_WIZARD('".$accessToken."',".$userId.",'".$Name."','".$ID1."',".$HoldingID.",".$CompanyID.",".$BarGroupID.",".$AlcoholTypeID.",".$AlcoholBrandID.",".$collector_id.")");
+                                        $result = $query->row();
+                                        if($result->isError == 1){
+                                                $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
+                                        }else{
+                                                $tapId = $result->tapId;
+                                                foreach ($buttons as $key => $button) {
+                                                        $this->db->close();
+                                                        $query = $this->db->query("CALL ADD_BUTTON_TO_TAP('".$accessToken."',".$userId.",".$tapId.",".($key+1).",'".$button["buttonName"]."','".$button["buttonClReal"]."','".$button["buttonClShown"]."','".$NetPrice."','".$SalePrice."')");
+                                                }
+                                                $response["result"] = true;
+                                                $response["resultCode"] = 0;
+                                                $response["message"] = "Musluk başarıyla eklendi.";
+                                        }
+                                }
+                        }
+                }
+                return $response;
+        }
 }
 ?>

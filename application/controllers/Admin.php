@@ -576,4 +576,11 @@ class Admin extends CI_Controller {
 		$changePassword = $this->admin_model->changePassword($data);
 		echo json_encode($changePassword);
 	}
+	public function tapWizard(){
+		header("Content-type:application/json");
+		$this->load->model("admin_model");
+		$data = $this->input->post();
+		$tapWizard = $this->admin_model->tapWizard($data);
+		echo json_encode($tapWizard);
+	}
 }

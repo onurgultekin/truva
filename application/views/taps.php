@@ -445,7 +445,6 @@
                 $(this).remove();
                 var buttonsArray = [];
                 _updateButtonsArray(buttonsArray,".buttonTable");
-                console.log(buttonsArray);
             })
         })
       })

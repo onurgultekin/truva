@@ -49,4 +49,8 @@ class Tap extends REST_Controller {
 		$message = $this->Tap_model->deleteTap($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function tapWizard_post(){
+		$message = $this->Tap_model->tapWizard($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 }
