@@ -1,4 +1,6 @@
 $(function(){
+        $("#TaxNo").mask("?9999999999");
+        $("#InvoiceTelephone, #InvoiceMobile, #CompanyTelephone,#CompanyMobile,#CompanyFax").mask("?(999) 999 99 99");
         initTable();
         getCitiesInModal();
         getDistrictsInModal();

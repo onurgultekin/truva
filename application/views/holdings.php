@@ -77,7 +77,7 @@
                         <h5>Adres</h5>
                         <div class="col-md-3 form-group form-group-default form-group-default-select2 required">
                         <label class="">Ülke seçin</label>
-                          <select class="full-width countries" data-placeholder="Ülke seçin" data-init-plugin="select2">
+                          <select class="full-width countries" data-placeholder="Ülke seçin" data-init-plugin="select2" multiple="multiple">
                           <option value="0">Lütfen seçin</option>
                             <?php 
                             foreach ($countries as $key => $country) {
@@ -88,19 +88,19 @@
                         </div>
                         <div class="col-md-3 form-group form-group-default form-group-default-select2 required">
                         <label class="">Şehir seçin</label>
-                          <select class="full-width cities disabled" disabled="disabled" data-placeholder="Şehir seçin" data-init-plugin="select2">
+                          <select class="full-width cities disabled" disabled="disabled" data-placeholder="Şehir seçin" data-init-plugin="select2" multiple="multiple">
                             <option value="0">Lütfen seçin</option>
                           </select>
                         </div>
                         <div class=" col-md-3 form-group form-group-default form-group-default-select2 required">
                         <label class="">İlçe seçin</label>
-                          <select class="full-width districts disabled" disabled="disabled" data-placeholder="İlçe seçin" data-init-plugin="select2">
+                          <select class="full-width districts disabled" disabled="disabled" data-placeholder="İlçe seçin" data-init-plugin="select2" multiple="multiple">
                             <option value="0">Lütfen seçin</option>
                           </select>
                         </div>
                         <div class="col-md-3 form-group form-group-default form-group-default-select2 required">
                         <label class="">Semt seçin</label>
-                          <select class="full-width areas disabled" disabled="disabled" data-placeholder="Semt seçin" data-init-plugin="select2">
+                          <select class="full-width areas disabled" disabled="disabled" data-placeholder="Semt seçin" data-init-plugin="select2" multiple="multiple">
                             <option value="0">Lütfen seçin</option>
                           </select>
                         </div>
@@ -139,7 +139,7 @@
               </thead>
               <tbody>
                 <?php
-                foreach ($holdings as $key => $holding) {
+                foreach ($holdings->message as $key => $holding) {
                   echo '<tr id="'.$holding->HoldingID.'">
                     <td>'.$holding->HoldingName.'</td>
                     <td>'.$holding->HoldingEmail.'</td>
@@ -259,12 +259,16 @@
                     ';
                   }
                 if($field["type"]!="select"){
+                  $required = 'required';
+                  if($field["id"]=="InvoiceMobile" || $field["id"]=="HoldingMobile" || $field["id"]=="HoldingFax"){
+                    $required = '';
+                  }
                   echo '
                   <div class="col-sm-6">
-                        <div class="form-group form-group-default required">
+                        <div class="form-group form-group-default '.$required.'">
                           <label>'.$field["name"].':</label>
                           <div class="controls">
-                          <input type="'.$field["type"].'" class="form-control" name="'.$field["id"].'" id="'.$field["id"].'" required data-msg="'.$message.'">
+                          <input type="'.$field["type"].'" class="form-control" name="'.$field["id"].'" id="'.$field["id"].'" '.$required.' data-msg="'.$message.'">
                           </div>
                         </div>
                   </div>';
@@ -361,6 +365,7 @@
     <script src="<?php echo base_url() ?>assets/js/scripts.js?v=<?php echo time(); ?>" type="text/javascript"></script>
     <script src="<?php echo base_url() ?>assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url() ?>truva/js/pages.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url() ?>assets/plugins/jquery-inputmask/jquery.inputmask.min.js"></script>
     <script src="<?php echo base_url() ?>truva/js/holdings.js?v=<?php echo time(); ?>"></script>
     <!-- END PAGE LEVEL JS -->
   </body>

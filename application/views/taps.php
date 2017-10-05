@@ -258,12 +258,6 @@
               <div class="row m-b-10">
                   <div class="col-md-4">
                   <div class="form-group form-group-default required m-t-10">
-                    <label>Button Adı</label>
-                    <div class="controls">
-                    <input type="text" class="form-control" id="buttonName">
-                    </div>
-                  </div>
-                  <div class="form-group form-group-default required m-t-10">
                     <label>Button CL Real</label>
                     <div class="controls">
                     <input type="text" class="form-control" id="buttonClReal" placeholder="0.00">
@@ -409,9 +403,11 @@
           })
         })
         $('#buttonClReal,#buttonClShown,#NetPrice,#SalePrice').autoNumeric('init');
+        buttonIndex = 0;
         $("body").on("click",".addButtonDataToTable",function(){
+          buttonIndex++;
           $(".modalError").html('').addClass("unvisible");
-          var buttonName = $("#buttonName").val();
+          var buttonName = "Button "+buttonIndex;
           var buttonClReal = $("#buttonClReal").val();
           var buttonClShown = $("#buttonClShown").val();
           var tableLength = $(".buttonTable tbody tr").length;
@@ -441,6 +437,7 @@
           }
         })
         $("body").on("click",".deleteButton",function(){
+          buttonIndex--;
             $(this).parents("tr").fadeOut(500,function(){
                 $(this).remove();
                 var buttonsArray = [];

@@ -237,7 +237,7 @@ class Admin extends CI_Controller {
 					<label class="">'.$field["name"].'</label>
 					<select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
 						<option value="0">Lütfen seçin</option>';
-						foreach ($companies as $key => $company) {
+						foreach ($companies->message as $key => $company) {
 							$selected = '';
 							if($company->CompanyID == $user[0]->CompanyID){
 								$selected = 'selected = "selected"';
@@ -252,7 +252,7 @@ class Admin extends CI_Controller {
 					<label class="">'.$field["name"].'</label>
 					<select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
 						<option value="0">Lütfen seçin</option>';
-						foreach ($holdings as $key => $holding) {
+						foreach ($holdings->message as $key => $holding) {
 							$selected = '';
 							if($holding->HoldingID == $user[0]->HoldingID){
 								$selected = 'selected = "selected"';

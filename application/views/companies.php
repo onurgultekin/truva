@@ -77,7 +77,7 @@
                         <h5>Adres</h5>
                         <div class="form-group col-md-3 form-group-default form-group-default-select2 required">
                         <label class="">Ülke seçin</label>
-                          <select class="full-width countries" data-placeholder="Ülke seçin" data-init-plugin="select2">
+                          <select class="full-width countries" data-placeholder="Ülke seçin" data-init-plugin="select2" multiple="multiple">
                           <option value="0">Lütfen seçin</option>
                             <?php 
                             foreach ($countries as $key => $country) {
@@ -88,19 +88,19 @@
                         </div>
                         <div class="form-group col-md-3 form-group-default form-group-default-select2 required">
                         <label class="">Şehir seçin</label>
-                          <select class="full-width cities disabled" disabled="disabled" data-placeholder="Şehir seçin" data-init-plugin="select2">
+                          <select class="full-width cities disabled" disabled="disabled" data-placeholder="Şehir seçin" data-init-plugin="select2" multiple="multiple">
                             <option value="0">Lütfen seçin</option>
                           </select>
                         </div>
                         <div class="form-group col-md-3 form-group-default form-group-default-select2 required">
                         <label class="">İlçe seçin</label>
-                          <select class="full-width districts disabled" disabled="disabled" data-placeholder="İlçe seçin" data-init-plugin="select2">
+                          <select class="full-width districts disabled" disabled="disabled" data-placeholder="İlçe seçin" data-init-plugin="select2" multiple="multiple">
                             <option value="0">Lütfen seçin</option>
                           </select>
                         </div>
                         <div class="form-group col-md-3 form-group-default form-group-default-select2 required">
                         <label class="">Kasaba & Köy seçin</label>
-                          <select class="full-width areas disabled" disabled="disabled" data-placeholder="Kasaba & Köy seçin" data-init-plugin="select2">
+                          <select class="full-width areas disabled" disabled="disabled" data-placeholder="Kasaba & Köy seçin" data-init-plugin="select2" multiple="multiple">
                             <option value="0">Lütfen seçin</option>
                           </select>
                         </div>
@@ -111,10 +111,10 @@
                         <h5>Holding</h5>
                         <div class="form-group col-md-3 form-group-default form-group-default-select2 required">
                         <label class="">Holding seçin</label>
-                          <select class="full-width holdingsforcompanies" data-placeholder="Holding seçin" data-init-plugin="select2">
+                          <select class="full-width holdingsforcompanies" data-placeholder="Holding seçin" data-init-plugin="select2" multiple="multiple">
                           <option value="0">Lütfen seçin</option>
                             <?php 
-                            foreach ($holdings as $key => $holding) {
+                            foreach ($holdings->message as $key => $holding) {
                               echo '<option value='.$holding->HoldingID.'>'.$holding->HoldingName.'</option>';
                             }
                             ?>
@@ -154,7 +154,7 @@
               <tbody>
                 <?php
                 //print_r($companies);
-                foreach ($companies as $key => $company) {
+                foreach ($companies->message as $key => $company) {
                   echo '<tr id="'.$company->CompanyID.'">
                     <td>'.$company->CompanyName.'</td>
                     <td>'.$company->CompanyType.'</td>
@@ -232,11 +232,15 @@
                   echo '</div><div class="row">';
                 }
                 if($field["type"]!="select"){
+                  $required = 'required';
+                  if($field["id"]=="InvoiceMobile" || $field["id"]=="CompanyMobile" || $field["id"]=="CompanyFax"){
+                    $required = '';
+                  }
                   echo '<div class="col-sm-6">
-                  <div class="form-group form-group-default required '.$class.' ">
+                  <div class="form-group form-group-default '.$required.' '.$class.' ">
                     <label>'.$field["name"].':</label>
                     <div class="controls">
-                      <input type="'.$field["type"].'" class="form-control" name="'.$field["id"].'" id="'.$field["id"].'" required data-msg="'.$message.'">
+                      <input type="'.$field["type"].'" class="form-control" name="'.$field["id"].'" id="'.$field["id"].'" '.$required.' data-msg="'.$message.'">
                     </div>
                   </div>
                 </div>';
@@ -347,7 +351,7 @@
       <div class="modal-content-wrapper">
       <div class="modal-content">
       <div class="modal-body text-center m-t-20">
-      <h4 class="no-margin p-b-10">Bu şirkete ait bar grubu yok.</h4>
+      <h4 class="no-margin p-b-10">Bu holdinge ait şirket yok.</h4>
       <button type="button" class="btn btn-primary btn-cons" data-dismiss="modal">Tamam</button>
       </div>
       </div>
@@ -371,7 +375,7 @@
     <script type="text/javascript" src="<?php echo base_url() ?>assets/plugins/select2/js/select2.full.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url() ?>assets/plugins/classie/classie.js"></script>
     <script src="<?php echo base_url() ?>assets/plugins/switchery/js/switchery.min.js" type="text/javascript"></script>
-    <script src="<?php echo base_url() ?>assets/js/functions.js" type="text/javascript"></script>
+    <script src="<?php echo base_url() ?>assets/js/functions.js?v=<?php echo time(); ?>" type="text/javascript"></script>
     <script type="text/javascript" src="<?php echo base_url() ?>assets/plugins/jquery-inputmask/jquery.inputmask.min.js"></script>
     <script src="<?php echo base_url() ?>assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url() ?>assets/plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js" type="text/javascript"></script>

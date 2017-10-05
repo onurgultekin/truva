@@ -30,13 +30,13 @@ class County_model extends CI_Model {
                                 $accessToken = $parameters["accessToken"];
                                 $userId = $parameters["userId"];
                                 $cityId = $parameters["cityId"];
+                                if(is_array($cityId)){
+                                    $cityId = join($cityId,",");
+                                }
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
-                                }else
-                                if(!is_numeric($cityId)){
-                                        $response = $this->globalfunctions->returnMessage(1003,"County Id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL GET_COUNTIES_BY_CITY_ID('".$accessToken."',".$userId.",".$cityId.")");
+                                        $query = $this->db->query("CALL GET_COUNTIES_BY_CITY_ID('".$accessToken."',".$userId.",'".$cityId."')");
                                         $result = $query->row();
                                         if(@$result->isError == 1){
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);

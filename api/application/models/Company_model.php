@@ -29,13 +29,11 @@ class Company_model extends CI_Model {
                                 $accessToken = $parameters["accessToken"];
                                 $userId = $parameters["userId"];
                                 $countryId = $parameters["countryId"];
+                                $countryId = join($countryId,",");
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
-                                }else
-                                if(!is_numeric($countryId)){
-                                        $response = $this->globalfunctions->returnMessage(1003,"Country Id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL GET_COMPANY_BY_COUNTRY_ID('".$accessToken."',".$userId.",".$countryId.")");
+                                        $query = $this->db->query("CALL GET_COMPANY_BY_COUNTRY_ID('".$accessToken."',".$userId.",'".$countryId."')");
                                         $result = $query->row();
                                         if(@$result->isError == 1){
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
@@ -73,13 +71,11 @@ class Company_model extends CI_Model {
                                 $accessToken = $parameters["accessToken"];
                                 $userId = $parameters["userId"];
                                 $cityId = $parameters["cityId"];
+                                $cityId = join($cityId,",");
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
-                                }else
-                                if(!is_numeric($cityId)){
-                                        $response = $this->globalfunctions->returnMessage(1004,"City Id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL GET_COMPANY_BY_CITY_ID('".$accessToken."',".$userId.",".$cityId.")");
+                                        $query = $this->db->query("CALL GET_COMPANY_BY_CITY_ID('".$accessToken."',".$userId.",'".$cityId."')");
                                         $result = $query->row();
                                         if(@$result->isError == 1){
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
@@ -117,13 +113,11 @@ class Company_model extends CI_Model {
                                 $accessToken = $parameters["accessToken"];
                                 $userId = $parameters["userId"];
                                 $countyId = $parameters["countyId"];
+                                $countyId = join($countyId,",");
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
-                                }else
-                                if(!is_numeric($countyId)){
-                                        $response = $this->globalfunctions->returnMessage(1005,"County Id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL GET_COMPANY_BY_COUNTY_ID('".$accessToken."',".$userId.",".$countyId.")");
+                                        $query = $this->db->query("CALL GET_COMPANY_BY_COUNTY_ID('".$accessToken."',".$userId.",'".$countyId."')");
                                         $result = $query->row();
                                         if(@$result->isError == 1){
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
@@ -161,13 +155,11 @@ class Company_model extends CI_Model {
                                 $accessToken = $parameters["accessToken"];
                                 $userId = $parameters["userId"];
                                 $areaId = $parameters["areaId"];
+                                $areaId = join($areaId,",");
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
-                                }else
-                                if(!is_numeric($areaId)){
-                                        $response = $this->globalfunctions->returnMessage(1006,"Area Id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL GET_COMPANY_BY_AREA_ID('".$accessToken."',".$userId.",".$areaId.")");
+                                        $query = $this->db->query("CALL GET_COMPANY_BY_AREA_ID('".$accessToken."',".$userId.",'".$areaId."')");
                                         $result = $query->row();
                                         if(@$result->isError == 1){
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
@@ -205,13 +197,11 @@ class Company_model extends CI_Model {
                                 $accessToken = $parameters["accessToken"];
                                 $userId = $parameters["userId"];
                                 $holdingId = $parameters["holdingId"];
+                                $holdingId = join($holdingId,",");
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
-                                }else
-                                if(!is_numeric($holdingId)){
-                                        $response = $this->globalfunctions->returnMessage(1006,"Holding Id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL GET_COMPANY_BY_HOLDING_ID('".$accessToken."',".$userId.",".$holdingId.")");
+                                        $query = $this->db->query("CALL GET_COMPANY_BY_HOLDING_ID('".$accessToken."',".$userId.",'".$holdingId."')");
                                         $result = $query->row();
                                         if(@$result->isError == 1){
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);

@@ -29,13 +29,13 @@ class City_model extends CI_Model {
                                 $accessToken = $parameters["accessToken"];
                                 $userId = $parameters["userId"];
                                 $countryId = $parameters["countryId"];
+                                if(is_array($countryId)){
+                                        $countryId = join($countryId,",");
+                                }
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
-                                }else
-                                if(!is_numeric($countryId)){
-                                        $response = $this->globalfunctions->returnMessage(1003,"Country Id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL GET_CITY_BY_COUNTRY_ID('".$accessToken."',".$userId.",".$countryId.")");
+                                        $query = $this->db->query("CALL GET_CITY_BY_COUNTRY_ID('".$accessToken."',".$userId.",'".$countryId."')");
                                         $result = $query->row();
                                         if(@$result->isError == 1){
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);

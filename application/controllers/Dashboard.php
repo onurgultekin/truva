@@ -339,11 +339,6 @@ class Dashboard extends CI_Controller {
 	            "type"=>"select",
 	            "disabled"=>"disabled",
 	            "class"=>"districtsinmodal",
-	          ],
-	          [
-	            "name"=>"Posta Kodu",
-	            "id"=>"postcode",
-	            "type"=>"text"
 	          ]
 	          ];
 	          	$data["countries"] = $this->general_model->getCountries();

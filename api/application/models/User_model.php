@@ -139,7 +139,7 @@ class User_model extends CI_Model {
         public function addUser($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","first_name","last_name","user_email","user_password","CompanyID","phone","group_id","address","country_id","city_id","county_id","postcode"); 
+                $mandatoryParameters = array("accessToken","userId","first_name","last_name","user_email","user_password","CompanyID","phone","group_id","address","country_id","city_id","county_id");
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -148,7 +148,7 @@ class User_model extends CI_Model {
                 if($k>0){
                         $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
                 }else{
-                        $availableParameters = array("accessToken","userId","first_name","last_name","user_email","user_password","HoldingID","CompanyID","phone","group_id","address","country_id","city_id","county_id","postcode");
+                        $availableParameters = array("accessToken","userId","first_name","last_name","user_email","user_password","HoldingID","CompanyID","phone","group_id","address","country_id","city_id","county_id");
                         foreach ($parameters as $key => $parameter) {
                                 if(!in_array($key,$availableParameters)){
                                         $i++;
@@ -171,7 +171,6 @@ class User_model extends CI_Model {
                                 $country_id = $parameters["country_id"];
                                 $city_id = $parameters["city_id"];
                                 $county_id = $parameters["county_id"];
-                                $postcode = $parameters["postcode"];
                                 if(!$HoldingID){
                                         $HoldingID = "NULL";
                                 }
@@ -196,7 +195,7 @@ class User_model extends CI_Model {
                                 if(!is_numeric($county_id)){
                                         $response = $this->globalfunctions->returnMessage(1008,"county_id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL ADD_OR_UPDATE_USER('".$accessToken."',".$userId.",NULL,'".$this->input->ip_address()."','".$first_name."','".$last_name."','".$user_email."','".$user_password."',".$HoldingID.",".$CompanyID.",'".$phone."',".$group_id.",'".$address."',".$country_id.",".$city_id.",".$county_id.",'".$postcode."')");
+                                        $query = $this->db->query("CALL ADD_OR_UPDATE_USER('".$accessToken."',".$userId.",NULL,'".$this->input->ip_address()."','".$first_name."','".$last_name."','".$user_email."','".$user_password."',".$HoldingID.",".$CompanyID.",'".$phone."',".$group_id.",'".$address."',".$country_id.",".$city_id.",".$county_id.",NULL)");
                                         $result = $query->row();
                                         $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,$result->isError);
                                 }

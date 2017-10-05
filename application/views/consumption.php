@@ -87,10 +87,10 @@
                         <h5>Holding & Şirket</h5>
                         <div class="col-md-3 form-group form-group-default form-group-default-select2 required">
                         <label class="">Holding seçin</label>
-                          <select class="full-width holdings" data-placeholder="Holding seçin" data-init-plugin="select2">
+                          <select class="full-width holdings" data-placeholder="Holding seçin" data-init-plugin="select2" multiple="multiple">
                           <option value="0">Lütfen seçin</option>
                             <?php 
-                            foreach ($holdings as $key => $holding) {
+                            foreach ($holdings->message as $key => $holding) {
                               echo '<option value='.$holding->HoldingID.'>'.$holding->HoldingName.'</option>';
                             }
                             ?>

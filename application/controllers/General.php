@@ -1741,7 +1741,7 @@ class General extends CI_Controller {
 	                    <label class="">'.$field["name"].'</label>
 	                    <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Holding seçin" data-init-plugin="select2">
 	                      <option value="0">Lütfen seçin</option>';
-	                      foreach ($holdings as $key => $holding) {
+	                      foreach ($holdings->message as $key => $holding) {
 	                      	$selected = '';
 			if($holding->HoldingID == $tap[0]->HoldingID){
 				$selected = 'selected = "selected"';
@@ -1825,12 +1825,6 @@ class General extends CI_Controller {
 	              <div class="clearfix"></div>
               <div class="row m-b-10">
                   <div class="col-md-4">
-                  <div class="form-group form-group-default required m-t-10">
-                    <label>Button Adı</label>
-                    <div class="controls">
-                    <input type="text" class="form-control" id="buttonName">
-                    </div>
-                  </div>
                   <div class="form-group form-group-default required m-t-10">
                     <label>Button CL Real</label>
                     <div class="controls">

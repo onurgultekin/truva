@@ -30,13 +30,13 @@ class Area_model extends CI_Model {
                                 $accessToken = $parameters["accessToken"];
                                 $userId = $parameters["userId"];
                                 $countyId = $parameters["countyId"];
+                                if(is_array($countyId)){
+                                    $countyId = join($countyId,",");
+                                }
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
-                                }else
-                                if(!is_numeric($countyId)){
-                                        $response = $this->globalfunctions->returnMessage(1003,"County Id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL GET_AREA_BY_COUNTY_ID('".$accessToken."',".$userId.",".$countyId.")");
+                                        $query = $this->db->query("CALL GET_AREA_BY_COUNTY_ID('".$accessToken."',".$userId.",'".$countyId."')");
                                         $result = $query->row();
                                         if(@$result->isError == 1){
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);

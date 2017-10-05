@@ -59,12 +59,12 @@
             <!-- BEGIN PlACE PAGE CONTENT HERE -->
             <div class="row">
               <div class="col-md-4">
-              <button class="btn btn-primary pull-left addNewUser m-b-10" data-toggle="modal" data-target="#addNewUserModal">Yeni Kullanıcı Ekle</button>
+                <input type="text" id="search-table" class="form-control pull-right" placeholder="Kullanıcı Ara">
               </div>
               <div class="col-md-4 pull-right">
                 <div class="col-xs-12">
-                <input type="text" id="search-table" class="form-control pull-right" placeholder="Kullanıcı Ara">
-                </div>
+                <button class="btn btn-primary pull-right addNewUser m-b-10" data-toggle="modal" data-target="#addNewUserModal">Yeni Kullanıcı Ekle</button>
+              </div>
               </div>
             </div>
             <div class="row">
@@ -253,7 +253,7 @@
                         <label class="">'.$field["name"].'</label>
                           <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
                           <option value="0">Lütfen seçin</option>';
-                            foreach ($companies as $key => $company) {
+                            foreach ($companies->message as $key => $company) {
                               echo '
                               <option value='.$company->CompanyID.'>'.$company->CompanyName.'</option>
                               ';
@@ -267,7 +267,7 @@
                         <label class="">'.$field["name"].'</label>
                           <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
                           <option value="0">Lütfen seçin</option>';
-                            foreach ($holdings as $key => $holding) {
+                            foreach ($holdings->message as $key => $holding) {
                               echo '
                               <option value='.$holding->HoldingID.'>'.$holding->HoldingName.'</option>
                               ';

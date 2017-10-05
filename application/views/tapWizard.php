@@ -258,7 +258,7 @@
                           <select class="full-width holdings" data-placeholder="Holding seçin" data-init-plugin="select2">
                           <option value="0">Lütfen seçin</option>
                             <?php
-                            foreach ($holdings as $key => $holding) {
+                            foreach ($holdings->message as $key => $holding) {
                               echo '<option value='.$holding->HoldingID.'>'.$holding->HoldingName.'</option>';
                             }
                             ?>
@@ -433,12 +433,6 @@
                 <div class="panel-body">
                   <div class="row">
                   <div class="col-md-4">
-                  <div class="form-group form-group-default required m-t-10">
-                    <label>Button Adı</label>
-                    <div class="controls">
-                    <input type="text" class="form-control" name="buttonName" id="buttonName">
-                    </div>
-                  </div>
                   <div class="form-group form-group-default required m-t-10">
                     <label>Button CL Real</label>
                     <div class="controls">
@@ -1053,10 +1047,12 @@
             addNewAlcoholType();
             }
         });
+        var buttonIndex = 0;
         $('#buttonClReal,#buttonClShown,#pricePerCl,#priceForSale').autoNumeric('init');
         var buttonsArray = [];
         $("body").on("click",".addButtonDataToTable",function(){
-          var buttonName = $("#buttonName").val();
+          buttonIndex++;
+          var buttonName = "Button "+buttonIndex;
           var buttonClReal = $("#buttonClReal").val();
           var buttonClShown = $("#buttonClShown").val();
           var tableLength = $("#step-10 .buttonTable tbody tr").length;
@@ -1092,6 +1088,7 @@
           }
         })
         $("body").on("click",".deleteButton",function(){
+            buttonIndex--;
             var index = $(this).parents("tr").index();
             $(".previewTable tbody tr").eq(index).remove();
             $(this).parents("tr").fadeOut(500,function(){

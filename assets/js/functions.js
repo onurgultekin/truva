@@ -70,7 +70,7 @@ function getAreasInModal(){
         })
     })
 }
-var initTable = function(width = 184) {
+var initTable = function(width = 184,search = "", displayLenght = 20) {
     var table = $('#tableWithExportOptions');
     var extensions = {
         "sFilter": "dataTables_filter custom_filter_class",
@@ -79,6 +79,7 @@ var initTable = function(width = 184) {
     var settings = {
         "sDom": "<'row'<'col-md-12 pull-left m-t-10'l>><t><'row'<p i>>",
         "destroy": true,
+        "oSearch": {"sSearch": search},
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "scrollCollapse": false,
         "oLanguage": {
@@ -91,7 +92,7 @@ var initTable = function(width = 184) {
               "width":width+"px",
               "orderable": false
         } ],
-        "iDisplayLength": 20,
+        "iDisplayLength": displayLenght,
         "aLengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]],
         "pagingType": "simple_numbers",
         "scrollX": true
@@ -104,7 +105,9 @@ var initTable = function(width = 184) {
 }
 function _updateButtonsArray(array,tableClass){
   $.each($(tableClass+" tbody tr"),function(){
+      var index = $(this).index();
       var buttonId = $(this).attr("id");
+      $(this).find("td").eq(0).html("Button "+(index+1));
       var buttonName = $(this).find("td").eq(0).text();
       var buttonClReal = $(this).find("td").eq(1).text();
       var buttonClShown = $(this).find("td").eq(2).text();
@@ -213,10 +216,12 @@ function getDetails(button,endpoint,elementName,appendableDiv){
                     var updateButtonsArray = [];
                     _updateButtonsArray(updateButtonsArray,".updateButtonTable");
                     $('#buttonClReal,#buttonClShown,#NetPrice,#SalePrice').autoNumeric('init');
+                    var buttonIndex = $(".updateButtonTable tbody tr").length;
                     $("body").on("click",".addButtonDataToTableForUpdate",function(){
                       $(".modalError").html('').addClass("unvisible");
                       var buttonId = $(this).parents("tr").attr("id");
-                      var buttonName = $("#buttonName").val();
+                      buttonIndex++;
+                      var buttonName = "Button "+buttonIndex;
                       var buttonClReal = $("#buttonClReal").val();
                       var buttonClShown = $("#buttonClShown").val();
                       var tableLength = $(".updateButtonTable tbody tr").length;
@@ -246,6 +251,7 @@ function getDetails(button,endpoint,elementName,appendableDiv){
                       }
                     })
                     $("body").on("click",".deleteButtonForUpdate",function(){
+                        buttonIndex--;
                         $(this).parents("tr").fadeOut(500,function(){
                             $(this).remove();
                             var updateButtonsArray = [];
@@ -304,6 +310,7 @@ function updateHolding(){
     })
 }
 function getHoldings(){
+    var tableLength = $(".dataTables_length select").val();
     Pace.restart();
     $("#tableWithExportOptions").dataTable().fnDestroy();
     $.ajax({
@@ -311,7 +318,7 @@ function getHoldings(){
         url:base_url+"/general/getHoldings",
         success:function(data){
             $("#tableWithExportOptions tbody").empty();
-            $.each(data,function(key,holding){
+            $.each(data.message,function(key,holding){
                 $("#tableWithExportOptions tbody").append('<tr id="'+holding.HoldingID+'">\
                     <td>'+holding.HoldingName+'</td>\
                     <td>'+holding.HoldingEmail+'</td>\
@@ -321,7 +328,7 @@ function getHoldings(){
                     <td>'+holding.AreaName+'</td>\
                     <td><div class="pull-left"><button class="btn btn-primary getCompanyByHoldingId btn-xs" id= "'+holding.HoldingID+'">Detay</button><button class="btn btn-warning getHoldingDetails btn-xs m-l-10 m-r-10">Düzenle</button><button class="btn btn-danger deleteHoldingModal btn-xs">Sil</button></div></td></tr>')
             })
-            initTable();
+            initTable(null,$('#search-table').val(),tableLength);
             Pace.stop();
         }
     })
@@ -365,6 +372,7 @@ function updateCompany(){
     })
 }
 function getCompanies(){
+    var tableLength = $(".dataTables_length select").val();
     Pace.restart();
     $("#tableWithExportOptions").dataTable().fnDestroy();
     $.ajax({
@@ -372,10 +380,10 @@ function getCompanies(){
         url:base_url+"/general/getCompanies",
         success:function(data){
             $("#tableWithExportOptions tbody").empty();
-            $.each(data,function(key,company){
+            $.each(data.message,function(key,company){
                 $("#tableWithExportOptions tbody").append('<tr id="'+company.CompanyID+'"><td>'+company.CompanyName+'</td><td>'+company.CompanyType+'</td><td>'+company.TotalBar+'</td><td>'+company.TotalTap+'</td><td><div class="pull-left"><button class="btn btn-primary getBarGroupListForCompany btn-xs" id="'+company.CompanyID+'">Detay</button><button class="btn btn-warning getCompanyDetails btn-xs m-r-10 m-l-10">Düzenle</button><button class="btn btn-danger deleteCompanyModal btn-xs">Sil</button></div></td></tr>')
             })
-            initTable();
+            initTable(null,$('#search-table').val(),tableLength);
             Pace.stop();
         }
     })
@@ -650,7 +658,7 @@ function getCompanyByAreaId(){
 function getCompanyByHoldingId(){
     $(".holdingsforcompanies").on("change",function(){
         var selectedHolding = $(this).val();
-        if(selectedHolding != 0){
+        if(selectedHolding != null){
             Pace.restart();
             $("#tableWithExportOptions").dataTable().fnDestroy();
             $.ajax({
@@ -671,6 +679,8 @@ function getCompanyByHoldingId(){
                     Pace.stop();
                 }
             })
+        }else{
+            getCompanies();
         }
     })
 }
@@ -1137,6 +1147,7 @@ function updateUser(){
     })
 }
 function getUsers(){
+    var tableLength = $(".dataTables_length select").val();
     Pace.restart();
     $("#tableWithExportOptions").dataTable().fnDestroy();
     $.ajax({
@@ -1154,7 +1165,7 @@ function getUsers(){
                     <td>'+user.userRole+'</td>\
                     <td><div class="pull-right"><button class="btn btn-primary changeUserPassword btn-xs" id="duzenle">Şifre Değiştir</button><button class="btn btn-warning getUserDetails btn-xs m-l-5 m-r-5" id="duzenle">Düzenle</button><button class="btn btn-danger deleteUserModal btn-xs">Sil</button></div></td></tr>')
             })
-            initTable(214);
+            initTable(214,$('#search-table').val(),tableLength);
             Pace.stop();
         }
     })
