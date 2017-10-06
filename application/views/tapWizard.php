@@ -406,7 +406,7 @@
                   <div class="form-group form-group-default required m-t-10">
                     <label>CL Başı Maliyet</label>
                     <div class="controls">
-                    <input type="text" class="form-control" name="pricePerCl" id="pricePerCl" data-msg="Bu alan zorunludur." data-a-dec="." data-a-sep="," placeholder="0.00" required>
+                    <input type="text" class="form-control" name="pricePerCl" id="pricePerCl" data-msg="Bu alan zorunludur." data-a-dec="." data-a-sep="," placeholder="0.00">
                     </div>
                   </div>
                   <div class="form-group form-group-default m-t-10">
@@ -476,61 +476,61 @@
                   <div class="pull-right bold">11</div>
                 </div>
                 <div class="panel-body">
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>Toplayıcı</label>
                     <div class="controls">
-                    <input type="text" class="form-control disabled" name="collectorinLastLevel" id="collectorinLastLevel" disabled="disabled">
+                    <input type="text" class="form-control" name="collectorinLastLevel" id="collectorinLastLevel" disabled="disabled">
                     </div>
                   </div>
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>Musluk Id</label>
                     <div class="controls">
-                    <input type="text" class="form-control disabled" name="muslukIdinLastLevel" id="muslukIdinLastLevel" disabled="disabled">
+                    <input type="text" class="form-control" name="muslukIdinLastLevel" id="muslukIdinLastLevel" disabled="disabled">
                     </div>
                   </div>
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>Musluk Adı</label>
                     <div class="controls">
-                    <input type="text" class="form-control disabled" name="tapNameinLastLevel" id="tapNameinLastLevel" disabled="disabled">
+                    <input type="text" class="form-control" name="tapNameinLastLevel" id="tapNameinLastLevel" disabled="disabled">
                     </div>
                   </div>
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>Holding</label>
                     <div class="controls">
-                    <input type="text" class="form-control disabled" name="holdinginLastLevel" id="holdinginLastLevel" disabled="disabled">
+                    <input type="text" class="form-control" name="holdinginLastLevel" id="holdinginLastLevel" disabled="disabled">
                     </div>
                   </div>
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>Şirket</label>
                     <div class="controls">
-                    <input type="text" class="form-control disabled" name="companyinLastLevel" id="companyinLastLevel" disabled="disabled">
+                    <input type="text" class="form-control" name="companyinLastLevel" id="companyinLastLevel" disabled="disabled">
                     </div>
                   </div>
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>Bar Grubu</label>
                     <div class="controls">
-                    <input type="text" class="form-control disabled" name="barGroupinLastLevel" id="barGroupinLastLevel" disabled="disabled">
+                    <input type="text" class="form-control" name="barGroupinLastLevel" id="barGroupinLastLevel" disabled="disabled">
                     </div>
                   </div>
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>İçki Tipi</label>
                     <div class="controls">
-                    <input type="text" class="form-control disabled" name="alcoholTypeinLastLevel" id="alcoholTypeinLastLevel" disabled="disabled">
+                    <input type="text" class="form-control" name="alcoholTypeinLastLevel" id="alcoholTypeinLastLevel" disabled="disabled">
                     </div>
                   </div>
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>İçki Markası</label>
                     <div class="controls">
-                    <input type="text" class="form-control disabled" name="alcoholBrandinLastLevel" id="alcoholBrandinLastLevel" disabled="disabled">
+                    <input type="text" class="form-control" name="alcoholBrandinLastLevel" id="alcoholBrandinLastLevel" disabled="disabled">
                     </div>
                   </div>
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>Fiyat</label>
                     <div class="controls">
-                    <input type="text" class="form-control disabled" name="pricePerClinLastLevel" id="pricePerClinLastLevel" disabled="disabled">
+                    <input type="text" class="form-control" name="pricePerClinLastLevel" id="pricePerClinLastLevel" disabled="disabled">
                     </div>
                   </div>
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>Butonlar</label>
                     <table class="table table-striped previewTable">
                         <thead>

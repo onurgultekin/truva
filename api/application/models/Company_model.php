@@ -197,7 +197,9 @@ class Company_model extends CI_Model {
                                 $accessToken = $parameters["accessToken"];
                                 $userId = $parameters["userId"];
                                 $holdingId = $parameters["holdingId"];
-                                $holdingId = join($holdingId,",");
+                                if(is_array($holdingId)){
+                                        $holdingId = join($holdingId,",");
+                                }
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
                                 }else{
