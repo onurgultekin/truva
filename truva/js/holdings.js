@@ -1,4 +1,6 @@
 $(function(){
+        $("#TaxNo").mask("?9999999999");
+        $("#InvoiceTelephone, #InvoiceMobile, #HoldingTelephone,#HoldingMobile,#HoldingFax").mask("?(999) 999 99 99");
         initTable();
         getCitiesInModal();
         getDistrictsInModal();
@@ -38,6 +40,10 @@ $(function(){
               $(".deleteModalError").html(data.message).removeClass("unvisible");
               $("table").find("tr#"+HoldingID).fadeOut(500,function(){
                 getHoldings();
+                setTimeout(function(){
+                    $(".deleteModalError").addClass("unvisible");
+                    $("#modalSlideLeft").modal("hide");
+                },1000);
               })
             }
           })

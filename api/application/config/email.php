@@ -5,9 +5,9 @@ $config['protocol'] = 'smtp';
 $config['mailpath'] = '/usr/sbin/sendmail';
 $config['starttls'] = TRUE;
 $config['smtp_crypto'] = 'tls';
-$config['smtp_host'] = 'mail.justrenthere.com';
-$config['smtp_user'] = 'no-reply@justrenthere.com';
-$config['smtp_pass'] = 'JstRntHere21.!';
+$config['smtp_host'] = 'email-smtp.eu-west-1.amazonaws.com';
+$config['smtp_user'] = 'AKIAJH72KPSRW4T3DCEA';
+$config['smtp_pass'] = 'ArjYV6KkxOM2cWsy6bxUueQlVxoWFgfMty23R4v6idPF';
 $config['smtp_port'] = 587; 
 $config['smtp_timeout'] = 5;
 $config['wordwrap'] = TRUE;
@@ -20,4 +20,3 @@ $config['crlf'] = "\r\n";
 $config['newline'] = "\r\n";
 $config['bcc_batch_mode'] = FALSE;
 $config['bcc_batch_size'] = 200;
-?>

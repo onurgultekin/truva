@@ -69,5 +69,7 @@ $route['teknik-servis-list'] = 'dashboard/technicalServiceList';
 $route['sirket-bar-grubu'] = 'dashboard/companyBarGroups';
 $route['musluk'] = 'dashboard/taps';
 $route['sirket-gunluk-kisi'] = 'dashboard/totalDailyGuest';
+$route['ariza-talep'] = 'dashboard/troubleDemand';
+$route['resetPassword/(:num)/(:any)'] = 'welcome/resetPassword/$1/$2';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

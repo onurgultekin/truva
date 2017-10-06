@@ -87,10 +87,10 @@
                         <h5>Holding & Şirket</h5>
                         <div class="col-md-3 form-group form-group-default form-group-default-select2 required">
                         <label class="">Holding seçin</label>
-                          <select class="full-width holdings" data-placeholder="Holding seçin" data-init-plugin="select2">
+                          <select class="full-width holdings" data-placeholder="Holding seçin" data-init-plugin="select2" multiple="multiple">
                           <option value="0">Lütfen seçin</option>
                             <?php 
-                            foreach ($holdings as $key => $holding) {
+                            foreach ($holdings->message as $key => $holding) {
                               echo '<option value='.$holding->HoldingID.'>'.$holding->HoldingName.'</option>';
                             }
                             ?>
@@ -177,6 +177,35 @@
                 <div class="row">
                   <div id="container" style="width:100%; height:500px;"></div>
                 </div>
+                <div class="row" style="margin-top:50px">
+              <div class="col-md-12">
+              <table class="table table-striped" id="tableWithExportOptions">
+              <thead>
+              <tr>
+              <th>Tarih</th>
+              <?php
+              foreach ($reports->graphData as $key => $graphData) {
+                echo '<th>'.$graphData->name.'</th>
+                ';
+              }
+              ?>
+              </tr>
+              </thead>
+              <tbody>
+                <?php
+                foreach ($reports->dates as $key => $date) {
+                  echo '<tr>
+                  <td>'.$date.'</td>';
+                  foreach ($reports->graphData as $key2 => $value) {
+                    echo '<td>'.$value->data[$key].'</td>';
+                  }
+                  echo '</tr>';
+                }
+                ?>
+              </tbody>
+            </table>
+              </div>
+            </div>
             <!-- END PLACE PAGE CONTENT HERE -->
           </div>
           <!-- END CONTAINER FLUID -->
@@ -226,6 +255,60 @@
     <script src="<?php echo base_url() ?>assets/js/scripts.js?v=<?php echo time(); ?>" type="text/javascript"></script>
     <script type="text/javascript">
       $(function(){
+        var initTableWithExportOptions = function() {
+        var table = $('#tableWithExportOptions');
+        var settings = {
+            "sDom": "<'exportOptions'T><'table-responsive't><'row'<p i>>",
+            "destroy": true,
+            "scrollCollapse": true,
+            "oLanguage": {
+                "sLengthMenu": "_MENU_ ",
+                "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+            },
+            "iDisplayLength": 20,
+            "oTableTools": {
+                "sSwfPath": "assets/plugins/jquery-datatable/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
+                "aButtons": [{
+                    "sExtends": "csv",
+                    "sButtonText": "<i class='pg-grid'></i>",
+                }, {
+                    "sExtends": "xls",
+                    "sButtonText": "<i class='fa fa-file-excel-o'></i>",
+                }, {
+                    "sExtends": "pdf",
+                    "sButtonText": "<i class='fa fa-file-pdf-o'></i>",
+                }, {
+                    "sExtends": "copy",
+                    "sButtonText": "<i class='fa fa-copy'></i>",
+                }]
+            },
+            fnDrawCallback: function(oSettings) {
+                $('.export-options-container').append($('.exportOptions'));
+
+                $('#ToolTables_tableWithExportOptions_0').tooltip({
+                    title: 'CSV olarak aktar',
+                    container: 'body'
+                });
+
+                $('#ToolTables_tableWithExportOptions_1').tooltip({
+                    title: 'Excel\'e aktar',
+                    container: 'body'
+                });
+
+                $('#ToolTables_tableWithExportOptions_2').tooltip({
+                    title: 'PDF olarak aktar',
+                    container: 'body'
+                });
+
+                $('#ToolTables_tableWithExportOptions_3').tooltip({
+                    title: 'Tabloyu kopyala',
+                    container: 'body'
+                });
+            }
+        };
+        table.dataTable(settings);
+    }
+        initTableWithExportOptions();
         $('#datepicker-range').datepicker({
           format: 'yyyy-mm-dd',
           endDate: '+0d'
@@ -269,15 +352,33 @@
         $(".apply").on("click",function(){
             var dateBegin = $("#dateBegin").val();
             var dateEnd = $("#dateEnd").val();
+            var data = {dateBegin:dateBegin,dateEnd:dateEnd};
+            var holdingId = $(".holdings").val();
+            var companyId = $(".companies").val();
+            var barGroupId = $(".bars").val();
+            var tapId = $(".taps").val();
             $.ajax({
               type:"POST",
-              data:{dateBegin:dateBegin,dateEnd:dateEnd},
+              data:{dateBegin:dateBegin,dateEnd:dateEnd,holdingId:holdingId,companyId:companyId,barGroupId:barGroupId,tapId:tapId},
               url:base_url+"/general/getConsumptionByDate",
               success:function(data){
+                $("#tableWithExportOptions").dataTable().fnDestroy();
+                $("#tableWithExportOptions thead tr").html('<th>Tarih</th>');
+                $("#tableWithExportOptions tbody").empty();
+                $.each(data.consumed.graphData,function(k,v){
+                  $("#tableWithExportOptions thead tr").append("<th>"+v.name+"</th>");
+                })
+                $.each(data.consumed.dates,function(k,v){
+                  $("#tableWithExportOptions tbody").append('<tr><td>'+v+'</td></tr>');
+                  $.each(data.consumed.graphData,function(key,value){
+                    $("#tableWithExportOptions tbody").find("tr").eq(k).append('<td>'+value.data[k]+'</td>');
+                  })
+                })
+                initTableWithExportOptions();
                 chart.update({
-                  series:data.graphData,
+                  series:data.consumed.graphData,
                   xAxis: {
-                      categories: data.dates,
+                      categories: data.consumed.dates,
                       crosshair: true
                   }
                 });

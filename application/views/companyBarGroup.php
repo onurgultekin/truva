@@ -83,7 +83,7 @@
                   echo '<tr id="'.$barGroup->CompanyID.'">
                     <td>'.$barGroup->CompanyName.'</td>
                     <td>'.$barGroup->ToplamBar.'</td>
-                    <td><div class="pull-left"><button class="btn btn-warning getCompanyBarGroupDetails btn-xs m-r-10" id="duzenle">Bar Grubu Ata</button><button class="btn btn-danger deleteCompanyBarGroupModal btn-xs">Sil</button></div></td>
+                    <td><div class="pull-left"><button class="btn btn-warning getCompanyBarGroupDetails btn-xs m-r-10" id="duzenle">Bar Grubu Ata</button></div></td>
                   </tr>';
                 }
                 ?>
@@ -118,7 +118,7 @@
               <form role="form" id="updateCompanyBarGroupData">
                 <div class="form-group appendCompanyBarGroupDataHere">
                 </div>
-                <button type="submit" class="btn btn-primary m-t-5 updateCompanyBarGroup">Bilgileri Düzenle</button>
+                <button type="submit" class="btn btn-primary m-t-5 updateCompanyBarGroup">Bar gruplarını şirkete ata</button>
                 <div class="alert alert-success updateModalError unvisible m-t-10"></div>
               </form>
             </div>
@@ -221,7 +221,7 @@
     <script src="<?php echo base_url() ?>truva/js/pages.min.js"></script>
     <!-- END CORE TEMPLATE JS -->
     <!-- BEGIN PAGE LEVEL JS -->
-    <script src="<?php echo base_url() ?>assets/js/functions.js" type="text/javascript"></script>
+    <script src="<?php echo base_url() ?>assets/js/functions.js?v=<?php echo time(); ?>" type="text/javascript"></script>
     <script type="text/javascript" src="<?php echo base_url() ?>assets/plugins/jquery-inputmask/jquery.inputmask.min.js"></script>
     <script src="<?php echo base_url() ?>assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url() ?>assets/plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js" type="text/javascript"></script>
@@ -241,11 +241,6 @@
         initTable();
         $('#multiple').select2("enable",false);
         getDetails(".getCompanyBarGroupDetails","/general/getCompanyBarGroupByCompanyId","CompanyID",".appendCompanyBarGroupDataHere");
-        $("#appendNewCompanyBarGroupData").validate({
-          submitHandler: function(form) {
-            addNewCompanyBarGroup();
-            }
-        });
         $("#updateCompanyBarGroupData").validate({
           submitHandler: function(form) {
             updateCompanyBarGroup();

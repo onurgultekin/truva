@@ -5,6 +5,7 @@ class Login extends REST_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->requestTime = date("Y-m-d H:i:s.u",round(microtime(true)));
+		$this->load->model("login_model");
 	}
 	function __destruct(){
 		parent::__destruct();
@@ -22,11 +23,18 @@ class Login extends REST_Controller {
 		$this->db->close();
 		$message = json_decode($message);
 		$message = json_encode($message,JSON_UNESCAPED_UNICODE);
-		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".json_encode($this->post(),JSON_UNESCAPED_UNICODE)."','".$message."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
+		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".addslashes(json_encode($this->post(),JSON_UNESCAPED_UNICODE))."','".addslashes($message)."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
 	public function index_post(){
-		$this->load->model("login_model");
 		$message = $this->login_model->login_user($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);		
+	}
+	public function forgotPassword_post(){
+		$message = $this->login_model->forgotPassword($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function resetPassword_post(){
+		$message = $this->login_model->resetPassword($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 }

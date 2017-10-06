@@ -1,4 +1,5 @@
 var base_url = 'http://test.truva.co';
+var modalCloseTimeout = 2000;
 $.fn.serializeObject = function() {
     var o = {};
     var a = this.serializeArray();
@@ -20,7 +21,7 @@ function refreshLastTapData(){
     },10000);
 }
 function getCitiesInModal(){
-    $(".countriesinmodal").on("change",function(){
+    $("body").on("change",".countriesinmodal",function(){
         var selectedCountry = $(this).val();
         $.ajax({
             type:"POST",
@@ -69,7 +70,7 @@ function getAreasInModal(){
         })
     })
 }
-var initTable = function() {
+var initTable = function(width = 184,search = "", displayLenght = 20) {
     var table = $('#tableWithExportOptions');
     var extensions = {
         "sFilter": "dataTables_filter custom_filter_class",
@@ -78,6 +79,7 @@ var initTable = function() {
     var settings = {
         "sDom": "<'row'<'col-md-12 pull-left m-t-10'l>><t><'row'<p i>>",
         "destroy": true,
+        "oSearch": {"sSearch": search},
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "scrollCollapse": false,
         "oLanguage": {
@@ -87,10 +89,10 @@ var initTable = function() {
         "dom": 'rt<"bottom"ilp><"clear">',
         "columnDefs": [ {
               "targets": 'no-sort',
-              "width":"184px",
+              "width":width+"px",
               "orderable": false
         } ],
-        "iDisplayLength": 20,
+        "iDisplayLength": displayLenght,
         "aLengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]],
         "pagingType": "simple_numbers",
         "scrollX": true
@@ -101,8 +103,25 @@ var initTable = function() {
     });
     
 }
+function _updateButtonsArray(array,tableClass){
+  $.each($(tableClass+" tbody tr"),function(){
+      var index = $(this).index();
+      var buttonId = $(this).attr("id");
+      $(this).find("td").eq(0).html("Button "+(index+1));
+      var buttonName = $(this).find("td").eq(0).text();
+      var buttonClReal = $(this).find("td").eq(1).text();
+      var buttonClShown = $(this).find("td").eq(2).text();
+      buttons = {
+        buttonName:buttonName,
+        buttonClReal:buttonClReal,
+        buttonClShown:buttonClShown
+      }
+      array.push(buttons);
+  })
+}
 function getDetails(button,endpoint,elementName,appendableDiv){
     $("body").on("click",button,function(){
+        Pace.restart();
         var elementId = $(this).parents("tr").attr("id");
         var request = $(this).attr("id");
         dataString={};
@@ -139,7 +158,6 @@ function getDetails(button,endpoint,elementName,appendableDiv){
                             CityID:{min:1},
                             CountyID:{min:1},
                             AreaID:{min:1},
-                            HoldingID:{min:1},
                             CompanyTypeID:{min:1}
                         },
                         submitHandler: function(form) {
@@ -176,11 +194,76 @@ function getDetails(button,endpoint,elementName,appendableDiv){
                 }
                 if(button == ".getCompanyDailyGuestDetails"){
                     $('#Date').datepicker({
-                      format: 'yyyy-mm-dd',
-                    });
+                        format: 'yyyy-mm-dd',
+                        autoclose: true
+                      }).on("changeDate",function(){
+                        $(this).trigger("focus").trigger("blur");
+                      })
                     $("#TotalGuest").autoNumeric('init', {
                       aSep: '',
                       aPad: false
+                    });
+                }
+                if(button == ".getTechnicalServiceFormDetails"){
+                    $('#beginDate,#endDate').datepicker({
+                        format: 'yyyy-mm-dd',
+                        autoclose: true
+                      }).on("changeDate",function(){
+                        $(this).trigger("focus").trigger("blur");
+                      })
+                }
+                if(button == ".getTapDetails"){
+                    var updateButtonsArray = [];
+                    _updateButtonsArray(updateButtonsArray,".updateButtonTable");
+                    $('#buttonClReal,#buttonClShown,#NetPrice,#SalePrice').autoNumeric('init');
+                    var buttonIndex = $(".updateButtonTable tbody tr").length;
+                    $("body").on("click",".addButtonDataToTableForUpdate",function(){
+                      $(".modalError").html('').addClass("unvisible");
+                      var buttonId = $(this).parents("tr").attr("id");
+                      buttonIndex++;
+                      var buttonName = "Button "+buttonIndex;
+                      var buttonClReal = $("#buttonClReal").val();
+                      var buttonClShown = $("#buttonClShown").val();
+                      var tableLength = $(".updateButtonTable tbody tr").length;
+                      if(tableLength < 4 && buttonName.length!=0 && buttonClReal.length!=0 && buttonClShown.length!=0){
+                        $(".updateButtonTable tbody").append('<tr>\
+                            <td>'+buttonName+'</td>\
+                            <td>'+buttonClReal+'</td>\
+                            <td>'+buttonClShown+'</td>\
+                            <td>\
+                                <div class="pull-right">\
+                                <button type="button" class="btn btn-danger btn-xs deleteButtonForUpdate"><i class="fa fa-times"></i></button>\
+                                </div>\
+                                </td>\
+                            </tr>');
+                        buttons = {
+                          buttonName:buttonName,
+                          buttonClReal:buttonClReal,
+                          buttonClShown:buttonClShown
+                        }
+                        updateButtonsArray.push(buttons);
+                      }else{
+                        if(tableLength >= 4){
+                          $(".updateModalError").html("4 butondan fazla giremezsiniz.").removeClass("unvisible");
+                        }else{
+                          $(".updateModalError").html("Lütfen bütün button alanlarını doldurun.").removeClass("unvisible");
+                        }
+                      }
+                    })
+                    $("body").on("click",".deleteButtonForUpdate",function(){
+                        buttonIndex--;
+                        $(this).parents("tr").fadeOut(500,function(){
+                            $(this).remove();
+                            var updateButtonsArray = [];
+                            _updateButtonsArray(updateButtonsArray,".updateButtonTable");
+                        })
+                    })
+                    $("#updateTapData").validate({
+                      submitHandler: function(form) {
+                        var updateButtonsArray = [];
+                        _updateButtonsArray(updateButtonsArray,".updateButtonTable");
+                        updateTap(updateButtonsArray);
+                        }
                     });
                 }
             }
@@ -189,7 +272,7 @@ function getDetails(button,endpoint,elementName,appendableDiv){
     })
 }
 function addNewHolding(){
-    var data = $("#appendNewHoldingData" ).serializeObject();
+    var data = $("#appendNewHoldingData").serializeObject();
     $(".modalError").html('Lütfen bekleyiniz...');
     $.ajax({
         type:"POST",
@@ -200,7 +283,12 @@ function addNewHolding(){
             getHoldings();
             setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewHoldingData").find("select").val(0).change();
+                $(".citiesinmodal,.districtsinmodal,.areasinmodal").attr("disabled","disabled");
+                $("#appendNewHoldingData label").removeClass("fade");
+                $("#appendNewHoldingData").find("input").val("");
+            },modalCloseTimeout)
         }
     })
 }
@@ -216,11 +304,13 @@ function updateHolding(){
             getHoldings();
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000)
+                $("#modalSlideUp").modal("hide");
+            },modalCloseTimeout)
         }
     })
 }
 function getHoldings(){
+    var tableLength = $(".dataTables_length select").val();
     Pace.restart();
     $("#tableWithExportOptions").dataTable().fnDestroy();
     $.ajax({
@@ -228,7 +318,7 @@ function getHoldings(){
         url:base_url+"/general/getHoldings",
         success:function(data){
             $("#tableWithExportOptions tbody").empty();
-            $.each(data,function(key,holding){
+            $.each(data.message,function(key,holding){
                 $("#tableWithExportOptions tbody").append('<tr id="'+holding.HoldingID+'">\
                     <td>'+holding.HoldingName+'</td>\
                     <td>'+holding.HoldingEmail+'</td>\
@@ -238,7 +328,7 @@ function getHoldings(){
                     <td>'+holding.AreaName+'</td>\
                     <td><div class="pull-left"><button class="btn btn-primary getCompanyByHoldingId btn-xs" id= "'+holding.HoldingID+'">Detay</button><button class="btn btn-warning getHoldingDetails btn-xs m-l-10 m-r-10">Düzenle</button><button class="btn btn-danger deleteHoldingModal btn-xs">Sil</button></div></td></tr>')
             })
-            initTable();
+            initTable(null,$('#search-table').val(),tableLength);
             Pace.stop();
         }
     })
@@ -253,6 +343,14 @@ function addNewCompany(){
         success:function(data){
             $(".modalError").html(data.message).removeClass("unvisible");
             getCompanies();
+            setTimeout(function(){
+                $(".modalError").addClass("unvisible");
+                $("#addNewCompanyModal").modal("hide");
+                $("#appendNewCompanyData").find("select").val(0).change();
+                $(".citiesinmodal,.districtsinmodal,.areasinmodal").attr("disabled","disabled");
+                $("#appendNewCompanyData label").removeClass("fade");
+                $("#appendNewCompanyData").find("input").val("");
+            },modalCloseTimeout)
         }
     })
 }
@@ -268,11 +366,13 @@ function updateCompany(){
             getCompanies();
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000);
+                $("#modalSlideUp").modal("hide");
+            },modalCloseTimeout);
         }
     })
 }
 function getCompanies(){
+    var tableLength = $(".dataTables_length select").val();
     Pace.restart();
     $("#tableWithExportOptions").dataTable().fnDestroy();
     $.ajax({
@@ -280,10 +380,10 @@ function getCompanies(){
         url:base_url+"/general/getCompanies",
         success:function(data){
             $("#tableWithExportOptions tbody").empty();
-            $.each(data,function(key,company){
+            $.each(data.message,function(key,company){
                 $("#tableWithExportOptions tbody").append('<tr id="'+company.CompanyID+'"><td>'+company.CompanyName+'</td><td>'+company.CompanyType+'</td><td>'+company.TotalBar+'</td><td>'+company.TotalTap+'</td><td><div class="pull-left"><button class="btn btn-primary getBarGroupListForCompany btn-xs" id="'+company.CompanyID+'">Detay</button><button class="btn btn-warning getCompanyDetails btn-xs m-r-10 m-l-10">Düzenle</button><button class="btn btn-danger deleteCompanyModal btn-xs">Sil</button></div></td></tr>')
             })
-            initTable();
+            initTable(null,$('#search-table').val(),tableLength);
             Pace.stop();
         }
     })
@@ -298,12 +398,13 @@ function getHoldingByCountryId(){
             url:base_url+"/general/getHoldingByCountryId",
             data:{countryId:selectedCountry},
             success:function(data){
+                console.log(data);
                 if(selectedCountry==0){
                     getHoldings();
                 }else{
                 $("#tableWithExportOptions tbody").empty();
-                    if(data!="There is no record from Countries"){
-                        $.each(data,function(key,holding){
+                    if(data.message.length != 0){
+                        $.each(data.message,function(key,holding){
                             $("#tableWithExportOptions tbody").append('<tr id="'+holding.HoldingID+'">\
                                 <td>'+holding.HoldingName+'</td>\
                                 <td>'+holding.HoldingEmail+'</td>\
@@ -313,6 +414,9 @@ function getHoldingByCountryId(){
                                 <td>'+holding.AreaName+'</td>\
                                 <td><div class="pull-left"><button class="btn btn-primary getCompanyByHoldingId btn-xs" id= "'+holding.HoldingID+'">Detay</button><button class="btn btn-warning getHoldingDetails btn-xs m-l-10 m-r-10">Düzenle</button><button class="btn btn-danger deleteHoldingModal btn-xs">Sil</button></div></td></tr>')
                         })
+                    }else{
+                        $("#modalSlideUpSmall").find("h4").html("Bu ülkeye ait holding bulunamadı.");
+                        $("#modalSlideUpSmall").modal();
                     }
                 }
                 initTable();
@@ -335,8 +439,8 @@ function getHoldingByCityId(){
             data:{cityId:selectedCity},
             success:function(data){
             $("#tableWithExportOptions tbody").empty();
-                if(data!="There is no record from Cities"){
-                    $.each(data,function(key,holding){
+                if(data.message.length != 0){
+                    $.each(data.message,function(key,holding){
                         $("#tableWithExportOptions tbody").append('<tr id="'+holding.HoldingID+'">\
                             <td>'+holding.HoldingName+'</td>\
                             <td>'+holding.HoldingEmail+'</td>\
@@ -346,6 +450,9 @@ function getHoldingByCityId(){
                             <td>'+holding.AreaName+'</td>\
                             <td><div class="pull-left"><button class="btn btn-primary getCompanyByHoldingId btn-xs" id= "'+holding.HoldingID+'">Detay</button><button class="btn btn-warning getHoldingDetails btn-xs m-l-10 m-r-10">Düzenle</button><button class="btn btn-danger deleteHoldingModal btn-xs">Sil</button></div></td></tr>')
                     })
+                }else{
+                    $("#modalSlideUpSmall").find("h4").html("Bu şehire ait holding bulunamadı.");
+                    $("#modalSlideUpSmall").modal();
                 }
                 initTable();
                 Pace.stop();
@@ -368,8 +475,8 @@ function getHoldingByCountyId(){
                 data:{countyId:selectedCounty},
                 success:function(data){
                     $("#tableWithExportOptions tbody").empty();
-                    if(data!="There is no record from Counties"){
-                        $.each(data,function(key,holding){
+                    if(data.message.length != 0){
+                        $.each(data.message,function(key,holding){
                             $("#tableWithExportOptions tbody").append('<tr id="'+holding.HoldingID+'">\
                                 <td>'+holding.HoldingName+'</td>\
                                 <td>'+holding.HoldingEmail+'</td>\
@@ -380,6 +487,8 @@ function getHoldingByCountyId(){
                                 <td><div class="pull-left"><button class="btn btn-primary getCompanyByHoldingId btn-xs" id= "'+holding.HoldingID+'">Detay</button><button class="btn btn-warning getHoldingDetails btn-xs m-l-10 m-r-10">Düzenle</button><button class="btn btn-danger deleteHoldingModal btn-xs">Sil</button></div></td></tr>')
                         })
                     }else{
+                        $("#modalSlideUpSmall").find("h4").html("Bu ilçeye ait holding bulunamadı.");
+                        $("#modalSlideUpSmall").modal();
                     }
                     initTable();
                     Pace.stop();
@@ -402,8 +511,8 @@ function getHoldingByAreaId(){
             data:{areaId:selectedArea},
             success:function(data){
                 $("#tableWithExportOptions tbody").empty();
-                if(data!="There is no record from Areas"){
-                    $.each(data,function(key,holding){
+                if(data.message.length != 0){
+                    $.each(data.message,function(key,holding){
                         $("#tableWithExportOptions tbody").append('<tr id="'+holding.HoldingID+'">\
                             <td>'+holding.HoldingName+'</td>\
                             <td>'+holding.HoldingEmail+'</td>\
@@ -414,6 +523,8 @@ function getHoldingByAreaId(){
                             <td><div class="pull-left"><button class="btn btn-primary getCompanyByHoldingId btn-xs" id= "'+holding.HoldingID+'">Detay</button><button class="btn btn-warning getHoldingDetails btn-xs m-l-10 m-r-10">Düzenle</button><button class="btn btn-danger deleteHoldingModal btn-xs">Sil</button></div></td></tr>')
                     })
                 }else{
+                    $("#modalSlideUpSmall").find("h4").html("Bu semte ait holding bulunamadı");
+                    $("#modalSlideUpSmall").modal();
                 }
                 initTable();
                 Pace.stop();
@@ -430,13 +541,14 @@ function getCompanyByHoldingIdForHoldingPage(){
             url:base_url+"/general/getCompanyByHoldingId",
             data:{holdingId:holdingId},
             success:function(data){
-                if(data!="There is no record from Holding."){
+                if(data.resultCode == 0){
                     $("#showHoldingCompanies").find("table tbody").empty();
-                    $.each(data,function(key,company){
+                    $.each(data.message,function(key,company){
                         $("#showHoldingCompanies").find("table tbody").append('<tr><td>'+company.CompanyName+'</td><td>'+company.CompanyType+'</td><td>'+company.CompanyAdress+'</td></tr>');
                     })
                     $("#showHoldingCompanies").modal();
                 }else{
+                    $("#modalSlideUpSmall").find("h4").html(data.message);
                     $("#modalSlideUpSmall").modal();
                 }
             }
@@ -454,11 +566,13 @@ function getCompanyByCountryId(){
             data:{countryId:selectedCountry},
             success:function(data){
                 $("#tableWithExportOptions tbody").empty();
-                if(data!="There is no record from Countries"){
-                    $.each(data,function(key,company){
+                if(data.message.length > 0){
+                    $.each(data.message,function(key,company){
                         $("#tableWithExportOptions tbody").append('<tr id="'+company.CompanyID+'"><td>'+company.CompanyName+'</td><td>'+company.CompanyType+'</td><td>'+company.TotalBar+'</td><td>'+company.TotalTap+'</td><td><div class="pull-left"><button class="btn btn-primary getBarGroupListForCompany btn-xs" id="'+company.CompanyID+'">Detay</button><button class="btn btn-warning getCompanyDetails btn-xs m-r-10 m-l-10">Düzenle</button><button class="btn btn-danger deleteCompanyModal btn-xs">Sil</button></div></td></tr>')
                     })
                 }else{
+                    $("#modalSlideUpSmall").find("h4").html("Bu ülkeye ait şirket  bulunamadı.");
+                    $("#modalSlideUpSmall").modal();
                 }
                 initTable();
                 Pace.stop();
@@ -477,11 +591,63 @@ function getCompanyByCityId(){
             data:{cityId:selectedCity},
             success:function(data){
                 $("#tableWithExportOptions tbody").empty();
-                if(data!="There is no record from Cities."){
-                    $.each(data,function(key,company){
+                if(data.message.length > 0){
+                    $.each(data.message,function(key,company){
                         $("#tableWithExportOptions tbody").append('<tr id="'+company.CompanyID+'"><td>'+company.CompanyName+'</td><td>'+company.CompanyType+'</td><td>'+company.TotalBar+'</td><td>'+company.TotalTap+'</td><td><div class="pull-left"><button class="btn btn-primary getBarGroupListForCompany btn-xs" id="'+company.CompanyID+'">Detay</button><button class="btn btn-warning getCompanyDetails btn-xs m-r-10 m-l-10">Düzenle</button><button class="btn btn-danger deleteCompanyModal btn-xs">Sil</button></div></td></tr>')
                     })
                 }else{
+                    $("#modalSlideUpSmall").find("h4").html("Bu şehire ait şirket  bulunamadı.");
+                    $("#modalSlideUpSmall").modal();
+                }
+                initTable();
+                Pace.stop();
+            }
+        })
+    })
+}
+function getCompanyByCountyId(){
+    $(".districts").on("change",function(){
+        var selectedCounty = $(this).val();
+        Pace.restart();
+        $("#tableWithExportOptions").dataTable().fnDestroy();
+        $.ajax({
+            type:"POST",
+            url:base_url+"/general/getCompanyByCountyId",
+            data:{countyId:selectedCounty},
+            success:function(data){
+                $("#tableWithExportOptions tbody").empty();
+                if(data.message.length > 0){
+                    $.each(data.message,function(key,company){
+                        $("#tableWithExportOptions tbody").append('<tr id="'+company.CompanyID+'"><td>'+company.CompanyName+'</td><td>'+company.CompanyType+'</td><td>'+company.TotalBar+'</td><td>'+company.TotalTap+'</td><td><div class="pull-left"><button class="btn btn-primary getBarGroupListForCompany btn-xs" id="'+company.CompanyID+'">Detay</button><button class="btn btn-warning getCompanyDetails btn-xs m-r-10 m-l-10">Düzenle</button><button class="btn btn-danger deleteCompanyModal btn-xs">Sil</button></div></td></tr>')
+                    })
+                }else{
+                    $("#modalSlideUpSmall").find("h4").html("Bu ilçeye ait şirket  bulunamadı.");
+                    $("#modalSlideUpSmall").modal();
+                }
+                initTable();
+                Pace.stop();
+            }
+        })
+    })
+}
+function getCompanyByAreaId(){
+    $(".areas").on("change",function(){
+        var selectedArea = $(this).val();
+        Pace.restart();
+        $("#tableWithExportOptions").dataTable().fnDestroy();
+        $.ajax({
+            type:"POST",
+            url:base_url+"/general/getCompanyByAreaId",
+            data:{areaId:selectedArea},
+            success:function(data){
+                $("#tableWithExportOptions tbody").empty();
+                if(data.message.length > 0){
+                    $.each(data.message,function(key,company){
+                        $("#tableWithExportOptions tbody").append('<tr id="'+company.CompanyID+'"><td>'+company.CompanyName+'</td><td>'+company.CompanyType+'</td><td>'+company.TotalBar+'</td><td>'+company.TotalTap+'</td><td><div class="pull-left"><button class="btn btn-primary getBarGroupListForCompany btn-xs" id="'+company.CompanyID+'">Detay</button><button class="btn btn-warning getCompanyDetails btn-xs m-r-10 m-l-10">Düzenle</button><button class="btn btn-danger deleteCompanyModal btn-xs">Sil</button></div></td></tr>')
+                    })
+                }else{
+                    $("#modalSlideUpSmall").find("h4").html("Bu semte ait şirket  bulunamadı.");
+                    $("#modalSlideUpSmall").modal();
                 }
                 initTable();
                 Pace.stop();
@@ -492,7 +658,7 @@ function getCompanyByCityId(){
 function getCompanyByHoldingId(){
     $(".holdingsforcompanies").on("change",function(){
         var selectedHolding = $(this).val();
-        if(selectedHolding != 0){
+        if(selectedHolding != null){
             Pace.restart();
             $("#tableWithExportOptions").dataTable().fnDestroy();
             $.ajax({
@@ -500,15 +666,21 @@ function getCompanyByHoldingId(){
                 url:base_url+"/general/getCompanyByHoldingId",
                 data:{holdingId:selectedHolding},
                 success:function(data){
-                    console.log(data);
                     $("#tableWithExportOptions tbody").empty();
-                    $.each(data,function(key,company){
-                        $("#tableWithExportOptions tbody").append('<tr id="'+company.CompanyID+'"><td>'+company.CompanyName+'</td><td>'+company.CompanyType+'</td><td>'+company.TotalBar+'</td><td>'+company.TotalTap+'</td><td><div class="pull-left"><button class="btn btn-primary getBarGroupListForCompany btn-xs" id="'+company.CompanyID+'">Detay</button><button class="btn btn-warning getCompanyDetails btn-xs m-r-10 m-l-10">Düzenle</button><button class="btn btn-danger deleteCompanyModal btn-xs">Sil</button></div></td></tr>')
-                    })
+                    if(data.resultCode == 0){
+                        $.each(data.message,function(key,company){
+                            $("#tableWithExportOptions tbody").append('<tr id="'+company.CompanyID+'"><td>'+company.CompanyName+'</td><td>'+company.CompanyType+'</td><td>'+company.TotalBar+'</td><td>'+company.TotalTap+'</td><td><div class="pull-left"><button class="btn btn-primary getBarGroupListForCompany btn-xs" id="'+company.CompanyID+'">Detay</button><button class="btn btn-warning getCompanyDetails btn-xs m-r-10 m-l-10">Düzenle</button><button class="btn btn-danger deleteCompanyModal btn-xs">Sil</button></div></td></tr>')
+                        })
+                    }else{
+                        $("#modalSlideUpSmall").find("h4").html(data.message);
+                        $("#modalSlideUpSmall").modal();
+                    }
                     initTable();
                     Pace.stop();
                 }
             })
+        }else{
+            getCompanies();
         }
     })
 }
@@ -520,10 +692,10 @@ function getBarGroupListForCompany(){
             url:base_url+"/general/getBarsByCompanyId",
             data:{companyId:companyId},
             success:function(data){
-                if(data!=""){
+                if(data.message.length > 0){
                     $("#showCompanyBarGroups").find("table tbody").empty();
-                    $.each(data,function(key,barGroup){
-                        $("#showCompanyBarGroups").find("table tbody").append('<tr><td>'+barGroup.Code+'</td><td>'+barGroup.Name+'</td></tr>');
+                    $.each(data.message,function(key,barGroup){
+                        $("#showCompanyBarGroups").find("table tbody").append('<tr><td>'+barGroup.Name+'</td><td>'+barGroup.Code+'</td></tr>');
                     })
                     $("#showCompanyBarGroups").modal();
                 }else{
@@ -545,7 +717,11 @@ function addNewAlcoholBrand(){
             getAlcoholBrands()
             setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+                $("#addNewAlcoholBrand label").removeClass("fade");
+                $("#addNewAlcoholBrand").find("input").val("");
+                $("#addNewAlcoholBrand").find("select").val(0).change();
+            },modalCloseTimeout)
         }
     })
 }
@@ -561,7 +737,8 @@ function updateAlcoholBrand(){
             getAlcoholBrands()
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000)
+                $("#modalSlideUp").modal("hide");
+            },modalCloseTimeout)
         }
     })
 }
@@ -574,7 +751,7 @@ function getAlcoholBrands(){
         success:function(data){
             $("#tableWithExportOptions tbody").empty();
             $.each(data,function(key,alcoholBrand){
-                $("#tableWithExportOptions tbody").append('<tr id="'+alcoholBrand.AlcoholBrandID+'"><td>'+alcoholBrand.Code+'</td><td>'+alcoholBrand.Name+'</td><td><div class="pull-left"><button class="btn btn-warning getAlcoholBrandDetails btn-xs m-r-10" id="duzenle">Düzenle</button><button class="btn btn-danger deleteAlcoholBrandModal btn-xs">Sil</button></div></td></tr>')
+                $("#tableWithExportOptions tbody").append('<tr id="'+alcoholBrand.AlcoholBrandID+'"><td>'+alcoholBrand.Code+'</td><td>'+alcoholBrand.Name+'</td><td>'+alcoholBrand.AlcoholTypeName+'</td><td><div class="pull-left"><button class="btn btn-warning getAlcoholBrandDetails btn-xs m-r-10" id="duzenle">Düzenle</button><button class="btn btn-danger deleteAlcoholBrandModal btn-xs">Sil</button></div></td></tr>')
             })
             initTable();
             Pace.stop();
@@ -593,7 +770,11 @@ function addNewAlcoholGroup(){
             getAlcoholGroups()
             setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewAlcoholGroupData label").removeClass("fade");
+                $("#appendNewAlcoholGroupData").find("input").val("");
+                $("#appendNewAlcoholGroupData").find("select").val(0).change();
+            },modalCloseTimeout)
         }
     })
 }
@@ -609,7 +790,8 @@ function updateAlcoholGroup(){
             getAlcoholGroups()
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000)
+                $("#modalSlideUp").modal("hide");
+            },modalCloseTimeout)
         }
     })
 }
@@ -641,7 +823,11 @@ function addNewAlcoholType(){
             getAlcoholTypes();
             setTimeout(function(){
                 $(".modalError").html('').addClass("unvisible");
-            },3000);
+                $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewAlcoholTypeData label").removeClass("fade");
+                $("#appendNewAlcoholTypeData").find("input").val("");
+                $("#appendNewAlcoholTypeData").find("select").val(0).change();
+            },modalCloseTimeout)
         }
     })
 }
@@ -657,7 +843,8 @@ function updateAlcoholType(){
             getAlcoholTypes();
             setTimeout(function(){
                 $(".updateModalError").html('').addClass("unvisible");
-            },3000);
+                $(".updateModalError").parents("div.modal").modal("hide");
+            },modalCloseTimeout)
         }
     })
 }
@@ -670,7 +857,7 @@ function getAlcoholTypes(){
         success:function(data){
             $("#tableWithExportOptions tbody").empty();
             $.each(data,function(key,alcoholType){
-                $("#tableWithExportOptions tbody").append('<tr id="'+alcoholType.AlcoholTypeID+'"><td>'+alcoholType.Code+'</td><td>'+alcoholType.Name+'</td><td><div class="pull-left"><button class="btn btn-warning getAlcoholTypeDetails m-r-10 btn-xs" id="duzenle">Düzenle</button><button class="btn btn-danger deleteAlcoholTypeModal btn-xs">Sil</button></div></td></tr>')
+                $("#tableWithExportOptions tbody").append('<tr id="'+alcoholType.AlcoholTypeID+'"><td>'+alcoholType.Code+'</td><td>'+alcoholType.Name+'</td><td>'+alcoholType.AlcoholGroupName+'</td><td><div class="pull-left"><button class="btn btn-warning getAlcoholTypeDetails m-r-10 btn-xs" id="duzenle">Düzenle</button><button class="btn btn-danger deleteAlcoholTypeModal btn-xs">Sil</button></div></td></tr>')
             })
             initTable();
             Pace.stop();
@@ -689,7 +876,11 @@ function addNewArea(){
             getAreas();
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewAreaData label").removeClass("fade");
+                $("#appendNewAreaData").find("input").val("");
+                $("#appendNewAreaData").find("select").val(0).change();
+            },modalCloseTimeout)
         }
     })
 }
@@ -705,7 +896,8 @@ function updateArea(){
             getAreas();
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+            },modalCloseTimeout)
         }
     })
 }
@@ -721,7 +913,11 @@ function addNewBarGroup(){
             getBarGroups();
             setTimeout(function(){
                 $(".modalError").html('').addClass("unvisible");
-            },3000);
+                $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewBarGroupData label").removeClass("fade");
+                $("#appendNewBarGroupData").find("input").val("");
+                $("#appendNewBarGroupData").find("select").val(0).change();
+            },modalCloseTimeout)
         }
     })
 }
@@ -737,7 +933,8 @@ function updateBarGroup(){
             getBarGroups();
             setTimeout(function(){
                 $(".updateModalError").html('').addClass("unvisible");
-            },3000);
+                $(".updateModalError").parents("div.modal").modal("hide");
+            },modalCloseTimeout)
         }
     })
 }
@@ -769,7 +966,11 @@ function addNewCity(){
             getCities();
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewCityData label").removeClass("fade");
+                $("#appendNewCityData").find("input").val("");
+                $("#appendNewCityData").find("select").val(0).change();
+            },modalCloseTimeout)
         }
     })
 }
@@ -785,7 +986,8 @@ function updateCity(){
             getCities();
               setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000)
+                $("#modalSlideUp").modal("hide");
+            },modalCloseTimeout)
         }
     })
 }
@@ -799,6 +1001,13 @@ function addNewCollector(){
         success:function(data){
             $(".modalError").html(data.message).removeClass("unvisible");
             getCollectors()
+            setTimeout(function(){
+                $(".modalError").addClass("unvisible");
+                $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewCollectorData label").removeClass("fade");
+                $("#appendNewCollectorData").find("input").val("");
+                $("#appendNewCollectorData").find("select").val(0).change();
+            },modalCloseTimeout)
         }
     })
 }
@@ -812,6 +1021,10 @@ function updateCollector(){
         success:function(data){
             $(".updateModalError").html(data.message).removeClass("unvisible");
             getCollectors()
+            setTimeout(function(){
+                $(".updateModalError").addClass("unvisible");
+                $("#modalSlideUp").modal("hide");
+            },modalCloseTimeout)
         }
     })
 }
@@ -824,7 +1037,7 @@ function getCollectors(){
         success:function(data){
             $("#tableWithExportOptions tbody").empty();
             $.each(data,function(key,collector){
-              $("#tableWithExportOptions tbody").append('<tr id="'+collector.collector_id+'"><td>'+collector.ip_address+'</td><td>'+collector.notification_email+'</td><td>'+collector.Barcode+'</td><td>'+collector.Latitude+'</td><td>'+collector.Longitude+'</td><td><div class="pull-left"><button class="btn btn-warning getCollectorDetails btn-xs m-r-10" id="duzenle">Düzenle</button><button class="btn btn-danger btn-xs">Sil</button></div></td></tr>')
+              $("#tableWithExportOptions tbody").append('<tr id="'+collector.collector_id+'"><td>'+collector.ip_address+'</td><td>'+collector.notification_email+'</td><td>'+collector.Barcode+'</td><td>'+collector.Latitude+'</td><td>'+collector.Longitude+'</td><td><div class="pull-left"><button class="btn btn-warning getCollectorDetails btn-xs m-r-10" id="duzenle">Düzenle</button><button class="btn btn-danger btn-xs deleteCollectorModal">Sil</button></div></td></tr>')
           })
             initTable();
             Pace.stop();
@@ -843,7 +1056,11 @@ function addNewCounty(){
             getCounties();
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewCountryData label").removeClass("fade");
+                $("#appendNewCountryData").find("input").val("");
+                $("#appendNewCountyData").find("select").val(0).change();
+            },modalCloseTimeout)
         }
     })
 }
@@ -859,7 +1076,8 @@ function updateCounty(){
             getCounties();
               setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000)
+                $("#modalSlideUp").modal("hide");
+            },modalCloseTimeout)
         }
     })
 }
@@ -875,7 +1093,10 @@ function addNewCountry(){
             getCountries();
               setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewCountryData label").removeClass("fade");
+                $("#appendNewCountryData").find("input").val("");
+            },modalCloseTimeout)
         }
     })
 }
@@ -891,49 +1112,8 @@ function updateCountry(){
             getCountries();
               setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000)
-        }
-    })
-}
-function addNewCollector(){
-    var data = $("#appendNewCollectorData" ).serializeObject();
-    $(".modalError").html('Lütfen bekleyiniz...');
-    $.ajax({
-        type:"POST",
-        url:base_url+"/admin/addNewCollector",
-        data:data,
-        success:function(data){
-            $(".modalError").html(data.message).removeClass("unvisible");
-            getCollectors()
-        }
-    })
-}
-function updateCollector(){
-    var data = $("#updateCollectorData" ).serializeObject();
-    $(".updateModalError").html('Lütfen bekleyiniz...');
-    $.ajax({
-        type:"POST",
-        url:base_url+"/admin/updateCollector",
-        data:data,
-        success:function(data){
-            $(".updateModalError").html(data.message).removeClass("unvisible");
-            getCollectors()
-        }
-    })
-}
-function getCollectors(){
-    Pace.restart();
-    $("#tableWithExportOptions").dataTable().fnDestroy();
-    $.ajax({
-        type:"GET",
-        url:base_url+"/general/getCollectorList",
-        success:function(data){
-            $("#tableWithExportOptions tbody").empty();
-            $.each(data,function(key,collector){
-              $("#tableWithExportOptions tbody").append('<tr id="'+collector.collector_id+'"><td>'+collector.collector_id+'</td><td>'+collector.ip_address+'</td><td>'+collector.notification_email+'</td><td>'+collector.Barcode+'</td><td>'+collector.Latitude+'</td><td>'+collector.Longitude+'</td><td><button class="btn btn-warning getCollectorDetails">Düzenle</button></td><td><button class="btn btn-danger deleteCollectorModal">Sil</button></td></tr>')
-          })
-            initTable();
-            Pace.stop();
+                $("#modalSlideUp").modal("hide");
+            },modalCloseTimeout)
         }
     })
 }
@@ -961,7 +1141,32 @@ function updateUser(){
             getUsers();
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000)
+                $("#modalSlideUp").modal("hide");
+            },modalCloseTimeout)
+        }
+    })
+}
+function getUsers(){
+    var tableLength = $(".dataTables_length select").val();
+    Pace.restart();
+    $("#tableWithExportOptions").dataTable().fnDestroy();
+    $.ajax({
+        type:"GET",
+        url:base_url+"/admin/getUsers",
+        success:function(data){
+            $("#tableWithExportOptions tbody").empty();
+            $.each(data,function(key,user){
+                $("#tableWithExportOptions tbody").append('<tr id="'+user.id+'">\
+                    <td>'+user.email+'</td>\
+                    <td>'+user.first_name+'</td>\
+                    <td>'+user.last_name+'</td>\
+                    <td>'+user.address+'</td>\
+                    <td>'+user.phone+'</td>\
+                    <td>'+user.userRole+'</td>\
+                    <td><div class="pull-right"><button class="btn btn-primary changeUserPassword btn-xs" id="duzenle">Şifre Değiştir</button><button class="btn btn-warning getUserDetails btn-xs m-l-5 m-r-5" id="duzenle">Düzenle</button><button class="btn btn-danger deleteUserModal btn-xs">Sil</button></div></td></tr>')
+            })
+            initTable(214,$('#search-table').val(),tableLength);
+            Pace.stop();
         }
     })
 }
@@ -1054,10 +1259,50 @@ function addNewTechnicalService(){
         data:data,
         success:function(data){
             $(".modalError").html(data.message).removeClass("unvisible");
-            getBarGroups();
+            getTechnicalServices();
             setTimeout(function(){
                 $(".modalError").html('').addClass("unvisible");
-            },3000);
+                $(".modalError").parents("div.modal").modal("hide");
+            },modalCloseTimeout)
+        }
+    })
+}
+function updateTechnicalService(){
+    var data = $("#updateTechnicalServiceData" ).serializeObject();
+    $(".updateModalError").html('Lütfen bekleyiniz...');
+    $.ajax({
+        type:"POST",
+        url:base_url+"/admin/updateTechnicalService",
+        data:data,
+        success:function(data){
+            $(".updateModalError").html(data.message).removeClass("unvisible");
+            getTechnicalServices();
+              setTimeout(function(){
+                $(".updateModalError").addClass("unvisible");
+                $("#modalSlideUp").modal("hide");
+            },modalCloseTimeout)
+        }
+    })
+}
+function getTechnicalServices(){
+    Pace.restart();
+    $("#tableWithExportOptions").dataTable().fnDestroy();
+    $.ajax({
+        type:"GET",
+        url:base_url+"/general/getTechnicalServiceList",
+        success:function(data){
+            $("#tableWithExportOptions tbody").empty();
+            $.each(data,function(key,technicalService){
+                $("#tableWithExportOptions tbody").append('<tr id="'+technicalService.TechnicalServiceListID+'">\
+                    <td>'+technicalService.ServiceName+'</td>\
+                    <td>'+technicalService.Adress+'</td>\
+                    <td>'+technicalService.InvoiceTelephone+'</td>\
+                    <td>'+technicalService.InvoiceMobile+'</td>\
+                    <td>'+technicalService.InvoiceEmail+'</td>\
+                    <td><div class="pull-left"><button class="btn btn-info getQualifiedUsers btn-xs m-r-5">Yetkili Kişiler</button><button class="btn btn-primary getTechnicalServiceUsers btn-xs">Kullanıcı Ata</button><button class="btn btn-warning getTechnicalServiceDetails btn-xs m-r-5 m-l-5" id="duzenle">Düzenle</button><button class="btn btn-danger deleteTechnicalServiceModal btn-xs">Sil</button></div></td></tr>')
+            })
+            initTable(291);
+            Pace.stop();
         }
     })
 }
@@ -1073,7 +1318,11 @@ function addNewCompanyDailyGuest(){
             getCompanyDailyGuest();
             setTimeout(function(){
                 $(".modalError").addClass("unvisible");
-            },3000)
+                $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewCompanyDailyGuestData label").removeClass("fade");
+                $("#appendNewCompanyDailyGuestData").find("input").val("");
+                $("#appendNewCompanyDailyGuestData").find("select").val(0).change();
+            },modalCloseTimeout)
         }
     })
 }
@@ -1109,7 +1358,146 @@ function updateCompanyDailyGuest(){
             getCompanyDailyGuest();
             setTimeout(function(){
                 $(".updateModalError").addClass("unvisible");
-            },3000)
+                $("#modalSlideUp").modal("hide");
+            },modalCloseTimeout)
         }
     })
 }
+function getCompanyBarGroups(){
+    Pace.restart();
+    $("#tableWithExportOptions").dataTable().fnDestroy();
+    $.ajax({
+        type:"GET",
+        url:base_url+"/general/getCompanyBarGroups",
+        success:function(data){
+            $("#tableWithExportOptions tbody").empty();
+            $.each(data,function(key,barGroup){
+                $("#tableWithExportOptions tbody").append('<tr id="'+barGroup.CompanyID+'">\
+                    <td>'+barGroup.CompanyName+'</td>\
+                    <td>'+barGroup.ToplamBar+'</td>\
+                    <td><div class="pull-left"><button class="btn btn-warning getCompanyBarGroupDetails btn-xs m-r-10" id="duzenle">Bar Grubu Ata</button></td></tr>')
+            })
+            initTable();
+            Pace.stop();
+        }
+    })
+}
+function updateCompanyBarGroup(){
+    var data = $("#updateCompanyBarGroupData" ).serializeObject();
+    $(".updateModalError").html('Lütfen bekleyiniz...').removeClass("unvisible");
+    $.ajax({
+        type:"POST",
+        url:base_url+"/admin/updateCompanyBarGroup",
+        data:data,
+        success:function(data){
+            $(".updateModalError").html(data.message).removeClass("unvisible");
+            getCompanyBarGroups();
+            setTimeout(function(){
+                $(".updateModalError").addClass("unvisible");
+                $("#modalSlideUp").modal("hide");
+            },modalCloseTimeout)
+        }
+    })
+}
+function updateTechnicalServiceUser(){
+    var data = $("#updateTechnicalServiceUserData").serializeObject();
+    $(".updateModalError").html('Lütfen bekleyiniz...').removeClass("unvisible");
+    $.ajax({
+        type:"POST",
+        url:base_url+"/admin/updateTechnicalServiceUser",
+        data:data,
+        success:function(data){
+            $(".updateModalError").html(data.message).removeClass("unvisible");
+            getTechnicalServices();
+            setTimeout(function(){
+                $(".updateModalError").addClass("unvisible");
+                $("#technicalServiceUsers").modal("hide");
+            },modalCloseTimeout)
+        }
+    })
+}
+function addNewTap(buttonsArray){
+    var data = $("#appendNewTapData" ).serializeObject();
+    data.buttons = buttonsArray;
+    $(".modalError").html('Lütfen bekleyiniz...');
+    $.ajax({
+        type:"POST",
+        url:base_url+"/admin/addNewTap",
+        data:data,
+        success:function(data){
+            $(".modalError").html(data.message).removeClass("unvisible");
+            getTaps();
+            setTimeout(function(){
+                $(".modalError").html('').addClass("unvisible");
+                $(".modalError").parents("div.modal").modal("hide");
+                $("#appendNewCompanyDailyGuestData label").removeClass("fade");
+                $("#appendNewCompanyDailyGuestData").find("input").val("");
+                $("#appendNewCompanyDailyGuestData").find("select").val(0).change();
+            },modalCloseTimeout)
+        }
+    })
+}
+function getTaps(){
+    Pace.restart();
+    $("#tableWithExportOptions").dataTable().fnDestroy();
+    $.ajax({
+        type:"GET",
+        url:base_url+"/general/getTaps",
+        success:function(data){
+            $("#tableWithExportOptions tbody").empty();
+            $.each(data,function(key,tap){
+                $("#tableWithExportOptions tbody").append('<tr id="'+tap.TapID+'">\
+                    <td>'+tap.Name+'</td>\
+                    <td>'+tap.HoldingName+'</td>\
+                    <td>'+tap.CompanyName+'</td>\
+                    <td>'+tap.BarGroupName+'</td>\
+                    <td>'+tap.AlcoholGroupName+'</td>\
+                    <td>'+tap.AlcoholTypeName+'</td>\
+                    <td>'+tap.AlcoholBrandName+'</td>\
+                    <td><div class="pull-left"><button class="btn btn-warning getTapDetails btn-xs m-r-10" id="duzenle">Düzenle</button><button class="btn btn-danger btn-xs">Sil</button></div></td></tr>')
+            })
+            initTable();
+            Pace.stop();
+        }
+    })
+}
+function updateTap(buttonsArray){
+    var data = $("#updateTapData" ).serializeObject();
+    data.buttons = buttonsArray;
+    $(".updateModalError").html('Lütfen bekleyiniz...').removeClass("unvisible");
+    $.ajax({
+        type:"POST",
+        url:base_url+"/admin/updateTap",
+        data:data,
+        success:function(data){
+            $(".updateModalError").html(data.message).removeClass("unvisible");
+            getTaps();
+            setTimeout(function(){
+                $(".updateModalError").addClass("unvisible");
+                $("#modalSlideUp").modal("hide");
+            },modalCloseTimeout)
+        }
+    })
+}
+function changePassword(){
+        var password = $("#password").val();
+        var password2 = $("#password2").val();
+        var userId = $(".changePassword").attr("id");
+        Pace.restart();
+        $.ajax({
+          type:"POST",
+          url:"/admin/changePassword",
+          dataType:"json",
+          data:{password:password,password2:password2,userId:userId},
+          success:function(data){
+            Pace.stop();
+            if(data.resultCode == 0){
+              $(".changePasswordModalError").html(data.message).removeClass("unvisible");
+                  setTimeout(function(){
+                    $(".changePasswordModalError").addClass("unvisible");
+                    $("#changeUserPassword").modal("hide");
+                },modalCloseTimeout)
+            }
+          }
+        })
+      }

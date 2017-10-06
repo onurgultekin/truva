@@ -103,7 +103,7 @@
                 data:{holdingId:selectedHolding},
                 success:function(data){
                     $(".companies").html('<option value="0">Lütfen seçin</option>').removeAttr("disabled").removeClass("disabled");
-                    $.each(data,function(k,company){
+                    $.each(data.message,function(k,company){
                         $(".companies").append('<option value="'+company.CompanyID+'">'+company.CompanyName+'</option>');
                     })
                 }
@@ -116,10 +116,28 @@
                 url:base_url+"/general/getBarsByCompanyId",
                 data:{companyId:selectedHolding},
                 success:function(data){
-                    $(".bars").html('<option value="0">Lütfen seçin</option>').removeAttr("disabled").removeClass("disabled");
-                    $.each(data,function(k,bar){
-                        $(".bars").append('<option value="'+bar.BarGroupID+'">'+bar.Name+'</option>');
-                    })
+                    if(data.message.length > 0){
+                        $(".bars").html('<option value="0">Lütfen seçin</option>').removeAttr("disabled").removeClass("disabled");
+                        $.each(data.message,function(k,bar){
+                            $(".bars").append('<option value="'+bar.BarGroupID+'">'+bar.Name+'</option>');
+                        })
+                    }
+                }
+            })
+        })
+        $(".bars").on("change",function(){
+            var selectedBarGroup = $(this).val();
+            $.ajax({
+                type:"POST",
+                url:base_url+"/general/getTapByBarGroupId",
+                data:{barGroupId:selectedBarGroup},
+                success:function(data){
+                    if(data.message.length > 0){
+                        $(".taps").html('<option value="0">Lütfen seçin</option>').removeAttr("disabled").removeClass("disabled");
+                        $.each(data.message,function(k,tap){
+                            $(".taps").append('<option value="'+tap.TapID+'">'+tap.Name+'</option>');
+                        })
+                    }
                 }
             })
         })

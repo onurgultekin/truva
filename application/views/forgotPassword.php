@@ -63,7 +63,7 @@
 						<div class="form-group form-group-default required">
 							<label>E-posta adresiniz</label>
 							<div class="controls">
-								<input type="email" name="username" class="form-control username" required data-msg="Bu alan zorunludur." required>
+								<input type="email" name="username" class="form-control username" required data-msg="Lütfen geçerli bir e-posta adresi giriniz." required>
 							</div>
 						</div>
 						<!-- END Form Control-->

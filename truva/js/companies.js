@@ -1,4 +1,6 @@
 $(function(){
+        $("#TaxNo").mask("?9999999999");
+        $("#InvoiceTelephone, #InvoiceMobile, #CompanyTelephone,#CompanyMobile,#CompanyFax").mask("?(999) 999 99 99");
         initTable();
         getCitiesInModal();
         getDistrictsInModal();
@@ -6,6 +8,8 @@ $(function(){
         getDetails(".getCompanyDetails","/general/getCompanyById","companyId",".appendCompanyDataHere");
         getCompanyByCountryId();
         getCompanyByCityId();
+        getCompanyByCountyId();
+        getCompanyByAreaId();
         getCompanyByHoldingId();
         getBarGroupListForCompany();
         $("#appendNewCompanyData").validate({
@@ -14,7 +18,6 @@ $(function(){
             CityID:{min:1},
             CountyID:{min:1},
             AreaID:{min:1},
-            HoldingID:{min:1},
             CompanyTypeID:{min:1}
         },
           submitHandler: function(form) {
@@ -42,6 +45,10 @@ $(function(){
               $(".deleteModalError").html(data.message).removeClass("unvisible");
               $("table").find("tr#"+CompanyID).fadeOut(500,function(){
                 getCompanies();
+                setTimeout(function(){
+                    $(".deleteModalError").addClass("unvisible");
+                    $("#modalSlideLeft").modal("hide");
+                },1000);
               })
             }
           })

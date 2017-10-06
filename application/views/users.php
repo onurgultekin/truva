@@ -59,12 +59,12 @@
             <!-- BEGIN PlACE PAGE CONTENT HERE -->
             <div class="row">
               <div class="col-md-4">
-              <button class="btn btn-primary pull-left addNewUser m-b-10" data-toggle="modal" data-target="#addNewUserModal">Yeni Kullanıcı Ekle</button>
+                <input type="text" id="search-table" class="form-control pull-right" placeholder="Kullanıcı Ara">
               </div>
               <div class="col-md-4 pull-right">
                 <div class="col-xs-12">
-                <input type="text" id="search-table" class="form-control pull-right" placeholder="Kullanıcı Ara">
-                </div>
+                <button class="btn btn-primary pull-right addNewUser m-b-10" data-toggle="modal" data-target="#addNewUserModal">Yeni Kullanıcı Ekle</button>
+              </div>
               </div>
             </div>
             <div class="row">
@@ -77,6 +77,7 @@
               <th>Soyadı</th>
               <th>Adres</th>
               <th>Telefon</th>
+              <th>Rol</th>
               <th class="no-sort"></th>
               </tr>
               </thead>
@@ -89,7 +90,8 @@
                     <td>'.$user->last_name.'</td>
                     <td>'.$user->address.'</td>
                     <td>'.$user->phone.'</td>
-                    <td><div class="pull-right"><button class="btn btn-warning getUserDetails btn-rounded btn-xs" id="duzenle">Düzenle</button><button class="btn btn-danger deleteUserModal btn-rounded btn-xs m-l-10">Sil</button></div></td>
+                    <td>'.$user->userRole.'</td>
+                    <td><div class="pull-right"><button class="btn btn-primary changeUserPassword btn-xs">Şifre Değiştir</button><button class="btn btn-warning getUserDetails btn-xs m-l-5 m-r-5" id="duzenle">Düzenle</button><button class="btn btn-danger deleteUserModal btn-xs">Sil</button></div></td>
                   </tr>';
                 }
                 ?>
@@ -138,6 +140,40 @@
                 <div class="form-group appendUserDataHere">
                 </div>
                 <button type="submit" class="btn btn-primary btn-block m-t-5 updateUser">Bilgileri Düzenle</button>
+                <div class="alert alert-success updateModalError unvisible m-t-10"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade stick-up disable-scroll" id="changeUserPassword" role="dialog" aria-hidden="false">
+      <div class="modal-dialog ">
+        <div class="modal-content-wrapper">
+          <div class="modal-content">
+            <div class="modal-header clearfix text-left">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+              </button>
+              <h5>Şifre <span class="semi-bold">Değiştir</span></h5>
+              <p class="p-b-10">Aşağıdaki formu doldurarak kullanıcı şifresini değiştirebilirsiniz.</p>
+            </div>
+            <div class="modal-body">
+              <form role="form" id="changePasswordForm">
+                  <div class="form-group form-group-default required">
+                    <label>Yeni şifre:</label>
+                    <div class="controls">
+                      <input type="password" class="form-control" name="password" id="password" required data-msg="Bu alan zorunludur.">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-default required">
+                    <label>Yeni şifre (tekrar):</label>
+                    <div class="controls">
+                      <input type="password" class="form-control" name="password2" id="password2" required data-msg="Şifreler eşleşmiyor.">
+                    </div>
+                  </div>
+                <button type="submit" class="btn btn-primary btn-block m-t-5 changePassword">Şifre Değiştir</button>
+                <div class="alert alert-success changePasswordModalError unvisible m-t-10"></div>
               </form>
             </div>
           </div>
@@ -217,7 +253,7 @@
                         <label class="">'.$field["name"].'</label>
                           <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
                           <option value="0">Lütfen seçin</option>';
-                            foreach ($companies as $key => $company) {
+                            foreach ($companies->message as $key => $company) {
                               echo '
                               <option value='.$company->CompanyID.'>'.$company->CompanyName.'</option>
                               ';
@@ -227,11 +263,11 @@
                 }else
                 if($field["id"] == "HoldingID"){
                   echo '<div class="col-sm-6">
-                  <div class="form-group form-group-default form-group-default-select2 required">
+                  <div class="form-group form-group-default form-group-default-select2">
                         <label class="">'.$field["name"].'</label>
-                          <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
+                          <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
                           <option value="0">Lütfen seçin</option>';
-                            foreach ($holdings as $key => $holding) {
+                            foreach ($holdings->message as $key => $holding) {
                               echo '
                               <option value='.$holding->HoldingID.'>'.$holding->HoldingName.'</option>
                               ';
@@ -254,7 +290,7 @@
               }
               ?>
                 <button type="submit" class="btn btn-primary btn-block addNewUserButton">Yeni Kullanıcı Ekle</button>
-                <div class="alert alert-danger modalError unvisible m-t-10"></div>
+                <div class="alert alert-success modalError unvisible m-t-10"></div>
               </form>
             </div>
           </div>
@@ -317,7 +353,7 @@
     <script src="<?php echo base_url() ?>truva/js/pages.min.js"></script>
     <script type="text/javascript">
       $(function(){
-        initTable();
+        initTable(214);
         getCitiesInModal();
         getDistrictsInModal();
         getAreasInModal();
@@ -328,13 +364,22 @@
             country_id:{min:1},
             city_id:{min:1},
             county_id:{min:1},
-            CompanyID:{min:1},
-            HoldingID:{min:1}
+            CompanyID:{min:1}
         },
           submitHandler: function(form) {
             addNewUser();
             }
         });
+        $('#changePasswordForm').validate({
+          rules: {
+              password2: {
+                equalTo: "#password"
+              }
+            },
+          submitHandler: function(form) {
+            changePassword();
+            }
+        })
         $("#postcode").mask("99999");
 
         $("#addNewUserModal").on("shown.bs.modal",function(){
@@ -346,6 +391,13 @@
           $(".userNameinModal").html(userName);
           $(".deleteUserButton").attr("id",userId);
           $("#modalSlideLeft").modal();
+        })
+        $("body").on("click",".changeUserPassword",function(){
+          var userId = $(this).parents("tr").attr("id");
+          var userName = $(this).parents("tr").find("td:eq(1)").html();
+          $(".userNameinModal").html(userName);
+          $(".changePassword").attr("id",userId);
+          $("#changeUserPassword").modal();
         })
       })
     </script>

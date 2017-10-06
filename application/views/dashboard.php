@@ -149,6 +149,9 @@
             </div>
             <div class="row">
               <div class="col-md-3">
+              <div class="overlay unvisible" style="position: absolute; background-color: #fff; opacity: 0.5; width: 100%; height: 100%; z-index: 1000;">
+                    <div class="progress-circle-indeterminate m-t-40 text-center" style="left:-30px; position: relative;width: 50px; height: 50px"></div>
+                  </div>
                 <div class="panel panel-default bg-success">
                   <div class="panel-heading separator">
                     <div class="panel-title">TOPLAM ŞİRKET
@@ -161,10 +164,12 @@
                   </div>
                 </div>
                 <div class="col-md-3">
+                  <div class="overlay unvisible" style="position: absolute; background-color: #fff; opacity: 0.5; width: 100%; height: 100%; z-index: 1000;">
+                    <div class="progress-circle-indeterminate m-t-40 text-center" style="left:-30px; position: relative;width: 50px; height: 50px"></div>
+                  </div>
                   <div class="panel panel-default bg-primary">
                     <div class="panel-heading separator">
-                      <div class="panel-title">TOPLAM MUSLUK
-                      </div>
+                      <div class="panel-title">TOPLAM MUSLUK</div>
                     </div>
                     <div class="panel-body">
                       <h3 class="text-center">
@@ -173,6 +178,9 @@
                     </div>
                   </div>
                   <div class="col-md-3">
+                  <div class="overlay unvisible" style="position: absolute; background-color: #fff; opacity: 0.5; width: 100%; height: 100%; z-index: 1000;">
+                    <div class="progress-circle-indeterminate m-t-40 text-center" style="left:-30px; position: relative;width: 50px; height: 50px"></div>
+                  </div>
                   <div class="panel panel-default bg-warning">
                     <div class="panel-heading separator">
                       <div class="panel-title">TOPLAM AKTİF MUSLUK
@@ -185,6 +193,9 @@
                     </div>
                   </div>
                   <div class="col-md-3">
+                  <div class="overlay unvisible" style="position: absolute; background-color: #fff; opacity: 0.5; width: 100%; height: 100%; z-index: 1000;">
+                    <div class="progress-circle-indeterminate m-t-40 text-center" style="left:-30px; position: relative;width: 50px; height: 50px"></div>
+                  </div>
                   <div id="portlet-circular-color" class="panel panel-default bg-danger">
                     <div class="panel-heading separator">
                       <div class="panel-title">TOPLAM BAR
@@ -302,22 +313,220 @@
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="<?php echo base_url() ?>assets/js/scripts.js?v=<?php echo time(); ?>" type="text/javascript"></script>
     <script type="text/javascript">
-        $(function () { 
+        $(function () {
+        $(".countries").on("change",function(){
+          countryId = $(this).val();
+          $(".panel").parent().find(".overlay").removeClass("unvisible");
+          $.ajax({
+            type:"POST",
+            data:{countryId:countryId},
+            url:base_url+"/general/getDashboardDataForStatistics",
+            success:function(data){
+              $(".bg-success .panel-body h3 span").html(data.companyCount);
+              $(".bg-primary .panel-body h3 span").html(data.tapCount);
+              $(".bg-warning .panel-body h3 span").html(data.activeTapCount);
+              $(".panel").parent().find(".overlay").addClass("unvisible");
+            }
+          })
+        })
+        $(".cities").on("change",function(){
+          cityId = $(this).val();
+          $(".panel").parent().find(".overlay").removeClass("unvisible");
+          $.ajax({
+            type:"POST",
+            data:{cityId:cityId},
+            url:base_url+"/general/getDashboardDataForStatistics",
+            success:function(data){
+              $(".bg-success .panel-body h3 span").html(data.companyCount);
+              $(".bg-primary .panel-body h3 span").html(data.tapCount);
+              $(".bg-warning .panel-body h3 span").html(data.activeTapCount);
+              $(".panel").parent().find(".overlay").addClass("unvisible");
+            }
+          })
+        })
+        $(".districts").on("change",function(){
+          countyId = $(this).val();
+          $(".panel").parent().find(".overlay").removeClass("unvisible");
+          $.ajax({
+            type:"POST",
+            data:{countyId:countyId},
+            url:base_url+"/general/getDashboardDataForStatistics",
+            success:function(data){
+              $(".bg-success .panel-body h3 span").html(data.companyCount);
+              $(".bg-primary .panel-body h3 span").html(data.tapCount);
+              $(".bg-warning .panel-body h3 span").html(data.activeTapCount);
+              $(".panel").parent().find(".overlay").addClass("unvisible");
+            }
+          })
+        })
+        $(".areas").on("change",function(){
+          areaId = $(this).val();
+          $(".panel").parent().find(".overlay").removeClass("unvisible");
+          $.ajax({
+            type:"POST",
+            data:{areaId:areaId},
+            url:base_url+"/general/getDashboardDataForStatistics",
+            success:function(data){
+              $(".bg-success .panel-body h3 span").html(data.companyCount);
+              $(".bg-primary .panel-body h3 span").html(data.tapCount);
+              $(".bg-warning .panel-body h3 span").html(data.activeTapCount);
+              $(".panel").parent().find(".overlay").addClass("unvisible");
+            }
+          })
+        })
+        $(".holdings").on("change",function(){
+            var dateBegin = $("#dateBegin").val();
+            var dateEnd = $("#dateEnd").val();
+            var data = {dateBegin:dateBegin,dateEnd:dateEnd};
+            var holdingId = $(".holdings").val();
+            var companyId = $(".companies").val();
+            var barGroupId = $(".bars").val();
+            var tapId = $(".taps").val();
+            myChart.showLoading();
+            personBased.showLoading();
+            piechart.showLoading();
+            $.ajax({
+              type:"POST",
+              data:{dateBegin:dateBegin,dateEnd:dateEnd,holdingId:holdingId,companyId:0,barGroupId:0,tapId:0},
+              url:base_url+"/general/getConsumptionByDate",
+              success:function(data){
+                myChart.hideLoading();
+                personBased.hideLoading();
+                piechart.hideLoading();
+                myChart.update({
+                  series:data.consumed.graphData,
+                  xAxis: {
+                      categories: data.consumed.dates,
+                      crosshair: true
+                  }
+                });
+                personBased.update({
+                  series:data.average.graphData,
+                  xAxis: {
+                      categories: data.average.dates,
+                      crosshair: true
+                  }
+                });
+              }
+            })
+        });
+        $(".companies").on("change",function(){
+            var dateBegin = $("#dateBegin").val();
+            var dateEnd = $("#dateEnd").val();
+            var data = {dateBegin:dateBegin,dateEnd:dateEnd};
+            var holdingId = $(".holdings").val();
+            var companyId = $(".companies").val();
+            var barGroupId = $(".bars").val();
+            var tapId = $(".taps").val();
+            myChart.showLoading();
+            personBased.showLoading();
+            piechart.showLoading();
+            $.ajax({
+              type:"POST",
+              data:{dateBegin:dateBegin,dateEnd:dateEnd,holdingId:holdingId,companyId:companyId,barGroupId:0,tapId:0},
+              url:base_url+"/general/getConsumptionByDate",
+              success:function(data){
+                myChart.hideLoading();
+                personBased.hideLoading();
+                piechart.hideLoading();
+                myChart.update({
+                  series:data.consumed.graphData,
+                  xAxis: {
+                      categories: data.consumed.dates,
+                      crosshair: true
+                  }
+                });
+                personBased.update({
+                  series:data.average.graphData,
+                  xAxis: {
+                      categories: data.average.dates,
+                      crosshair: true
+                  }
+                });
+              }
+            })
+        }) 
+        $(".bars").on("change",function(){
+            var dateBegin = $("#dateBegin").val();
+            var dateEnd = $("#dateEnd").val();
+            var data = {dateBegin:dateBegin,dateEnd:dateEnd};
+            var holdingId = $(".holdings").val();
+            var companyId = $(".companies").val();
+            var barGroupId = $(".bars").val();
+            var tapId = $(".taps").val();
+            myChart.showLoading();
+            personBased.showLoading();
+            piechart.showLoading();
+            $.ajax({
+              type:"POST",
+              data:{dateBegin:dateBegin,dateEnd:dateEnd,holdingId:holdingId,companyId:companyId,barGroupId:barGroupId,tapId:0},
+              url:base_url+"/general/getConsumptionByDate",
+              success:function(data){
+                myChart.hideLoading();
+                personBased.hideLoading();
+                piechart.hideLoading();
+                myChart.update({
+                  series:data.consumed.graphData,
+                  xAxis: {
+                      categories: data.consumed.dates,
+                      crosshair: true
+                  }
+                });
+                personBased.update({
+                  series:data.average.graphData,
+                  xAxis: {
+                      categories: data.average.dates,
+                      crosshair: true
+                  }
+                });
+              }
+            })
+        }) 
+        $(".taps").on("change",function(){
+            var dateBegin = $("#dateBegin").val();
+            var dateEnd = $("#dateEnd").val();
+            var data = {dateBegin:dateBegin,dateEnd:dateEnd};
+            var holdingId = $(".holdings").val();
+            var companyId = $(".companies").val();
+            var barGroupId = $(".bars").val();
+            var tapId = $(".taps").val();
+            myChart.showLoading();
+            personBased.showLoading();
+            piechart.showLoading();
+            $.ajax({
+              type:"POST",
+              data:{dateBegin:dateBegin,dateEnd:dateEnd,holdingId:holdingId,companyId:companyId,barGroupId:barGroupId,tapId:tapId},
+              url:base_url+"/general/getConsumptionByDate",
+              success:function(data){
+                myChart.hideLoading();
+                personBased.hideLoading();
+                piechart.hideLoading();
+                myChart.update({
+                  series:data.consumed.graphData,
+                  xAxis: {
+                      categories: data.consumed.dates,
+                      crosshair: true
+                  }
+                });
+                personBased.update({
+                  series:data.average.graphData,
+                  xAxis: {
+                      categories: data.average.dates,
+                      crosshair: true
+                  }
+                });
+              }
+            })
+        }) 
             var myChart = Highcharts.chart('container', {
     chart: {
         type: 'column'
     },
     title: {
-        text: 'Günlük toplam tüketim'
+        text: 'Son bir aylık toplam tüketim'
     },
     xAxis: {
-        categories: [
-            'Jan',
-            'Feb',
-            'Mar',
-            'Apr',
-            'May'
-        ],
+        categories: <?php echo json_encode($totalDailyConsumed->dates); ?>,
         crosshair: true
     },
     yAxis: {
@@ -340,15 +549,9 @@
             borderWidth: 0
         }
     },
-    series: [{
-        name: 'Viski',
-        data: [49.9, 71.5, 106.4, 129.2, 144.0]
-    },{
-        name: 'Vodka',
-        data: [43.9, 31.5, 166.4, 29.2, 64.0]
-    }]
+    series: <?php echo json_encode($totalDailyConsumed->graphData); ?>
 });
-            Highcharts.chart('container2', {
+            var personBased = Highcharts.chart('container2', {
     chart: {
         type: 'spline'
     },
@@ -356,56 +559,19 @@
         text: 'Kişi bazlı ortalama içki tüketimi'
     },
     xAxis: {
-        allowDecimals: false,
-        labels: {
-            formatter: function () {
-                return this.value; // clean, unformatted number for year
-            }
-        }
+        categories: <?php echo json_encode($averageConsumed->dates); ?>
     },
     yAxis: {
         title: {
             text: 'Tüketim'
-        },
-        labels: {
-            formatter: function () {
-                return this.value / 1000 + 'k';
-            }
         }
     },
     tooltip: {
-        pointFormat: '{series.name} satışı <b>{point.y:,.0f}</b><br/>{point.x}\'de'
+        pointFormat: '{series.name} kişi başı ortalama <b>{point.y:,.2f} CL </b> '
     },
-    plotOptions: {
-        area: {
-            pointStart: 1940,
-            marker: {
-                enabled: false,
-                symbol: 'circle',
-                radius: 2,
-                states: {
-                    hover: {
-                        enabled: true
-                    }
-                }
-            }
-        }
-    },
-    series: [{
-        name: 'Viski',
-        data: [ 640,
-            1005, 1436, 2063, 3057, 4618, 6444, 9822, 15468, 20434, 24126,
-            27387, 29459, 31056, 31982, 32040, 31233, 29224, 27342, 26662,
-            26956, 27912, 28999, 28965, 27826, 25579, 25722, 24826, 24605]
-    }, {
-        name: 'Vodka',
-        data: [
-            5, 25, 50, 120, 150, 200, 426, 660, 869, 1060, 1605, 2471, 3322,
-            4238, 5221, 6129, 7089, 8339, 9399, 10538, 11643, 13092, 14478,
-            15915, 17385, 19055, 21205, 23044, 25393, 27935, 30062, 32049]
-    }]
+    series: <?php echo json_encode($averageConsumed->graphData); ?>
 });
-            Highcharts.chart('container3', {
+            var piechart = Highcharts.chart('container3', {
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
@@ -433,7 +599,6 @@
     },
         series: [{
             name: 'İçkiler',
-            colorByPoint: true,
             data: <?php echo json_encode($piechart); ?> 
         }]
     });

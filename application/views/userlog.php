@@ -95,32 +95,20 @@
               <table class="table table-striped" id="tableWithExportOptions">
               <thead>
               <tr>
-              <th>UserLogID</th>
-              <th>UserID</th>
-              <th>GroupID</th>
-              <th>Module</th>
-              <th>Page</th>
-              <th>Uri</th>
-              <th>StatusCode</th>
-              <th>Status</th>
-              <th>IpAddress</th>
-              <th>Date</th>
+              <th>User Id</th>
+              <th>Client IP</th>
+              <th>SERVICE_NAME</th>
+              <th>CREATE_TS</th>
               </tr>
               </thead>
               <tbody>
-                <?php 
+                <?php
                 foreach ($userlogs as $key => $userlog) {
                   echo '<tr>
-                    <td>'.$userlog->UserLogID.'</td>
-                    <td>'.$userlog->UserID.'</td>
-                    <td>'.$userlog->GroupID.'</td>
-                    <td>'.$userlog->Module.'</td>
-                    <td>'.$userlog->Page.'</td>
-                    <td>'.$userlog->Uri.'</td>
-                    <td>'.$userlog->StatusCode.'</td>
-                    <td>'.$userlog->Status.'</td>
-                    <td>'.$userlog->IpAddress.'</td>
-                    <td>'.$userlog->Date.'</td>
+                    <td>'.$userlog->USER_ID.'</td>
+                    <td>'.$userlog->CLIENT_IP.'</td>
+                    <td>'.$userlog->SERVICE_NAME.'</td>
+                    <td>'.$userlog->CREATE_TS.'</td>
                   </tr>';
                 }
                 ?>
@@ -188,12 +176,12 @@
           $("#tableWithExportOptions").dataTable().fnDestroy();
           $.ajax({
             type:"POST",
-            url:base_url+"/general/getUserLogByDate",
+            url:base_url+"/admin/getUserLogByDate",
             data:{dateBegin:dateBegin,dateEnd:dateEnd},
             success:function(data){
               $("#tableWithExportOptions tbody").empty();
               $.each(data,function(key,userlog){
-                $("#tableWithExportOptions tbody").append('<tr><td>'+userlog.UserLogID+'</td><td>'+userlog.UserID+'</td><td>'+userlog.GroupID+'</td><td>'+userlog.Module+'</td><td>'+userlog.Page+'</td><td>'+userlog.Uri+'</td><td>'+userlog.StatusCode+'</td><td>'+userlog.Status+'</td><td>'+userlog.IpAddress+'</td><td>'+userlog.Date+'</td></tr>');
+                $("#tableWithExportOptions tbody").append('<tr><td>'+userlog.USER_ID+'</td><td>'+userlog.CLIENT_IP+'</td><td>'+userlog.SERVICE_NAME+'</td><td>'+userlog.CREATE_TS+'</td></tr>');
               })
               initTable();
               Pace.stop();

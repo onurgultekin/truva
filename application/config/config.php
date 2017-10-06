@@ -25,6 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $config['base_url'] = 'http://test.truva.co/';
 DEFINE("API_ENDPOINT","http://truva.co/");
+DEFINE("NEW_API_ENDPOINT","http://test.truva.co/api/");
 /*
 |--------------------------------------------------------------------------
 | Index File

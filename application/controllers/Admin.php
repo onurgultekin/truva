@@ -75,6 +75,13 @@ class Admin extends CI_Controller {
 		"type"=>"email"
 		],
 		[
+		"name"=>"Holding seçin",
+		"id"=>"HoldingID",
+		"type"=>"select",
+		"disabled"=>"",
+		"class"=>"holdingsinmodal"
+		],
+		[
 		"name"=>"Şirket seçin",
 		"id"=>"CompanyID",
 		"type"=>"select",
@@ -138,7 +145,8 @@ class Admin extends CI_Controller {
 		$cities = $this->general_model->getCitiesByCountryId($user[0]->country_id);
 		$counties = $this->general_model->getDistrictsByCityId($user[0]->city_id);
 		$userGroups = $this->general_model->getUserGroups();
-		$companies = $this->general_model->getCompanyByHoldingId($user[0]->HoldingID);
+		$companies = $this->general_model->getCompanies();
+		$holdings = $this->general_model->getHoldings();
 		$i=0;
 		echo '<div class="row">';
 		foreach ($formFields as $key => $field) {
@@ -159,7 +167,7 @@ class Admin extends CI_Controller {
 				<div class="form-group form-group-default required '.$class.' ">
 					<label>'.$field["name"].':</label>
 					<div class="controls">
-						<input type="'.$field["type"].'" class="form-control" name="'.$field["id"].'" id="'.$field["id"].'" required data-msg="'.$message.'" value="'.$user[0]->{$field["id"]}.'">
+						<input type="'.$field["type"].'" class="form-control" name="'.$field["id"].'" id="'.$field["id"].'" required data-msg="'.$message.'" value="'.@$user[0]->{$field["id"]}.'">
 					</div>
 				</div>
 			</div>';
@@ -219,7 +227,7 @@ class Admin extends CI_Controller {
 							if($userGroup->id == $user[0]->group_id){
 								$selected = 'selected = "selected"';
 							}
-							echo '<option value='.$userGroup->id.'>'.$userGroup->description.'</option>';
+							echo '<option '.$selected.' value='.$userGroup->id.'>'.$userGroup->description.'</option>';
 						}
 						echo '</select>
 					</div></div>';
@@ -229,12 +237,27 @@ class Admin extends CI_Controller {
 					<label class="">'.$field["name"].'</label>
 					<select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
 						<option value="0">Lütfen seçin</option>';
-						foreach ($companies as $key => $company) {
+						foreach ($companies->message as $key => $company) {
 							$selected = '';
 							if($company->CompanyID == $user[0]->CompanyID){
 								$selected = 'selected = "selected"';
 							}
 							echo '<option '.$selected.' value='.$company->CompanyID.'>'.$company->CompanyName.'</option>';
+						}
+						echo '</select>
+					</div></div>';
+				}else
+				if($field["id"] == "HoldingID"){
+					echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2">
+					<label class="">'.$field["name"].'</label>
+					<select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
+						<option value="0">Lütfen seçin</option>';
+						foreach ($holdings->message as $key => $holding) {
+							$selected = '';
+							if($holding->HoldingID == $user[0]->HoldingID){
+								$selected = 'selected = "selected"';
+							}
+							echo '<option '.$selected.' value='.$holding->HoldingID.'>'.$holding->HoldingName.'</option>';
 						}
 						echo '</select>
 					</div></div>';
@@ -434,6 +457,13 @@ class Admin extends CI_Controller {
 		$updateCollector = $this->admin_model->updateCollector($data);
 		echo json_encode($updateCollector);
 	}
+	public function deleteCollector(){
+		header("Content-type:application/json");
+		$this->load->model("admin_model");
+		$collectorId = $this->input->post("CollectorID");
+		$deleteCollector = $this->admin_model->deleteCollector($collectorId);
+		echo json_encode($deleteCollector);
+	}
 	public function addNewCompany(){
 		header("Content-type:application/json");
 		$this->load->model("admin_model");
@@ -483,6 +513,13 @@ class Admin extends CI_Controller {
 		$addNewTechnicalService = $this->admin_model->addNewTechnicalService($data);
 		echo json_encode($addNewTechnicalService);
 	}
+	public function updateTechnicalService(){
+		header("Content-type:application/json");
+		$this->load->model("admin_model");
+		$data = $this->input->post();
+		$updateTechnicalService = $this->admin_model->updateTechnicalService($data);
+		echo json_encode($updateTechnicalService);
+	}
 	public function deleteTechnicalService(){
 		header("Content-type:application/json");
 		$this->load->model("admin_model");
@@ -503,5 +540,47 @@ class Admin extends CI_Controller {
 		$data = $this->input->post();
 		$updateCompanyDailyGuest = $this->admin_model->updateCompanyDailyGuest($data);
 		echo json_encode($updateCompanyDailyGuest);
+	}
+	public function updateCompanyBarGroup(){
+		header("Content-type:application/json");
+		$this->load->model("admin_model");
+		$data = $this->input->post();
+		$updateCompanyBarGroup = $this->admin_model->updateCompanyBarGroup($data);
+		echo json_encode($updateCompanyBarGroup);
+	}
+	public function updateTechnicalServiceUser(){
+		header("Content-type:application/json");
+		$this->load->model("admin_model");
+		$data = $this->input->post();
+		$updateTechnicalServiceUser = $this->admin_model->updateTechnicalServiceUser($data);
+		echo json_encode($updateTechnicalServiceUser);
+	}
+	public function addNewTap(){
+		header("Content-type:application/json");
+		$this->load->model("admin_model");
+		$data = $this->input->post();
+		$addNewTap = $this->admin_model->addNewTap($data);
+		echo json_encode($addNewTap);
+	}
+	public function updateTap(){
+		header("Content-type:application/json");
+		$this->load->model("admin_model");
+		$data = $this->input->post();
+		$updateTap = $this->admin_model->updateTap($data);
+		echo json_encode($updateTap);
+	}
+	public function changePassword(){
+		header("Content-type:application/json");
+		$this->load->model("admin_model");
+		$data = $this->input->post();
+		$changePassword = $this->admin_model->changePassword($data);
+		echo json_encode($changePassword);
+	}
+	public function tapWizard(){
+		header("Content-type:application/json");
+		$this->load->model("admin_model");
+		$data = $this->input->post();
+		$tapWizard = $this->admin_model->tapWizard($data);
+		echo json_encode($tapWizard);
 	}
 }

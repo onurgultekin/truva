@@ -258,7 +258,7 @@
                           <select class="full-width holdings" data-placeholder="Holding seçin" data-init-plugin="select2">
                           <option value="0">Lütfen seçin</option>
                             <?php
-                            foreach ($holdings as $key => $holding) {
+                            foreach ($holdings->message as $key => $holding) {
                               echo '<option value='.$holding->HoldingID.'>'.$holding->HoldingName.'</option>';
                             }
                             ?>
@@ -434,12 +434,6 @@
                   <div class="row">
                   <div class="col-md-4">
                   <div class="form-group form-group-default required m-t-10">
-                    <label>Button Adı</label>
-                    <div class="controls">
-                    <input type="text" class="form-control" name="buttonName" id="buttonName">
-                    </div>
-                  </div>
-                  <div class="form-group form-group-default required m-t-10">
                     <label>Button CL Real</label>
                     <div class="controls">
                     <input type="text" class="form-control" name="buttonClReal" id="buttonClReal" placeholder="0.00">
@@ -454,11 +448,12 @@
                   <button type="button" class="btn btn-primary pull-right addButtonDataToTable"><i class="fa fa-angle-double-right"></i></button>
                   </div>
                   <div class="col-md-8">
-                    <table class="table table-striped">
+                    <table class="table table-striped buttonTable">
                         <thead>
                           <th style="text-transform: none !important">Button Adı</th>
                           <th style="text-transform: none !important">Button CL Real</th>
                           <th style="text-transform: none !important">Button CL Shown</th>
+                          <th style="text-transform: none !important; padding-top: 0px;"></th>
                         </thead>
                         <tbody>
                         </tbody>
@@ -481,63 +476,63 @@
                   <div class="pull-right bold">11</div>
                 </div>
                 <div class="panel-body">
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>Toplayıcı</label>
                     <div class="controls">
-                    <input type="text" class="form-control disabled" name="collectorinLastLevel" id="collectorinLastLevel" disabled="disabled">
+                    <input type="text" class="form-control" name="collectorinLastLevel" id="collectorinLastLevel" disabled="disabled">
                     </div>
                   </div>
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>Musluk Id</label>
                     <div class="controls">
-                    <input type="text" class="form-control disabled" name="muslukIdinLastLevel" id="muslukIdinLastLevel" disabled="disabled">
+                    <input type="text" class="form-control" name="muslukIdinLastLevel" id="muslukIdinLastLevel" disabled="disabled">
                     </div>
                   </div>
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>Musluk Adı</label>
                     <div class="controls">
-                    <input type="text" class="form-control disabled" name="tapNameinLastLevel" id="tapNameinLastLevel" disabled="disabled">
+                    <input type="text" class="form-control" name="tapNameinLastLevel" id="tapNameinLastLevel" disabled="disabled">
                     </div>
                   </div>
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>Holding</label>
                     <div class="controls">
-                    <input type="text" class="form-control disabled" name="holdinginLastLevel" id="holdinginLastLevel" disabled="disabled">
+                    <input type="text" class="form-control" name="holdinginLastLevel" id="holdinginLastLevel" disabled="disabled">
                     </div>
                   </div>
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>Şirket</label>
                     <div class="controls">
-                    <input type="text" class="form-control disabled" name="companyinLastLevel" id="companyinLastLevel" disabled="disabled">
+                    <input type="text" class="form-control" name="companyinLastLevel" id="companyinLastLevel" disabled="disabled">
                     </div>
                   </div>
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>Bar Grubu</label>
                     <div class="controls">
-                    <input type="text" class="form-control disabled" name="barGroupinLastLevel" id="barGroupinLastLevel" disabled="disabled">
+                    <input type="text" class="form-control" name="barGroupinLastLevel" id="barGroupinLastLevel" disabled="disabled">
                     </div>
                   </div>
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>İçki Tipi</label>
                     <div class="controls">
-                    <input type="text" class="form-control disabled" name="alcoholTypeinLastLevel" id="alcoholTypeinLastLevel" disabled="disabled">
+                    <input type="text" class="form-control" name="alcoholTypeinLastLevel" id="alcoholTypeinLastLevel" disabled="disabled">
                     </div>
                   </div>
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>İçki Markası</label>
                     <div class="controls">
-                    <input type="text" class="form-control disabled" name="alcoholBrandinLastLevel" id="alcoholBrandinLastLevel" disabled="disabled">
+                    <input type="text" class="form-control" name="alcoholBrandinLastLevel" id="alcoholBrandinLastLevel" disabled="disabled">
                     </div>
                   </div>
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>Fiyat</label>
                     <div class="controls">
-                    <input type="text" class="form-control disabled" name="pricePerClinLastLevel" id="pricePerClinLastLevel" disabled="disabled">
+                    <input type="text" class="form-control" name="pricePerClinLastLevel" id="pricePerClinLastLevel" disabled="disabled">
                     </div>
                   </div>
-                  <div class="form-group form-group-default disabled m-t-10">
+                  <div class="form-group form-group-default m-t-10">
                     <label>Butonlar</label>
-                    <table class="table table-striped">
+                    <table class="table table-striped previewTable">
                         <thead>
                           <th style="text-transform: none !important">Button Adı</th>
                           <th style="text-transform: none !important">Button CL Real</th>
@@ -551,7 +546,7 @@
                 <div class="panel-footer">
                   <div class="pull-right">
                     <button type="button" class="btn btn-danger backBtn">Geri</button>
-                    <button type="button" class="btn btn-info">Tamamla</button>
+                    <button type="button" class="btn btn-info complete">Tamamla</button>
                   </div>
                   <div class="clearfix"></div>
                 </div>
@@ -918,7 +913,7 @@
     <script src="<?php echo base_url() ?>truva/js/pages.min.js"></script>
     <!-- END CORE TEMPLATE JS -->
     <!-- BEGIN PAGE LEVEL JS -->
-    <script src="<?php echo base_url() ?>assets/js/functions.js" type="text/javascript"></script>
+    <script src="<?php echo base_url() ?>assets/js/functions.js?v=<?php echo time(); ?>" type="text/javascript"></script>
     <script type="text/javascript" src="<?php echo base_url() ?>assets/plugins/jquery-inputmask/jquery.inputmask.min.js"></script>
     <script src="<?php echo base_url() ?>assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url() ?>assets/plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js" type="text/javascript"></script>
@@ -945,7 +940,7 @@
                 $item = $(this);
                 $item.parent().nextAll().find("a").attr("disabled","disabled").removeClass('btn-success').addClass('btn-default');
                 $target.nextAll().find("input").val('');
-                $target.nextAll().find("select").val(0).change();
+                //$target.nextAll().find("select").val(0).change();
                 isDisabled = $item.is('[disabled=disabled]');
                 if(!isDisabled){
                   navListItems.removeClass('btn-success').addClass('btn-default');
@@ -1052,14 +1047,37 @@
             addNewAlcoholType();
             }
         });
+        var buttonIndex = 0;
         $('#buttonClReal,#buttonClShown,#pricePerCl,#priceForSale').autoNumeric('init');
+        var buttonsArray = [];
         $("body").on("click",".addButtonDataToTable",function(){
-          var buttonName = $("#buttonName").val();
+          buttonIndex++;
+          var buttonName = "Button "+buttonIndex;
           var buttonClReal = $("#buttonClReal").val();
           var buttonClShown = $("#buttonClShown").val();
-          var tableLength = $("#step-10 .table tbody tr").length;
+          var tableLength = $("#step-10 .buttonTable tbody tr").length;
           if(tableLength < 4 && buttonName.length!=0 && buttonClReal.length!=0 && buttonClShown.length!=0){
-            $(".table tbody").append('<tr><td>'+buttonName+'</td><td>'+buttonClReal+'</td><td>'+buttonClShown+'</td></tr>');
+            $(".buttonTable tbody").append('<tr>\
+            <td>'+buttonName+'</td>\
+            <td>'+buttonClReal+'</td>\
+            <td>'+buttonClShown+'</td>\
+            <td>\
+                <div class="pull-right">\
+                <button type="button" class="btn btn-danger btn-xs deleteButton"><i class="fa fa-times"></i></button>\
+                </div>\
+                </td>\
+            </tr>');
+            $(".previewTable tbody").append('<tr>\
+            <td>'+buttonName+'</td>\
+            <td>'+buttonClReal+'</td>\
+            <td>'+buttonClShown+'</td>\
+            </tr>');
+            buttons = {
+              buttonName:buttonName,
+              buttonClReal:buttonClReal,
+              buttonClShown:buttonClShown
+            }
+            buttonsArray.push(buttons);
           }else{
             if(tableLength>=4){
               $("#modalSlideUpSmall").find("h4").html("4 butondan fazla giremezsiniz.");
@@ -1068,6 +1086,47 @@
             }
             $("#modalSlideUpSmall").modal();
           }
+        })
+        $("body").on("click",".deleteButton",function(){
+            buttonIndex--;
+            var index = $(this).parents("tr").index();
+            $(".previewTable tbody tr").eq(index).remove();
+            $(this).parents("tr").fadeOut(500,function(){
+                $(this).remove();
+                var buttonsArray = [];
+                _updateButtonsArray(buttonsArray,".buttonTable");
+            })
+        })
+        $(".complete").on("click",function(e){
+          var buttonsArray = [];
+          _updateButtonsArray(buttonsArray,".buttonTable");
+          var collector_id = $(".collectors").val();
+          var id = $("#muslukId").val();
+          var name = $("#muslukName").val();
+          var holding = $(".holdings").val();
+          var company = $(".companies").val();
+          var bargroup = $(".bars").val();
+          var alcoholType = $(".alcoholTypes").val();
+          var alcoholBrand = $(".alcoholBrands").val();
+          var netPrice = $("#pricePerCl").val();
+          var salePrice = $("#priceForSale").val();
+          var buttons = buttonsArray;
+          var data = {collector_id:collector_id,id:id,name:name,holding:holding,company:company,bargroup:bargroup,alcoholType:alcoholType,alcoholBrand:alcoholBrand,netPrice:netPrice,salePrice:salePrice,buttons:buttons};
+          $.ajax({
+            type:"POST",
+            url:base_url+"/admin/tapWizard",
+            data:data,
+            success:function(response){
+                if(response.resultCode == 0){
+                  $("#modalSlideUpSmall").find("h4").html(response.message);
+                  $("#modalSlideUpSmall").modal();
+                  setTimeout(function(){
+                    location.reload();
+                  },2000);
+                }
+            }
+        })
+          e.preventDefault();
         })
       })
     </script>

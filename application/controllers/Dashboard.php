@@ -20,6 +20,10 @@ class Dashboard extends CI_Controller {
 		$data["totalTapCount"] = $this->general_model->getTotalTapCount();
 		$data["totalActiveTapCount"] = $this->general_model->getTotalActiveTapCount();
 		$data["alcoholTypePercentages"] = $this->general_model->getAlcoholTypePercentage();
+		$dateBegin = date("Y-m-d", strtotime("-1 week"));
+		$dateEnd = date("Y-m-d");
+		$data["totalDailyConsumed"] = $this->general_model->getDailyConsumedAlcoholFilteredByDate($dateBegin,$dateEnd,0,0,0,0);
+		$data["averageConsumed"] = $this->general_model->getDailyAverageConsumedAlcoholFilteredByDate($dateBegin,$dateEnd,0,0,0,0);
 		$data["last5taps"] = $this->general_model->getLastTapData();
 		$this->load->view('dashboard',$data);
 	}
@@ -335,11 +339,6 @@ class Dashboard extends CI_Controller {
 	            "type"=>"select",
 	            "disabled"=>"disabled",
 	            "class"=>"districtsinmodal",
-	          ],
-	          [
-	            "name"=>"Posta Kodu",
-	            "id"=>"postcode",
-	            "type"=>"text"
 	          ]
 	          ];
 	          	$data["countries"] = $this->general_model->getCountries();
@@ -852,10 +851,10 @@ class Dashboard extends CI_Controller {
 		$this->load->view('tapWizard',$data);
 	}
 	public function consumption(){
-		$dateBegin = date("Y-m-d", strtotime("-7 day"));
+		$dateBegin = date("Y-m-d", strtotime("-1 month"));
 		$dateEnd = date("Y-m-d");
 		$this->load->model("general_model");
-		$data["reports"] = $this->general_model->getDailyConsumedAlcoholFilteredByDate($dateBegin,$dateEnd);
+		$data["reports"] = $this->general_model->getDailyConsumedAlcoholFilteredByDate($dateBegin,$dateEnd,0,0,0,0);
 		$data["leftsidemenuitems"] = $this->general_model->getLeftSideMenu();
 		$data["holdings"] = $this->general_model->getHoldings();
 		$this->load->view('consumption',$data);
@@ -966,45 +965,57 @@ class Dashboard extends CI_Controller {
 	public function taps(){
 		$data["formFields"]= [
 		          	[
-		            "name"=>"Bildirim maili",
+		            "name"=>"Adı",
 		            "id"=>"Name",
 		            "type"=>"text"
 		          	],
 		          	[
-		            "name"=>"Ethernet MAC Adresi",
+		            "name"=>"ID 1",
 		            "id"=>"ID1",
 		            "type"=>"text"
 		          	],
 		          	[
-		            "name"=>"Wifi MAC Adresi",
+		            "name"=>"ID 2",
 		            "id"=>"ID2",
 		            "type"=>"text"
 		          	],
 		          	[
-		            "name"=>"Barcode",
+		            "name"=>"ID 3",
 		            "id"=>"ID3",
 		            "type"=>"text"
 		          	],
+		          	[
+		            "name"=>"Versiyon",
+		            "id"=>"Version",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"Musluk Durumu",
+		            "id"=>"TapStatusID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>"tapstatusinmodal"
+		            ],
 		            [
 		            "name"=>"Holding seçin",
 		            "id"=>"HoldingID",
 		            "type"=>"select",
 		            "disabled"=>"",
-		            "class"=>"holdingsinmodal"
+		            "class"=>"holdings"
 		            ],
 		            [
 		            "name"=>"Şirket seçin",
 		            "id"=>"CompanyID",
 		            "type"=>"select",
 		            "disabled"=>"disabled",
-		            "class"=>"companiesinmodal"
+		            "class"=>"companies"
 		            ],
 		            [
 		            "name"=>"Bar grubu seçin",
 		            "id"=>"BarGroupID",
 		            "type"=>"select",
-		            "disabled"=>"",
-		            "class"=>"companiesinmodal"
+		            "disabled"=>"disabled",
+		            "class"=>"bars"
 		            ],
 		            [
 		            "name"=>"İçki grubu seçin",
@@ -1033,14 +1044,23 @@ class Dashboard extends CI_Controller {
 		            "type"=>"select",
 		            "disabled"=>"",
 		            "class"=>"alcoholbrandsinmodal"
-		            ]
+		            ],
+		          	[
+		            "name"=>"CL Başı Maliyet",
+		            "id"=>"NetPrice",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"Satış Fiyatı",
+		            "id"=>"SalePrice",
+		            "type"=>"text"
+		          	]
 	          	];
 		$this->load->model("general_model");
 		$data["leftsidemenuitems"] = $this->general_model->getLeftSideMenu();
 		$data["taps"] = $this->general_model->getTaps();
+		$data["tapStatuses"] = $this->general_model->getTapStatuses();
 		$data["holdings"] = $this->general_model->getHoldings();
-		$data["companies"] = $this->general_model->getCompanies();
-		$data["bargroups"] = $this->general_model->getBarGroups();
 		$data["alcoholGroups"] = $this->general_model->getAlcoholGrouplist();
 		$data["alcoholTypes"] = $this->general_model->getAlcoholTypelist();
 		$data["alcoholBrands"] = $this->general_model->getAlcoholBrandlist();
@@ -1072,5 +1092,92 @@ class Dashboard extends CI_Controller {
 		$data["totalDailyGuests"] = $this->general_model->getTotalDailyGuests();
 		$data["companies"] = $this->general_model->getCompanies();
 		$this->load->view('totalDailyGuests',$data);
+	}
+	public function troubleDemand(){
+		$data["formFields"]= [
+		          	[
+		            "name"=>"Rapor Tipi",
+		            "id"=>"technicalServiceReportTypeID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Başlangıç Tarihi",
+		            "id"=>"beginDate",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"Bitiş Tarihi",
+		            "id"=>"endDate",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"Gönderen Kullanıcı",
+		            "id"=>"declaredUserID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Alan Kullanıcı",
+		            "id"=>"receivedUserID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Tamamlayan Kullanıcı",
+		            "id"=>"completedUserID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Açıklama",
+		            "id"=>"description",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"Öncelik",
+		            "id"=>"technicalServicePriorityID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Durum",
+		            "id"=>"technicalServiceStatusID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Şirket seçin",
+		            "id"=>"CompanyID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	],
+		          	[
+		            "name"=>"Musluk",
+		            "id"=>"tapID",
+		            "type"=>"select",
+		            "disabled"=>"",
+		            "class"=>""
+		          	]
+	          	];
+		$this->load->model("general_model");
+		$this->load->model("admin_model");
+		$data["leftsidemenuitems"] = $this->general_model->getLeftSideMenu();
+		$data["technicalServiceForms"] = $this->general_model->getTechnicalServiceForm();
+		$data["technicalServiceUsers"] = $this->general_model->getTechnicalServiceUsers();
+		$data["technicalServiceStatuses"] = $this->general_model->getTechnicalServiceStatuses();
+		$data["technicalServiceReportTypes"] = $this->general_model->getTechnicalServiceReportTypes();
+		$data["technicalServicePriorities"] = $this->general_model->getTechnicalServicePriorities();
+		$data["users"] = $this->admin_model->getUsers();
+		$data["companies"] = $this->general_model->getCompanies();
+		$data["taps"] = $this->general_model->getTaps();
+		$this->load->view('troubleDemand',$data);
 	}
 }
