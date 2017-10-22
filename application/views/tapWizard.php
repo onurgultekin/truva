@@ -66,7 +66,7 @@
     display: table-cell;
     text-align: center;
     position: relative;
-    margin: 4px;
+    margin: 17px;
     padding:0px;
 }
 .stepwizard-step:before {
@@ -78,7 +78,7 @@
     height: 1px;
     background-color: #ccc;
     z-index: 0;
-    margin-left: 10px;
+    margin-left: 36px;
 }
 .stepwizard-step:last-child:before {
     top: 38px;
@@ -131,126 +131,48 @@
               <div class="stepwizard-row setup-panel">
                   <div class="stepwizard-step col-xs-1"> 
                       <a href="#step-1" type="button" class="btn btn-circle btn-success">1</a>
-                      <p><small>Toplayıcı</small></p>
-                  </div>
-                  <div class="stepwizard-step col-xs-1"> 
-                      <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
-                      <p><small>Musluk Id</small></p>
-                  </div>
-                  <div class="stepwizard-step col-xs-1"> 
-                      <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
-                      <p><small>Musluk Adı</small></p>
-                  </div>
-                  <div class="stepwizard-step col-xs-1"> 
-                      <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
                       <p><small>Holding</small></p>
                   </div>
                   <div class="stepwizard-step col-xs-1"> 
-                      <a href="#step-5" type="button" class="btn btn-default btn-circle" disabled="disabled">5</a>
+                      <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
                       <p><small>Şirket</small></p>
                   </div>
                   <div class="stepwizard-step col-xs-1"> 
-                      <a href="#step-6" type="button" class="btn btn-default btn-circle" disabled="disabled">6</a>
+                      <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
                       <p><small>Bar Grubu</small></p>
                   </div>
                   <div class="stepwizard-step col-xs-1"> 
-                      <a href="#step-7" type="button" class="btn btn-default btn-circle" disabled="disabled">7</a>
+                      <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+                      <p><small>Toplayıcı</small></p>
+                  </div>
+                  <div class="stepwizard-step col-xs-1"> 
+                      <a href="#step-5" type="button" class="btn btn-default btn-circle" disabled="disabled">5</a>
+                      <p><small>Musluk</small></p>
+                  </div>
+                  <div class="stepwizard-step col-xs-1"> 
+                      <a href="#step-6" type="button" class="btn btn-default btn-circle" disabled="disabled">6</a>
                       <p><small>İçki Tipi</small></p>
                   </div>
                   <div class="stepwizard-step col-xs-1"> 
-                      <a href="#step-8" type="button" class="btn btn-default btn-circle" disabled="disabled">8</a>
+                      <a href="#step-7" type="button" class="btn btn-default btn-circle" disabled="disabled">7</a>
                       <p><small>İçki Markası</small></p>
                   </div>
                   <div class="stepwizard-step col-xs-1"> 
-                      <a href="#step-9" type="button" class="btn btn-default btn-circle" disabled="disabled">9</a>
+                      <a href="#step-8" type="button" class="btn btn-default btn-circle" disabled="disabled">8</a>
                       <p><small>Fiyat</small></p>
                   </div>
                   <div class="stepwizard-step col-xs-1"> 
-                      <a href="#step-10" type="button" class="btn btn-default btn-circle" disabled="disabled">10</a>
-                      <p><small>Button</small></p>
-                  </div>
-                  <div class="stepwizard-step col-xs-1"> 
-                      <a href="#step-11" type="button" class="btn btn-default btn-circle" disabled="disabled">11</a>
+                      <a href="#step-9" type="button" class="btn btn-default btn-circle" disabled="disabled">9</a>
                       <p><small>Tamamla</small></p>
                   </div>
               </div>
           </div>
           <form role="form" class="col-md-6 col-md-offset-3" style="margin-top:100px">
-              <div class="panel panel-default setup-content" id="step-1">
-                <div class="panel-heading separator">
-                  <div class="panel-title">Toplayıcı Seçimi
-                  </div>
-                  <div class="pull-right bold">1</div>
-                </div>
-                <div class="panel-body">
-                  <div class="col-md-12 form-group form-group-default form-group-default-select2 required m-t-10">
-                        <label class="">Toplayıcı seçin</label>
-                          <select class="full-width collectors" data-placeholder="Toplayıcı seçin" data-init-plugin="select2" required>
-                          <option value="0">Lütfen seçin</option>
-                            <?php
-                            foreach ($collectors as $key => $collector) {
-                              echo '<option value='.$collector->collector_id.'>'.$collector->device_key.'</option>';
-                            }
-                            ?>
-                          </select>
-                  </div>
-                </div>
-                <div class="panel-footer">
-                  <div class="pull-right">
-                    <button type="button" class="btn btn-success nextBtn">İleri</button>
-                  </div>
-                  <div class="clearfix"></div>
-                </div>
-              </div>
-              <div class="panel panel-default setup-content unvisible" id="step-2">
-                <div class="panel-heading separator">
-                  <div class="panel-title">Musluk Id Eşleştirme
-                  </div>
-                  <div class="pull-right bold">2</div>
-                </div>
-                <div class="panel-body">
-                  <div class="form-group form-group-default required m-t-10">
-                    <label>Musluk Id</label>
-                    <div class="controls">
-                    <input type="text" class="form-control" name="muslukId" id="muslukId" required data-msg="Bu alan zorunludur.">
-                    </div>
-                  </div>
-                </div>
-                <div class="panel-footer">
-                  <div class="pull-right">
-                    <button type="button" class="btn btn-danger backBtn">Geri</button>
-                    <button type="button" class="btn btn-success nextBtn">İleri</button>
-                  </div>
-                  <div class="clearfix"></div>
-                </div>
-              </div>
-              <div class="panel panel-default setup-content unvisible" id="step-3">
-                <div class="panel-heading separator">
-                  <div class="panel-title">Musluk Adı Belirle
-                  </div>
-                  <div class="pull-right bold">3</div>
-                </div>
-                <div class="panel-body">
-                  <div class="form-group form-group-default required m-t-10">
-                    <label>Musluk Adı</label>
-                    <div class="controls">
-                    <input type="text" class="form-control" name="muslukName" id="muslukName" required data-msg="Bu alan zorunludur.">
-                    </div>
-                  </div>
-                </div>
-                <div class="panel-footer">
-                  <div class="pull-right">
-                    <button type="button" class="btn btn-danger backBtn">Geri</button>
-                    <button type="button" class="btn btn-success nextBtn">İleri</button>
-                  </div>
-                  <div class="clearfix"></div>
-                </div>
-              </div>
-              <div class="panel panel-default setup-content unvisible" id="step-4">
+            <div class="panel panel-default setup-content" id="step-1">
                 <div class="panel-heading separator">
                   <div class="panel-title">Holding Seçimi
                   </div>
-                  <div class="pull-right bold">4</div>
+                  <div class="pull-right bold">1</div>
                 </div>
                 <div class="panel-body">
                   <div class="col-md-8 form-group form-group-default form-group-default-select2 required m-t-10">
@@ -270,17 +192,16 @@
                 </div>
                 <div class="panel-footer">
                   <div class="pull-right">
-                    <button type="button" class="btn btn-danger backBtn">Geri</button>
                     <button type="button" class="btn btn-success nextBtn">İleri</button>
                   </div>
                   <div class="clearfix"></div>
                 </div>
               </div>
-              <div class="panel panel-default setup-content unvisible" id="step-5">
+              <div class="panel panel-default setup-content unvisible" id="step-2">
                 <div class="panel-heading separator">
                   <div class="panel-title">Şirket Seçimi
                   </div>
-                  <div class="pull-right bold">5</div>
+                  <div class="pull-right bold">2</div>
                 </div>
                 <div class="panel-body">
                   <div class="col-md-8 form-group form-group-default form-group-default-select2 required m-t-10">
@@ -306,11 +227,11 @@
                   <div class="clearfix"></div>
                 </div>
               </div>
-              <div class="panel panel-default setup-content unvisible" id="step-6">
+              <div class="panel panel-default setup-content unvisible" id="step-3">
                 <div class="panel-heading separator">
                   <div class="panel-title">Bar Grubu Seçimi
                   </div>
-                  <div class="pull-right bold">6</div>
+                  <div class="pull-right bold">3</div>
                 </div>
                 <div class="panel-body">
                   <div class="col-md-8 form-group form-group-default form-group-default-select2 required m-t-10">
@@ -336,11 +257,60 @@
                   <div class="clearfix"></div>
                 </div>
               </div>
-              <div class="panel panel-default setup-content unvisible" id="step-7">
+              <div class="panel panel-default setup-content unvisible" id="step-4">
+                <div class="panel-heading separator">
+                  <div class="panel-title">Toplayıcı Seçimi
+                  </div>
+                  <div class="pull-right bold">4</div>
+                </div>
+                <div class="panel-body">
+                  <div class="col-md-12 form-group form-group-default form-group-default-select2 required m-t-10">
+                        <label class="">Toplayıcı seçin</label>
+                          <select class="full-width collectors" data-placeholder="Toplayıcı seçin" data-init-plugin="select2" required>
+                          <option value="0">Lütfen seçin</option>
+                            <?php
+                            foreach ($collectors as $key => $collector) {
+                              echo '<option value='.$collector->collector_id.'>'.$collector->device_key.'</option>';
+                            }
+                            ?>
+                          </select>
+                  </div>
+                </div>
+                <div class="panel-footer">
+                  <div class="pull-right">
+                    <button type="button" class="btn btn-danger backBtn">Geri</button>
+                    <button type="button" class="btn btn-success nextBtn">İleri</button>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+              <div class="panel panel-default setup-content unvisible" id="step-5">
+                <div class="panel-heading separator">
+                  <div class="panel-title">Musluk Id Eşleştirme
+                  </div>
+                  <div class="pull-right bold">5</div>
+                </div>
+                <div class="panel-body">
+                  <div class="form-group form-group-default required m-t-10">
+                    <label>Musluk Id</label>
+                    <div class="controls">
+                    <input type="text" class="form-control" name="muslukId" id="muslukId" required data-msg="Bu alan zorunludur.">
+                    </div>
+                  </div>
+                </div>
+                <div class="panel-footer">
+                  <div class="pull-right">
+                    <button type="button" class="btn btn-danger backBtn">Geri</button>
+                    <button type="button" class="btn btn-success nextBtn">İleri</button>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+              <div class="panel panel-default setup-content unvisible" id="step-6">
                 <div class="panel-heading separator">
                   <div class="panel-title">İçki Tipi Seçimi
                   </div>
-                  <div class="pull-right bold">7</div>
+                  <div class="pull-right bold">6</div>
                 </div>
                 <div class="panel-body">
                   <div class="col-md-8 form-group form-group-default form-group-default-select2 required m-t-10">
@@ -366,11 +336,11 @@
                   <div class="clearfix"></div>
                 </div>
               </div>
-              <div class="panel panel-default setup-content unvisible" id="step-8">
+              <div class="panel panel-default setup-content unvisible" id="step-7">
                 <div class="panel-heading separator">
                   <div class="panel-title">İçki Markası Seçimi
                   </div>
-                  <div class="pull-right bold">8</div>
+                  <div class="pull-right bold">7</div>
                 </div>
                 <div class="panel-body">
                   <div class="col-md-8 form-group form-group-default form-group-default-select2 required m-t-10">
@@ -396,11 +366,11 @@
                   <div class="clearfix"></div>
                 </div>
               </div>
-              <div class="panel panel-default setup-content unvisible" id="step-9">
+              <div class="panel panel-default setup-content unvisible" id="step-8">
                 <div class="panel-heading separator">
                   <div class="panel-title">CL Bazında Fiyat
                   </div>
-                  <div class="pull-right bold">9</div>
+                  <div class="pull-right bold">8</div>
                 </div>
                 <div class="panel-body">
                   <div class="form-group form-group-default required m-t-10">
@@ -424,7 +394,7 @@
                   <div class="clearfix"></div>
                 </div>
               </div>
-              <div class="panel panel-default setup-content unvisible" id="step-10">
+              <!-- <div class="panel panel-default setup-content unvisible" id="step-9">
                 <div class="panel-heading separator">
                   <div class="panel-title">Button Ekle
                   </div>
@@ -468,12 +438,12 @@
                   </div>
                   <div class="clearfix"></div>
                 </div>
-              </div>
-              <div class="panel panel-default setup-content unvisible" id="step-11">
+              </div> -->
+              <div class="panel panel-default setup-content unvisible" id="step-9">
                 <div class="panel-heading separator">
                   <div class="panel-title">Tamamla
                   </div>
-                  <div class="pull-right bold">11</div>
+                  <div class="pull-right bold">9</div>
                 </div>
                 <div class="panel-body">
                   <div class="form-group form-group-default m-t-10">
@@ -978,7 +948,7 @@
                     $(curInputs[i]).closest(".form-group").addClass("has-error");
                 }
             }
-            if(curStepBtn != "step-10"){
+            if(curStepBtn != "step-8"){
               if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
             }else{
               $("#collectorinLastLevel").val($(".collectors option:selected").text());
@@ -990,13 +960,14 @@
               $("#alcoholTypeinLastLevel").val($(".alcoholTypes option:selected").text());
               $("#alcoholBrandinLastLevel").val($(".alcoholBrands option:selected").text());
               $("#pricePerClinLastLevel").val($("#pricePerCl").val());
-              var tableLength = $("#step-10 .table tbody tr").length;
+              /*var tableLength = $("#step-10 .table tbody tr").length;
               if(tableLength<4){
                 $("#modalSlideUpSmall").find("h4").html("Lütfen en az 4 buton girin.");
                 $("#modalSlideUpSmall").modal();
               }else{
                 if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
-              }
+              }*/
+                if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
             }
         });
         getCitiesInModal();
