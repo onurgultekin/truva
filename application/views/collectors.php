@@ -73,6 +73,7 @@
               <thead>
               <tr>
               <th>IP Adresi</th>
+              <th>Durum</th>
               <th>Bildirim maili</th>
               <th>Barcode</th>
               <th>Latitude</th>
@@ -85,6 +86,7 @@
                 foreach ($collectors as $key => $collector) {
                   echo '<tr id="'.$collector->collector_id.'">
                     <td>'.$collector->ip_address.'</td>
+                    <td>'.$collector->Name.'</td>
                     <td>'.$collector->notification_email.'</td>
                     <td>'.$collector->Barcode.'</td>
                     <td>'.$collector->Latitude.'</td>

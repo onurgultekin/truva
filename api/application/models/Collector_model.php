@@ -56,7 +56,7 @@ class Collector_model extends CI_Model {
         public function addCollector($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","notification_email","eth_mac_address","wifi_mac_address","Barcode","Latitude","Longitude");
+                $mandatoryParameters = array("accessToken","userId","Barcode");
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -76,12 +76,12 @@ class Collector_model extends CI_Model {
                         }else{
                                 $accessToken = $parameters["accessToken"];
                                 $userId = $parameters["userId"];
-                                $notification_email = $parameters["notification_email"];
-                                $eth_mac_address = $parameters["eth_mac_address"];
-                                $wifi_mac_address = $parameters["wifi_mac_address"];
+                                $notification_email = @$parameters["notification_email"];
+                                $eth_mac_address = @$parameters["eth_mac_address"];
+                                $wifi_mac_address = @$parameters["wifi_mac_address"];
                                 $Barcode = $parameters["Barcode"];
-                                $Latitude = $parameters["Latitude"];
-                                $Longitude = $parameters["Longitude"];
+                                $Latitude = @$parameters["Latitude"];
+                                $Longitude = @$parameters["Longitude"];
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
                                 }else{

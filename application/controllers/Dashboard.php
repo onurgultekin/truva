@@ -8,6 +8,9 @@ class Dashboard extends CI_Controller {
 		if(!$this->session->userdata("token")){
 			redirect(base_url());
 		}
+		if($this->uri->segment(1) == "kullanici" && $this->session->userdata("userType") !=1){
+			$this->load->view("unauth");
+		}
 	}
 
 	public function index()
@@ -284,6 +287,13 @@ class Dashboard extends CI_Controller {
 	            "type"=>"email"
 	          ],
 	          [
+	            "name"=>"Yetki grubu",
+	            "id"=>"group_id",
+	            "type"=>"select",
+	            "disabled"=>"",
+	            "class"=>"groupsinmodal"
+	          ],
+	          [
 	            "name"=>"Şifre",
 	            "id"=>"user_password",
 	            "type"=>"password"
@@ -306,13 +316,6 @@ class Dashboard extends CI_Controller {
 	            "name"=>"Telefon",
 	            "id"=>"phone",
 	            "type"=>"text"
-	          ],
-	          [
-	            "name"=>"Grup seçin",
-	            "id"=>"group_id",
-	            "type"=>"select",
-	            "disabled"=>"",
-	            "class"=>"groupsinmodal"
 	          ],
 	          [
 	            "name"=>"Adres",
@@ -347,7 +350,9 @@ class Dashboard extends CI_Controller {
 		$data["userGroups"] = $this->general_model->getUserGroups();
 		$data["companies"] = $this->general_model->getCompanies();
 		$data["holdings"] = $this->general_model->getHoldings();
-		$this->load->view('users',$data);
+		if($this->session->userdata("userType") ==1){
+			$this->load->view('users',$data);
+		}
 	}
 
 	public function logout()
@@ -530,33 +535,8 @@ class Dashboard extends CI_Controller {
 	public function collectors(){
 		$data["formFields"]= [
 		          	[
-		            "name"=>"Bildirim maili",
-		            "id"=>"notification_email",
-		            "type"=>"text"
-		          	],
-		          	[
-		            "name"=>"Ethernet MAC Adresi",
-		            "id"=>"eth_mac_address",
-		            "type"=>"text"
-		          	],
-		          	[
-		            "name"=>"Wifi MAC Adresi",
-		            "id"=>"wifi_mac_address",
-		            "type"=>"text"
-		          	],
-		          	[
 		            "name"=>"Barcode",
 		            "id"=>"Barcode",
-		            "type"=>"text"
-		          	],
-		          	[
-		            "name"=>"Latitude",
-		            "id"=>"Latitude",
-		            "type"=>"text"
-		          	],
-		          	[
-		            "name"=>"Longitude",
-		            "id"=>"Longitude",
 		            "type"=>"text"
 		          	]
 	          	];
@@ -964,27 +944,17 @@ class Dashboard extends CI_Controller {
 	}
 	public function taps(){
 		$data["formFields"]= [
-		          	[
+		          	/*[
 		            "name"=>"Adı",
 		            "id"=>"Name",
 		            "type"=>"text"
-		          	],
+		          	],*/
 		          	[
-		            "name"=>"ID 1",
+		            "name"=>"Barcode",
 		            "id"=>"ID1",
 		            "type"=>"text"
 		          	],
-		          	[
-		            "name"=>"ID 2",
-		            "id"=>"ID2",
-		            "type"=>"text"
-		          	],
-		          	[
-		            "name"=>"ID 3",
-		            "id"=>"ID3",
-		            "type"=>"text"
-		          	],
-		          	[
+		          	/*[
 		            "name"=>"Versiyon",
 		            "id"=>"Version",
 		            "type"=>"text"
@@ -1054,7 +1024,7 @@ class Dashboard extends CI_Controller {
 		            "name"=>"Satış Fiyatı",
 		            "id"=>"SalePrice",
 		            "type"=>"text"
-		          	]
+		          	]*/
 	          	];
 		$this->load->model("general_model");
 		$data["leftsidemenuitems"] = $this->general_model->getLeftSideMenu();

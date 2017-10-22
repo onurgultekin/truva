@@ -140,7 +140,7 @@ class Tap_model extends CI_Model {
         public function addTap($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","Name","ID1","ID2","ID3","Version","HoldingID","CompanyID","BarGroupID","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","collector_id","TapStatusID","buttons","NetPrice","SalePrice"); 
+                $mandatoryParameters = array("accessToken","userId","ID1"); 
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -160,47 +160,71 @@ class Tap_model extends CI_Model {
                         }else{
                                 $accessToken = $parameters["accessToken"];
                                 $userId = $parameters["userId"];
-                                $Name = addslashes($parameters["Name"]);
+                                $Name = @addslashes($parameters["Name"]);
                                 $ID1 = addslashes($parameters["ID1"]);
-                                $ID2 = addslashes($parameters["ID2"]);
-                                $ID3 = addslashes($parameters["ID3"]);
-                                $Version = addslashes($parameters["Version"]);
-                                $HoldingID = $parameters["HoldingID"];
-                                $CompanyID = $parameters["CompanyID"];
-                                $BarGroupID = $parameters["BarGroupID"];
-                                $AlcoholGroupID = $parameters["AlcoholGroupID"];
-                                $AlcoholTypeID = $parameters["AlcoholTypeID"];
-                                $AlcoholBrandID = $parameters["AlcoholBrandID"];
-                                $collector_id = $parameters["collector_id"];
-                                $TapStatusID = $parameters["TapStatusID"];
-                                $buttons = $parameters["buttons"];
-                                $NetPrice = $parameters["NetPrice"];
-                                $SalePrice = $parameters["SalePrice"];
+                                $ID2 = @addslashes($parameters["ID2"]);
+                                $ID3 = @addslashes($parameters["ID3"]);
+                                $Version = @addslashes($parameters["Version"]);
+                                $HoldingID = @$parameters["HoldingID"];
+                                $CompanyID = @$parameters["CompanyID"];
+                                $BarGroupID = @$parameters["BarGroupID"];
+                                $AlcoholGroupID = @$parameters["AlcoholGroupID"];
+                                $AlcoholTypeID = @$parameters["AlcoholTypeID"];
+                                $AlcoholBrandID = @$parameters["AlcoholBrandID"];
+                                $collector_id = @$parameters["collector_id"];
+                                $TapStatusID = @$parameters["TapStatusID"];
+                                $buttons = @$parameters["buttons"];
+                                $NetPrice = @$parameters["NetPrice"];
+                                $SalePrice = @$parameters["SalePrice"];
+                                if(!$HoldingID){
+                                        $HoldingID = "NULL";
+                                }
+                                if(!$CompanyID){
+                                        $CompanyID = "NULL";
+                                }
+                                if(!$BarGroupID){
+                                        $BarGroupID = "NULL";
+                                }
+                                if(!$AlcoholGroupID){
+                                        $AlcoholGroupID = "NULL";
+                                }
+                                if(!$AlcoholTypeID){
+                                        $AlcoholTypeID = "NULL";
+                                }
+                                if(!$AlcoholBrandID){
+                                        $AlcoholBrandID = "NULL";
+                                }
+                                if(!$collector_id){
+                                        $collector_id = "NULL";
+                                }
+                                if(!$TapStatusID){
+                                        $TapStatusID = "NULL";
+                                }
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($HoldingID)){
+                                if($HoldingID != "NULL" && !is_numeric($HoldingID)){
                                         $response = $this->globalfunctions->returnMessage(1003,"HoldingID parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($CompanyID)){
+                                if($CompanyID  != "NULL" && !is_numeric($CompanyID)){
                                         $response = $this->globalfunctions->returnMessage(1004,"CompanyID parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($BarGroupID)){
+                                if($BarGroupID  != "NULL" && !is_numeric($BarGroupID)){
                                         $response = $this->globalfunctions->returnMessage(1005,"BarGroupID parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($AlcoholGroupID)){
+                                if($AlcoholGroupID  != "NULL" && !is_numeric($AlcoholGroupID)){
                                         $response = $this->globalfunctions->returnMessage(1006,"AlcoholGroupID parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($AlcoholTypeID)){
+                                if($AlcoholTypeID  != "NULL" && !is_numeric($AlcoholTypeID)){
                                         $response = $this->globalfunctions->returnMessage(1007,"AlcoholTypeID parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($AlcoholBrandID)){
+                                if($AlcoholBrandID  != "NULL" && !is_numeric($AlcoholBrandID)){
                                         $response = $this->globalfunctions->returnMessage(1008,"AlcoholBrandID parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($collector_id)){
+                                if($collector_id  != "NULL" && !is_numeric($collector_id)){
                                         $response = $this->globalfunctions->returnMessage(1009,"collector_id parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($TapStatusID)){
+                                if($TapStatusID  != "NULL" && !is_numeric($TapStatusID)){
                                         $response = $this->globalfunctions->returnMessage(10010,"TapStatusID parametresi numeric olmalıdır.",true);
                                 }else{
                                         $query = $this->db->query("CALL ADD_OR_UPDATE_TAPS('".$accessToken."',".$userId.",NULL,'".$Name."','".$ID1."','".$ID2."','".$ID3."','".$Version."',".$HoldingID.",".$CompanyID.",".$BarGroupID.",".$AlcoholGroupID.",".$AlcoholTypeID.",".$AlcoholBrandID.",".$collector_id.",".$TapStatusID.")");
@@ -209,9 +233,11 @@ class Tap_model extends CI_Model {
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
                                         }else{
                                                 $tapId = $result->tapId;
-                                                foreach ($buttons as $key => $button) {
-                                                        $this->db->close();
-                                                        $query = $this->db->query("CALL ADD_BUTTON_TO_TAP('".$accessToken."',".$userId.",".$tapId.",".($key+1).",'".$button["buttonName"]."','".$button["buttonClReal"]."','".$button["buttonClShown"]."','".$NetPrice."','".$SalePrice."')");
+                                                if(is_array($buttons)){
+                                                        foreach ($buttons as $key => $button) {
+                                                                $this->db->close();
+                                                                $query = $this->db->query("CALL ADD_BUTTON_TO_TAP('".$accessToken."',".$userId.",".$tapId.",".($key+1).",'".$button["buttonName"]."','".$button["buttonClReal"]."','".$button["buttonClShown"]."','".$NetPrice."','".$SalePrice."')");
+                                                        }
                                                 }
                                                 $response["result"] = true;
                                                 $response["resultCode"] = 0;

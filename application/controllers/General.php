@@ -1032,6 +1032,13 @@ class General extends CI_Controller {
 		$alcoholBrands = $this->general_model->getAlcoholBrandlist();
 		echo json_encode($alcoholBrands);
 	}
+	public function getAlcoholBrandByAlcoholType(){
+		header("Content-type:application/json");
+		$this->load->model("general_model");
+		$alcoholType = $this->input->post("alcoholType");
+		$alcoholBrands = $this->general_model->getAlcoholBrandByAlcoholType($alcoholType);
+		echo json_encode($alcoholBrands);
+	}
 	public function getCollectorList(){
 		header("Content-type:application/json");
 		$this->load->model("general_model");

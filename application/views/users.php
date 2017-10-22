@@ -83,16 +83,20 @@
               </thead>
               <tbody>
                 <?php
-                foreach ($users as $key => $user) {
-                  echo '<tr id="'.$user->id.'">
-                    <td>'.$user->email.'</td>
-                    <td>'.$user->first_name.'</td>
-                    <td>'.$user->last_name.'</td>
-                    <td>'.$user->address.'</td>
-                    <td>'.$user->phone.'</td>
-                    <td>'.$user->userRole.'</td>
-                    <td><div class="pull-right"><button class="btn btn-primary changeUserPassword btn-xs">Şifre Değiştir</button><button class="btn btn-warning getUserDetails btn-xs m-l-5 m-r-5" id="duzenle">Düzenle</button><button class="btn btn-danger deleteUserModal btn-xs">Sil</button></div></td>
-                  </tr>';
+                if(is_array($users)){
+                  foreach ($users as $key => $user) {
+                    echo '<tr id="'.$user->id.'">
+                      <td>'.$user->email.'</td>
+                      <td>'.$user->first_name.'</td>
+                      <td>'.$user->last_name.'</td>
+                      <td>'.$user->address.'</td>
+                      <td>'.$user->phone.'</td>
+                      <td>'.$user->userRole.'</td>
+                      <td><div class="pull-right"><button class="btn btn-primary changeUserPassword btn-xs">Şifre Değiştir</button><button class="btn btn-warning getUserDetails btn-xs m-l-5 m-r-5" id="duzenle">Düzenle</button><button class="btn btn-danger deleteUserModal btn-xs">Sil</button></div></td>
+                    </tr>';
+                  }
+                }else{
+                  echo '<div class="alert alert-error">'.$users.'</div>';
                 }
                 ?>
               </tbody>
@@ -155,7 +159,7 @@
             <div class="modal-header clearfix text-left">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
               </button>
-              <h5>Şifre <span class="semi-bold">Değiştir</span></h5>
+              <h5>Şifre <span class="semi-bold">Değiştir</span><span class="pull-right semi-bold userEmailHere"></span></h5>
               <p class="p-b-10">Aşağıdaki formu doldurarak kullanıcı şifresini değiştirebilirsiniz.</p>
             </div>
             <div class="modal-body">
@@ -395,8 +399,10 @@
         $("body").on("click",".changeUserPassword",function(){
           var userId = $(this).parents("tr").attr("id");
           var userName = $(this).parents("tr").find("td:eq(1)").html();
+          var userEmail = $(this).parents("tr").find("td:eq(0)").html();
           $(".userNameinModal").html(userName);
           $(".changePassword").attr("id",userId);
+          $(".userEmailHere").html(userEmail);
           $("#changeUserPassword").modal();
         })
       })

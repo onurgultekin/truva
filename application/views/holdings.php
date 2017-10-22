@@ -78,7 +78,6 @@
                         <div class="col-md-3 form-group form-group-default form-group-default-select2 required">
                         <label class="">Ülke seçin</label>
                           <select class="full-width countries" data-placeholder="Ülke seçin" data-init-plugin="select2" multiple="multiple">
-                          <option value="0">Lütfen seçin</option>
                             <?php 
                             foreach ($countries as $key => $country) {
                               echo '<option value='.$country->CountryID.'>'.$country->CountryName.'</option>';
@@ -89,19 +88,16 @@
                         <div class="col-md-3 form-group form-group-default form-group-default-select2 required">
                         <label class="">Şehir seçin</label>
                           <select class="full-width cities disabled" disabled="disabled" data-placeholder="Şehir seçin" data-init-plugin="select2" multiple="multiple">
-                            <option value="0">Lütfen seçin</option>
                           </select>
                         </div>
                         <div class=" col-md-3 form-group form-group-default form-group-default-select2 required">
                         <label class="">İlçe seçin</label>
                           <select class="full-width districts disabled" disabled="disabled" data-placeholder="İlçe seçin" data-init-plugin="select2" multiple="multiple">
-                            <option value="0">Lütfen seçin</option>
                           </select>
                         </div>
                         <div class="col-md-3 form-group form-group-default form-group-default-select2 required">
                         <label class="">Semt seçin</label>
                           <select class="full-width areas disabled" disabled="disabled" data-placeholder="Semt seçin" data-init-plugin="select2" multiple="multiple">
-                            <option value="0">Lütfen seçin</option>
                           </select>
                         </div>
                         </div>

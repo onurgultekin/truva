@@ -930,6 +930,7 @@
     <script src="<?php echo base_url() ?>truva/js/pages.min.js"></script>
     <script type="text/javascript">
       $(function(){
+        getAlcoholBrandsByAlcoholType();
         var navListItems = $('div.setup-panel div a'),
         allWells = $('.setup-content'),
         allNextBtn = $('.nextBtn');
@@ -1051,7 +1052,9 @@
         $('#buttonClReal,#buttonClShown,#pricePerCl,#priceForSale').autoNumeric('init');
         var buttonsArray = [];
         $("body").on("click",".addButtonDataToTable",function(){
-          buttonIndex++;
+          if(buttonIndex < 4){
+            buttonIndex++;
+          }
           var buttonName = "Button "+buttonIndex;
           var buttonClReal = $("#buttonClReal").val();
           var buttonClShown = $("#buttonClShown").val();
@@ -1091,11 +1094,9 @@
             buttonIndex--;
             var index = $(this).parents("tr").index();
             $(".previewTable tbody tr").eq(index).remove();
-            $(this).parents("tr").fadeOut(500,function(){
-                $(this).remove();
+            $(this).parents("tr").hide().remove();
                 var buttonsArray = [];
                 _updateButtonsArray(buttonsArray,".buttonTable");
-            })
         })
         $(".complete").on("click",function(e){
           var buttonsArray = [];

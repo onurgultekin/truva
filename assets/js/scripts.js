@@ -50,24 +50,29 @@
         })
         $(".countries").on("change",function(){
             var selectedCountry = $(this).val();
+            if(selectedCountry!=null){
             $.ajax({
                 type:"POST",
                 url:base_url+"/general/getCitiesByCountryId",
                 data:{countryId:selectedCountry},
                 success:function(data){
-                    if(selectedCountry!=0){
+                    if(selectedCountry!=null){
                     $(".cities").html('<option value="0">Lütfen seçin</option>').removeAttr("disabled").removeClass("disabled");
                     $.each(data,function(k,city){
                         $(".cities").append('<option value="'+city.CityID+'">'+city.CityName+'</option>');
                     })
                     }else{
-                        $(".cities").html('<option value="0">Lütfen seçin</option>').attr("disabled","disabled").addClass("disabled");
+                        $(".cities").attr("disabled","disabled").addClass("disabled");
                     }
                 }
             })
+        }else{
+            $(".cities").attr("disabled","disabled").addClass("disabled");
+        }
         })
         $("body").on("change",".cities",function(){
             var selectedCity = $(this).val();
+            if(selectedCity!=null){
             $.ajax({
                 type:"POST",
                 url:base_url+"/general/getDistrictsByCityId",
@@ -79,10 +84,14 @@
                     })
                 }
             })
+        }else{
+            $(".districts").attr("disabled","disabled").addClass("disabled");
+        }
         })
         
         $("body").on("change",".districts",function(){
             var selectedDistrict = $(this).val();
+            if(selectedDistrict!=null){
             $.ajax({
                 type:"POST",
                 url:base_url+"/general/getAreasByDistrictId",
@@ -94,6 +103,9 @@
                     })
                 }
             })
+        }else{
+            $(".areas").attr("disabled","disabled").addClass("disabled");
+        }
         })
         $(".holdings").on("change",function(){
             var selectedHolding = $(this).val();

@@ -758,6 +758,25 @@ function getAlcoholBrands(){
         }
     })
 }
+function getAlcoholBrandsByAlcoholType(){
+    $("body").on("change",".alcoholTypes",function(){
+        var selectedType = $(this).val();
+        Pace.restart();
+        $.ajax({
+            type:"POST",
+            url:base_url+"/general/getAlcoholBrandByAlcoholType",
+            data:{alcoholType:selectedType},
+            success:function(data){
+                $(".alcoholBrands").html('<option value="0">Lütfen seçin</option>').removeAttr("disabled").removeClass("disabled");
+                $.each(data,function(k,alcoholBrand){
+                    $(".alcoholBrands").append('<option value="'+alcoholBrand.AlcoholBrandID+'">'+alcoholBrand.Name+'</option>');
+                })
+                initTable();
+                Pace.stop();
+            }
+        })
+    })
+}
 function addNewAlcoholGroup(){
     var data = $("#appendNewAlcoholGroupData" ).serializeObject();
     $(".modalError").html('Lütfen bekleyiniz...');

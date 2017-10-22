@@ -72,6 +72,8 @@
               <table class="table table-striped" id="tableWithExportOptions">
               <thead>
               <tr>
+              <th>Barcode</th>
+              <th>Status</th>
               <th>Adı</th>
               <th>Holding Adı</th>
               <th>Şirket Adı</th>
@@ -86,6 +88,8 @@
                 <?php
                 foreach ($taps as $key => $tap) {
                   echo '<tr id="'.$tap->TapID.'">
+                    <td>'.$tap->ID1.'</td>
+                    <td>'.$tap->status.'</td>
                     <td>'.$tap->Name.'</td>
                     <td>'.$tap->HoldingName.'</td>
                     <td>'.$tap->CompanyName.'</td>
@@ -255,7 +259,7 @@
               }
               ?>
               <div class="clearfix"></div>
-              <div class="row m-b-10">
+              <!-- <div class="row m-b-10">
                   <div class="col-md-4">
                   <div class="form-group form-group-default required m-t-10">
                     <label>Button CL Real</label>
@@ -283,7 +287,7 @@
                         </tbody>
                     </table>
                   </div>
-                  </div>
+                  </div> -->
                 <button type="submit" class="btn btn-primary btn-block addNewTapButton">Yeni Musluk Ekle</button>
                 <div class="alert alert-success modalError unvisible m-t-10"></div>
               </form>
@@ -405,7 +409,9 @@
         $('#buttonClReal,#buttonClShown,#NetPrice,#SalePrice').autoNumeric('init');
         buttonIndex = 0;
         $("body").on("click",".addButtonDataToTable",function(){
-          buttonIndex++;
+          if(buttonIndex < 4){
+            buttonIndex++;
+          }
           $(".modalError").html('').addClass("unvisible");
           var buttonName = "Button "+buttonIndex;
           var buttonClReal = $("#buttonClReal").val();
@@ -438,11 +444,9 @@
         })
         $("body").on("click",".deleteButton",function(){
           buttonIndex--;
-            $(this).parents("tr").fadeOut(500,function(){
-                $(this).remove();
+            $(this).parents("tr").hide().remove();
                 var buttonsArray = [];
                 _updateButtonsArray(buttonsArray,".buttonTable");
-            })
         })
       })
     </script>
