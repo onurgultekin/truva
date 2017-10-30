@@ -47,7 +47,7 @@ class AlcoholBrand_model extends CI_Model {
                                                 $response["result"] = true;
                                                 $response["resultCode"] = 0;
                                                 $response["message"] = $query->result();
-                                        }
+                                        } 
                                 }
                         }
                 }

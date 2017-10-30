@@ -39,6 +39,6 @@ class Collector extends REST_Controller {
 	}
 	public function deleteCollector_post(){
 		$message = $this->Collector_model->deleteCollector($this->post());
-		$this->set_response($message, REST_Controller::HTTP_OK);
+		$this->set_response($message, REST_Controller::HTTP_OK); 
 	}
 }

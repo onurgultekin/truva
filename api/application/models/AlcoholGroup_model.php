@@ -165,7 +165,7 @@ class AlcoholGroup_model extends CI_Model {
                                 }
                         }
                 }
-                return $response;
+                return $response; 
         }
 }
 ?>
