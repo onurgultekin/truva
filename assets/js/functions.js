@@ -1056,7 +1056,7 @@ function getCollectors(){
         success:function(data){
             $("#tableWithExportOptions tbody").empty();
             $.each(data,function(key,collector){
-              $("#tableWithExportOptions tbody").append('<tr id="'+collector.collector_id+'"><td>'+collector.ip_address+'</td><td>'+collector.notification_email+'</td><td>'+collector.Barcode+'</td><td>'+collector.Latitude+'</td><td>'+collector.Longitude+'</td><td><div class="pull-left"><button class="btn btn-warning getCollectorDetails btn-xs m-r-10" id="duzenle">Düzenle</button><button class="btn btn-danger btn-xs deleteCollectorModal">Sil</button></div></td></tr>')
+              $("#tableWithExportOptions tbody").append('<tr id="'+collector.collector_id+'"><td>'+collector.ip_address+'</td><td>'+collector.Name+'</td><td>'+collector.notification_email+'</td><td>'+collector.Barcode+'</td><td>'+collector.Latitude+'</td><td>'+collector.Longitude+'</td><td><div class="pull-left"><button class="btn btn-warning getCollectorDetails btn-xs m-r-10" id="duzenle">Düzenle</button><button class="btn btn-danger btn-xs deleteCollectorModal">Sil</button></div></td></tr>')
           })
             initTable();
             Pace.stop();
@@ -1466,6 +1466,8 @@ function getTaps(){
             $("#tableWithExportOptions tbody").empty();
             $.each(data,function(key,tap){
                 $("#tableWithExportOptions tbody").append('<tr id="'+tap.TapID+'">\
+                    <td>'+tap.ID1+'</td>\
+                    <td>'+tap.status+'</td>\
                     <td>'+tap.Name+'</td>\
                     <td>'+tap.HoldingName+'</td>\
                     <td>'+tap.CompanyName+'</td>\

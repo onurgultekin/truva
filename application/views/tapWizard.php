@@ -168,7 +168,7 @@
               </div>
           </div>
           <form role="form" class="col-md-6 col-md-offset-3" style="margin-top:100px">
-            <div class="panel panel-default setup-content" id="step-1">
+            <div class="panel panel-default setup-content unvisible" id="step-1">
                 <div class="panel-heading separator">
                   <div class="panel-title">Holding Seçimi
                   </div>
@@ -284,21 +284,57 @@
                   <div class="clearfix"></div>
                 </div>
               </div>
-              <div class="panel panel-default setup-content unvisible" id="step-5">
+              <div class="panel panel-default setup-content" id="step-5">
                 <div class="panel-heading separator">
-                  <div class="panel-title">Musluk Id Eşleştirme
+                  <div class="panel-title">Musluk Ekleme
                   </div>
                   <div class="pull-right bold">5</div>
                 </div>
                 <div class="panel-body">
+                  <div class="appendNewTaphere">
+                  <div class="row">
+                  <div class="col-md-12">
                   <div class="form-group form-group-default required m-t-10">
-                    <label>Musluk Id</label>
+                    <label>Barcode</label>
                     <div class="controls">
                     <input type="text" class="form-control" name="muslukId" id="muslukId" required data-msg="Bu alan zorunludur.">
                     </div>
                   </div>
                 </div>
+                </div><!-- Barcode End -->
+                <div class="row tableContent">
+                  <div class="col-md-4">
+                  <div class="form-group form-group-default required m-t-10">
+                    <label>Button CL Real</label>
+                    <div class="controls">
+                    <input type="text" class="form-control buttonClReal" name="buttonClReal" placeholder="0.00">
+                    </div>
+                  </div>
+                  <div class="form-group form-group-default required m-t-10">
+                    <label>Button CL Shown</label>
+                    <div class="controls">
+                    <input type="text" class="form-control buttonClShown" name="buttonClShown"  placeholder="0.00">
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-primary pull-right addButtonDataToTable"><i class="fa fa-angle-double-right"></i></button>
+                  </div>
+                  <div class="col-md-8">
+                    <table class="table table-striped buttonTable">
+                        <thead>
+                          <th style="text-transform: none !important">Button Adı</th>
+                          <th style="text-transform: none !important">Button CL Real</th>
+                          <th style="text-transform: none !important">Button CL Shown</th>
+                          <th style="text-transform: none !important; padding-top: 0px;"></th>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                  </div>
+                  </div><!-- Button panel end -->
+                  </div>
+                </div>
                 <div class="panel-footer">
+                  <button class="btn btn-primary pull-left addNewTap"><i class="fa fa-plus"></i> Yeni Musluk</button>
                   <div class="pull-right">
                     <button type="button" class="btn btn-danger backBtn">Geri</button>
                     <button type="button" class="btn btn-success nextBtn">İleri</button>
@@ -900,6 +936,49 @@
     <script src="<?php echo base_url() ?>truva/js/pages.min.js"></script>
     <script type="text/javascript">
       $(function(){
+        var buttonIndex = 0;
+        $(".addNewTap").on("click",function(){
+          buttonIndex = 0;
+          $(".appendNewTaphere").append('<div class="row">\
+                  <div class="col-md-12">\
+                  <div class="form-group form-group-default required m-t-10">\
+                    <label>Barcode</label>\
+                    <div class="controls">\
+                    <input type="text" class="form-control" name="muslukId" id="muslukId" required data-msg="Bu alan zorunludur.">\
+                    </div>\
+                  </div>\
+                </div>\
+                </div><!-- Barcode End -->\
+                <div class="row tableContent">\
+                  <div class="col-md-4">\
+                  <div class="form-group form-group-default required m-t-10">\
+                    <label>Button CL Real</label>\
+                    <div class="controls">\
+                    <input type="text" class="form-control buttonClReal" name="buttonClReal" placeholder="0.00">\
+                    </div>\
+                  </div>\
+                  <div class="form-group form-group-default required m-t-10">\
+                    <label>Button CL Shown</label>\
+                    <div class="controls">\
+                    <input type="text" class="form-control buttonClShown" name="buttonClShown" placeholder="0.00">\
+                    </div>\
+                  </div>\
+                  <button type="button" class="btn btn-primary pull-right addButtonDataToTable"><i class="fa fa-angle-double-right"></i></button>\
+                  </div>\
+                  <div class="col-md-8">\
+                    <table class="table table-striped buttonTable">\
+                        <thead>\
+                          <th style="text-transform: none !important">Button Adı</th>\
+                          <th style="text-transform: none !important">Button CL Real</th>\
+                          <th style="text-transform: none !important">Button CL Shown</th>\
+                          <th style="text-transform: none !important; padding-top: 0px;"></th>\
+                        </thead>\
+                        <tbody>\
+                        </tbody>\
+                    </table>\
+                  </div>\
+                  </div><!-- Button panel end -->');
+        })
         getAlcoholBrandsByAlcoholType();
         var navListItems = $('div.setup-panel div a'),
         allWells = $('.setup-content'),
@@ -1019,7 +1098,6 @@
             addNewAlcoholType();
             }
         });
-        var buttonIndex = 0;
         $('#buttonClReal,#buttonClShown,#pricePerCl,#priceForSale').autoNumeric('init');
         var buttonsArray = [];
         $("body").on("click",".addButtonDataToTable",function(){
@@ -1027,11 +1105,12 @@
             buttonIndex++;
           }
           var buttonName = "Button "+buttonIndex;
-          var buttonClReal = $("#buttonClReal").val();
-          var buttonClShown = $("#buttonClShown").val();
-          var tableLength = $("#step-10 .buttonTable tbody tr").length;
+          var buttonClReal = $(this).parents(".tableContent").find(".buttonClReal").val();
+          var buttonClShown = $(this).parents(".tableContent").find(".buttonClShown").val();
+          var tableLength = $(this).parents(".tableContent").find(".buttonTable tbody tr").length;
+          console.log(tableLength);
           if(tableLength < 4 && buttonName.length!=0 && buttonClReal.length!=0 && buttonClShown.length!=0){
-            $(".buttonTable tbody").append('<tr>\
+            $(this).parents(".tableContent").find(".buttonTable tbody").append('<tr>\
             <td>'+buttonName+'</td>\
             <td>'+buttonClReal+'</td>\
             <td>'+buttonClShown+'</td>\
