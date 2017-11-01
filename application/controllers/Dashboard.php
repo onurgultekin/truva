@@ -828,6 +828,8 @@ class Dashboard extends CI_Controller {
 		$data["alcoholGroups"] = $this->general_model->getAlcoholGrouplist();
 		$data["alcoholBrands"] = $this->general_model->getAlcoholBrandlist();
 		$data["countries"] = $this->general_model->getCountries();
+		$data["activeTaps"] = $this->general_model->getActiveTaps();
+		$data["activeCollectors"] = $this->general_model->getActiveCollectors();
 		$this->load->view('tapWizard',$data);
 	}
 	public function consumption(){

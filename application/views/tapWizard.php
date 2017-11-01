@@ -269,8 +269,8 @@
                           <select class="full-width collectors" data-placeholder="Toplayıcı seçin" data-init-plugin="select2" required>
                           <option value="0">Lütfen seçin</option>
                             <?php
-                            foreach ($collectors as $key => $collector) {
-                              echo '<option value='.$collector->collector_id.'>'.$collector->device_key.'</option>';
+                            foreach ($activeCollectors as $key => $activeCollector) {
+                              echo '<option value='.$activeCollector->collector_id.'>'.$activeCollector->device_key.'</option>';
                             }
                             ?>
                           </select>
@@ -292,15 +292,19 @@
                 </div>
                 <div class="panel-body">
                   <div class="appendNewTaphere">
+                  <div class="tapContainer">
                   <div class="row">
-                  <div class="col-md-12">
-                  <div class="form-group form-group-default required m-t-10">
-                    <label>Barcode</label>
-                    <div class="controls">
-                    <input type="text" class="form-control" name="muslukId" id="muslukId" required data-msg="Bu alan zorunludur.">
-                    </div>
+                  <div class="col-md-12 form-group form-group-default form-group-default-select2 required m-t-10">
+                    <label>Musluk Seçin</label>
+                    <select class="full-width activeTaps" data-placeholder="Musluk seçin" data-init-plugin="select2" required>
+                          <option value="0">Lütfen seçin</option>
+                            <?php
+                            foreach ($activeTaps as $key => $activeTap) {
+                              echo '<option value='.$activeTap->TapID.'>'.$activeTap->ID1.'</option>';
+                            }
+                            ?>
+                          </select>
                   </div>
-                </div>
                 </div><!-- Barcode End -->
                 <div class="row tableContent">
                   <div class="col-md-4">
@@ -331,6 +335,7 @@
                     </table>
                   </div>
                   </div><!-- Button panel end -->
+                  </div>
                   </div>
                 </div>
                 <div class="panel-footer">
@@ -937,17 +942,18 @@
     <script type="text/javascript">
       $(function(){
         var buttonIndex = 0;
-        $(".addNewTap").on("click",function(){
+        var activeTapIndex = 0;
+        $(".addNewTap").on("click",function(e){
+          var tapData = $(".activeTaps").html();
+          var taps = {};
+          gatherTapData(taps);
           buttonIndex = 0;
-          $(".appendNewTaphere").append('<div class="row">\
-                  <div class="col-md-12">\
-                  <div class="form-group form-group-default required m-t-10">\
-                    <label>Barcode</label>\
-                    <div class="controls">\
-                    <input type="text" class="form-control" name="muslukId" id="muslukId" required data-msg="Bu alan zorunludur.">\
-                    </div>\
+          activeTapIndex++;
+          $(".appendNewTaphere").append('<div class="tapContainer"><div class="row">\
+                  <div class="col-md-12 form-group form-group-default form-group-default-select2 required m-t-10">\
+                    <label>Musluk Seçin</label>\
+                    <select class="full-width activeTaps" data-placeholder="Musluk seçin" required></select>\
                   </div>\
-                </div>\
                 </div><!-- Barcode End -->\
                 <div class="row tableContent">\
                   <div class="col-md-4">\
@@ -977,7 +983,9 @@
                         </tbody>\
                     </table>\
                   </div>\
-                  </div><!-- Button panel end -->');
+                  </div></div><!-- Button panel end -->');
+          $(".activeTaps").eq(activeTapIndex).html(tapData).select2();
+          e.preventDefault();
         })
         getAlcoholBrandsByAlcoholType();
         var navListItems = $('div.setup-panel div a'),
@@ -1108,7 +1116,6 @@
           var buttonClReal = $(this).parents(".tableContent").find(".buttonClReal").val();
           var buttonClShown = $(this).parents(".tableContent").find(".buttonClShown").val();
           var tableLength = $(this).parents(".tableContent").find(".buttonTable tbody tr").length;
-          console.log(tableLength);
           if(tableLength < 4 && buttonName.length!=0 && buttonClReal.length!=0 && buttonClShown.length!=0){
             $(this).parents(".tableContent").find(".buttonTable tbody").append('<tr>\
             <td>'+buttonName+'</td>\

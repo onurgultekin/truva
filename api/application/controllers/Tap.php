@@ -53,4 +53,8 @@ class Tap extends REST_Controller {
 		$message = $this->Tap_model->tapWizard($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
+	public function activeTaps_post(){
+		$message = $this->Tap_model->activeTaps($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
 }

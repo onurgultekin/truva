@@ -103,6 +103,27 @@ var initTable = function(width = 184,search = "", displayLenght = 20) {
     });
     
 }
+function gatherTapData(array){
+$(".tapContainer").each(function(k,v){
+var buttons = [];
+var barcodes = [];
+var tapId = $(this).find(".activeTaps").val();
+array[k] = {tapId:tapId};
+  $(this).find(".tableContent .buttonTable tbody tr").each(function(k1,v1){
+      var buttonName = $(this).find("td").eq(0).text();
+      var buttonClReal = $(this).find("td").eq(1).text();
+      var buttonClShown = $(this).find("td").eq(2).text();
+        buttonData = {
+        buttonName:buttonName,
+        buttonClReal:buttonClReal,
+        buttonClShown:buttonClShown
+      }
+      buttons.push(buttonData);
+      array[k].buttons = buttons;
+  })
+  console.log(array);
+})
+}
 function _updateButtonsArray(array,tableClass){
   $.each($(tableClass+" tbody tr"),function(){
       var index = $(this).index();
