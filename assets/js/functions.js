@@ -121,8 +121,8 @@ array[k] = {tapId:tapId};
       buttons.push(buttonData);
       array[k].buttons = buttons;
   })
-  console.log(array);
 })
+console.log(array);
 }
 function _updateButtonsArray(array,tableClass){
   $.each($(tableClass+" tbody tr"),function(){

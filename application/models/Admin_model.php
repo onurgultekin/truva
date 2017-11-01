@@ -1110,8 +1110,6 @@ class Admin_model extends CI_Model
 	public function tapWizard($data){
 		$accessToken = $this->session->userdata("accessToken");
 		$userId = $this->session->userdata("userId");
-		$Name = $_POST["name"];
-		$ID1 = $_POST["id"];
 		$HoldingID = $_POST["holding"];
 		$CompanyID = $_POST["company"];
 		$BarGroupID = $_POST["bargroup"];
@@ -1124,8 +1122,6 @@ class Admin_model extends CI_Model
 		$data = array(
 			"accessToken" => $accessToken, 
 			"userId" => $userId,
-			"Name" => $Name,
-			"ID1"=>$ID1,
 			"HoldingID"=>$HoldingID,
 			"CompanyID"=>$CompanyID,
 			"BarGroupID"=>$BarGroupID,

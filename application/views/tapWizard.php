@@ -168,7 +168,7 @@
               </div>
           </div>
           <form role="form" class="col-md-6 col-md-offset-3" style="margin-top:100px">
-            <div class="panel panel-default setup-content unvisible" id="step-1">
+            <div class="panel panel-default setup-content" id="step-1">
                 <div class="panel-heading separator">
                   <div class="panel-title">Holding Seçimi
                   </div>
@@ -284,7 +284,7 @@
                   <div class="clearfix"></div>
                 </div>
               </div>
-              <div class="panel panel-default setup-content" id="step-5">
+              <div class="panel panel-default setup-content unvisible" id="step-5">
                 <div class="panel-heading separator">
                   <div class="panel-title">Musluk Ekleme
                   </div>
@@ -945,8 +945,6 @@
         var activeTapIndex = 0;
         $(".addNewTap").on("click",function(e){
           var tapData = $(".activeTaps").html();
-          var taps = {};
-          gatherTapData(taps);
           buttonIndex = 0;
           activeTapIndex++;
           $(".appendNewTaphere").append('<div class="tapContainer"><div class="row">\
@@ -1152,12 +1150,12 @@
             var index = $(this).parents("tr").index();
             $(".previewTable tbody tr").eq(index).remove();
             $(this).parents("tr").hide().remove();
-                var buttonsArray = [];
-                _updateButtonsArray(buttonsArray,".buttonTable");
+                var buttonsArray = {};
+                gatherTapData(buttonsArray);
         })
         $(".complete").on("click",function(e){
-          var buttonsArray = [];
-          _updateButtonsArray(buttonsArray,".buttonTable");
+          var buttonsArray = {};
+          gatherTapData(buttonsArray);
           var collector_id = $(".collectors").val();
           var id = $("#muslukId").val();
           var name = $("#muslukName").val();
