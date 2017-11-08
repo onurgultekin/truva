@@ -209,7 +209,7 @@
                           <select class="full-width companies" data-placeholder="Şirket seçin" data-init-plugin="select2" required>
                           <option value="0">Lütfen seçin</option>
                             <?php
-                            foreach ($companies as $key => $company) {
+                            foreach ($companies->message as $key => $company) {
                               echo '<option value='.$company->CompanyID.'>'.$company->CompanyName.'</option>';
                             }
                             ?>
@@ -311,13 +311,13 @@
                   <div class="form-group form-group-default required m-t-10">
                     <label>Button CL Real</label>
                     <div class="controls">
-                    <input type="text" class="form-control buttonClReal" name="buttonClReal" placeholder="0.00">
+                    <input type="text" class="form-control buttonClReal" name="buttonClReal" placeholder="0.00" required>
                     </div>
                   </div>
                   <div class="form-group form-group-default required m-t-10">
                     <label>Button CL Shown</label>
                     <div class="controls">
-                    <input type="text" class="form-control buttonClShown" name="buttonClShown"  placeholder="0.00">
+                    <input type="text" class="form-control buttonClShown" name="buttonClShown"  placeholder="0.00" required>
                     </div>
                   </div>
                   <button type="button" class="btn btn-primary pull-right addButtonDataToTable"><i class="fa fa-angle-double-right"></i></button>
@@ -417,7 +417,7 @@
                   <div class="form-group form-group-default required m-t-10">
                     <label>CL Başı Maliyet</label>
                     <div class="controls">
-                    <input type="text" class="form-control" name="pricePerCl" id="pricePerCl" data-msg="Bu alan zorunludur." data-a-dec="." data-a-sep="," placeholder="0.00">
+                    <input type="text" class="form-control" name="pricePerCl" id="pricePerCl" data-msg="Bu alan zorunludur." data-a-dec="." data-a-sep="," placeholder="0.00" required>
                     </div>
                   </div>
                   <div class="form-group form-group-default m-t-10">
@@ -491,18 +491,6 @@
                     <label>Toplayıcı</label>
                     <div class="controls">
                     <input type="text" class="form-control" name="collectorinLastLevel" id="collectorinLastLevel" disabled="disabled">
-                    </div>
-                  </div>
-                  <div class="form-group form-group-default m-t-10">
-                    <label>Musluk Id</label>
-                    <div class="controls">
-                    <input type="text" class="form-control" name="muslukIdinLastLevel" id="muslukIdinLastLevel" disabled="disabled">
-                    </div>
-                  </div>
-                  <div class="form-group form-group-default m-t-10">
-                    <label>Musluk Adı</label>
-                    <div class="controls">
-                    <input type="text" class="form-control" name="tapNameinLastLevel" id="tapNameinLastLevel" disabled="disabled">
                     </div>
                   </div>
                   <div class="form-group form-group-default m-t-10">
@@ -943,8 +931,11 @@
       $(function(){
         var buttonIndex = 0;
         var activeTapIndex = 0;
+        $("body").on("change",".activeTaps:last",function(){
+          $('.activeTaps option:selected').attr('disabled','disabled');
+        })
         $(".addNewTap").on("click",function(e){
-          var tapData = $(".activeTaps").html();
+          var tapData = $(".activeTaps:last option").clone();
           buttonIndex = 0;
           activeTapIndex++;
           $(".appendNewTaphere").append('<div class="tapContainer"><div class="row">\
@@ -958,13 +949,13 @@
                   <div class="form-group form-group-default required m-t-10">\
                     <label>Button CL Real</label>\
                     <div class="controls">\
-                    <input type="text" class="form-control buttonClReal" name="buttonClReal" placeholder="0.00">\
+                    <input type="text" class="form-control buttonClReal" name="buttonClReal" placeholder="0.00" required>\
                     </div>\
                   </div>\
                   <div class="form-group form-group-default required m-t-10">\
                     <label>Button CL Shown</label>\
                     <div class="controls">\
-                    <input type="text" class="form-control buttonClShown" name="buttonClShown" placeholder="0.00">\
+                    <input type="text" class="form-control buttonClShown" name="buttonClShown" placeholder="0.00" required>\
                     </div>\
                   </div>\
                   <button type="button" class="btn btn-primary pull-right addButtonDataToTable"><i class="fa fa-angle-double-right"></i></button>\
@@ -1022,8 +1013,8 @@
             $(".form-group").removeClass("has-error");
             for (var i = 0; i < curInputs.length; i++) {
                 var required = $(curInputs[i]).attr("required");
-                if (($(curInputs[i]).val() == 0 || $(curInputs[i]).val().length == 0) && required) {
-                    var type = $(curInputs[i]).get(0).nodeName;
+                var type = $(curInputs[i]).get(0).nodeName;
+                if (($(curInputs[i]).val() == 0 || (type == "INPUT" && $(curInputs[i]).val().length == 0)) && required) {
                     if(type == "SELECT"){
                       var placeholder = $(curInputs[i]).data("placeholder");
                       $("#modalSlideUpSmall").find("h4").html("Lütfen "+placeholder);
@@ -1037,8 +1028,6 @@
               if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
             }else{
               $("#collectorinLastLevel").val($(".collectors option:selected").text());
-              $("#muslukIdinLastLevel").val($("#muslukId").val());
-              $("#tapNameinLastLevel").val($("#muslukName").val());
               $("#holdinginLastLevel").val($(".holdings option:selected").text());
               $("#companyinLastLevel").val($(".companies option:selected").text());
               $("#barGroupinLastLevel").val($(".bars option:selected").text());

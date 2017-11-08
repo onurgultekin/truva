@@ -445,9 +445,11 @@ class Tap_model extends CI_Model {
                                                         }       
                                                 }
                                         }
-                                                $response["result"] = true;
-                                                $response["resultCode"] = 0;
-                                                $response["message"] = "Musluk başarıyla eklendi.";
+                                        $this->db->close();
+                                        $this->db->query("insert into connectionLog(CreateDate,ConnectionLogJson) values (NOW(),'".json_encode($parameters)."')");
+                                        $response["result"] = true;
+                                        $response["resultCode"] = 0;
+                                        $response["message"] = "Musluk başarıyla eklendi.";
                                         }
                                 }
                         }
