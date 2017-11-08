@@ -107,8 +107,9 @@ function gatherTapData(array){
 $(".tapContainer").each(function(k,v){
 var buttons = [];
 var barcodes = [];
-var tapId = $(this).find(".activeTaps").val();
-array[k] = {tapId:tapId};
+var tapId = $(this).find(".activeTaps option:selected").val();
+var tapName = $(this).find(".activeTaps option:selected").text();
+array[k] = {tapId:tapId,tapName:tapName};
   $(this).find(".tableContent .buttonTable tbody tr").each(function(k1,v1){
       var buttonName = $(this).find("td").eq(0).text();
       var buttonClReal = $(this).find("td").eq(1).text();
@@ -122,7 +123,7 @@ array[k] = {tapId:tapId};
       array[k].buttons = buttons;
   })
 })
-console.log(array);
+return array;
 }
 function _updateButtonsArray(array,tableClass){
   $.each($(tableClass+" tbody tr"),function(){

@@ -1027,6 +1027,19 @@
             if(curStepBtn != "step-8"){
               if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
             }else{
+              var buttonsArray = {};
+              gatherTapData(buttonsArray);
+              $(".previewTable tbody").html('');
+              $.each(buttonsArray,function(k,v){
+                $(".previewTable tbody").append('<tr><td colspan="3" style="text-align: center">'+v.tapName+'</td></tr>');
+                $.each(v.buttons,function(key,button){
+                  $(".previewTable tbody").append('<tr>\
+                  <td>'+button.buttonName+'</td>\
+                  <td>'+button.buttonClReal+'</td>\
+                  <td>'+button.buttonClShown+'</td>\
+                  </tr>');
+                })
+              })
               $("#collectorinLastLevel").val($(".collectors option:selected").text());
               $("#holdinginLastLevel").val($(".holdings option:selected").text());
               $("#companyinLastLevel").val($(".companies option:selected").text());
@@ -1113,11 +1126,6 @@
                 <button type="button" class="btn btn-danger btn-xs deleteButton"><i class="fa fa-times"></i></button>\
                 </div>\
                 </td>\
-            </tr>');
-            $(".previewTable tbody").append('<tr>\
-            <td>'+buttonName+'</td>\
-            <td>'+buttonClReal+'</td>\
-            <td>'+buttonClShown+'</td>\
             </tr>');
             buttons = {
               buttonName:buttonName,
