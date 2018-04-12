@@ -579,7 +579,7 @@ class Admin_model extends CI_Model
 		$notification_email = @$_POST["notification_email"];
 		$eth_mac_address = @$_POST["eth_mac_address"];
 		$wifi_mac_address = @$_POST["wifi_mac_address"];
-		$Barcode = $_POST["Barcode"];
+		$Imei = $_POST["Imei"];
 		$Latitude = @$_POST["Latitude"];
 		$Longitude = @$_POST["Longitude"];
 		$data = array(
@@ -588,7 +588,7 @@ class Admin_model extends CI_Model
 			"notification_email" => $notification_email,
 			"eth_mac_address"=>$eth_mac_address,
 			"wifi_mac_address"=>$wifi_mac_address,
-			"Barcode"=>$Barcode,
+			"Imei"=>$Imei,
 			"Latitude"=>$Latitude,
 			"Longitude"=>$Longitude);
 		$curl = curl_init();
@@ -603,10 +603,7 @@ class Admin_model extends CI_Model
 	public function updateCollector($data){
 		$accessToken = $this->session->userdata("accessToken");
 		$userId = $this->session->userdata("userId");
-		$notification_email = $_POST["notification_email"];
-		$eth_mac_address = $_POST["eth_mac_address"];
-		$wifi_mac_address = $_POST["wifi_mac_address"];
-		$Barcode = $_POST["Barcode"];
+		$imei = $_POST["imei"];
 		$Latitude = $_POST["Latitude"];
 		$Longitude = $_POST["Longitude"];
 		$collector_id = $_POST["collector_id"];
@@ -614,10 +611,7 @@ class Admin_model extends CI_Model
 			"accessToken" => $accessToken,
 			"userId" => $userId,
 			"collector_id" => $collector_id,
-			"notification_email" => $notification_email,
-			"eth_mac_address"=>$eth_mac_address,
-			"wifi_mac_address"=>$wifi_mac_address,
-			"Barcode"=>$Barcode,
+			"imei"=>$imei,
 			"Latitude"=>$Latitude,
 			"Longitude"=>$Longitude);
 		$curl = curl_init();
@@ -1043,8 +1037,6 @@ class Admin_model extends CI_Model
 		$TapID = $_POST["TapID"];
 		$Name = $_POST["Name"];
 		$ID1 = $_POST["ID1"];
-		$ID2 = $_POST["ID2"];
-		$ID3 = $_POST["ID3"];
 		$Version = $_POST["Version"];
 		$HoldingID = $_POST["HoldingID"];
 		$CompanyID = $_POST["CompanyID"];
@@ -1063,8 +1055,6 @@ class Admin_model extends CI_Model
 			"TapID"=>$TapID,
 			"Name" => $Name,
 			"ID1"=>$ID1,
-			"ID2"=>$ID2,
-			"ID3" => $ID3,
 			"Version"=>$Version,
 			"HoldingID"=>$HoldingID,
 			"CompanyID" => $CompanyID,

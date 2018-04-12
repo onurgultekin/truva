@@ -56,7 +56,7 @@ class Collector_model extends CI_Model {
         public function addCollector($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","Barcode");
+                $mandatoryParameters = array("accessToken","userId","Imei");
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -65,7 +65,7 @@ class Collector_model extends CI_Model {
                 if($k>0){
                         $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
                 }else{
-                        $availableParameters = array("accessToken","userId","notification_email","eth_mac_address","wifi_mac_address","Barcode","Latitude","Longitude");
+                        $availableParameters = array("accessToken","userId","notification_email","eth_mac_address","wifi_mac_address","Imei","Latitude","Longitude");
                         foreach ($parameters as $key => $parameter) {
                                 if(!in_array($key,$availableParameters)){
                                         $i++;
@@ -79,24 +79,24 @@ class Collector_model extends CI_Model {
                                 $notification_email = @$parameters["notification_email"];
                                 $eth_mac_address = @$parameters["eth_mac_address"];
                                 $wifi_mac_address = @$parameters["wifi_mac_address"];
-                                $Barcode = $parameters["Barcode"];
+                                $Imei = $parameters["Imei"];
                                 $Latitude = @$parameters["Latitude"];
                                 $Longitude = @$parameters["Longitude"];
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL ADD_OR_UPDATE_COLLECTORS('".$accessToken."',".$userId.",NULL,'".$notification_email."','".$eth_mac_address."','".$wifi_mac_address."','".$Barcode."','".$Latitude."','".$Longitude."')");
+                                        $query = $this->db->query("CALL ADD_OR_UPDATE_COLLECTORS('".$accessToken."',".$userId.",NULL,'".$Imei."','".$Latitude."','".$Longitude."')");
                                         $result = $query->row();
                                         if(@$result->isError == 1){
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
                                         }else{
-                                                $collectorID = $result->collector_id;
+                                                $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
+                                                /*$collectorID = $result->collector_id;
                                                 $device_key = $this->createDeviceKey($collectorID, $eth_mac_address.$wifi_mac_address);
                                                 $this->db->close();
                                                 $auth_key = $this->createAuthenticationKey($device_key, $notification_email);
                                                 $query = $this->db->query("CALL CREATE_COLLECTOR_AUTHENTICATION('".$accessToken."',".$userId.",".$collectorID.",'".$device_key."','".$auth_key."','".$eth_mac_address."','".$wifi_mac_address."')");
-                                                $result = $query->row();
-                                                $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
+                                                $result = $query->row();*/
                                         }
                                 }
                         }
@@ -106,7 +106,7 @@ class Collector_model extends CI_Model {
         public function updateCollector($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","collector_id","notification_email","eth_mac_address","wifi_mac_address","Barcode","Latitude","Longitude");
+                $mandatoryParameters = array("accessToken","userId","collector_id","imei","Latitude","Longitude");
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -115,7 +115,7 @@ class Collector_model extends CI_Model {
                 if($k>0){
                         $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
                 }else{
-                        $availableParameters = array("accessToken","userId","collector_id","notification_email","eth_mac_address","wifi_mac_address","Barcode","Latitude","Longitude");
+                        $availableParameters = array("accessToken","userId","collector_id","imei","Latitude","Longitude");
                         foreach ($parameters as $key => $parameter) {
                                 if(!in_array($key,$availableParameters)){
                                         $i++;
@@ -127,10 +127,7 @@ class Collector_model extends CI_Model {
                                 $accessToken = $parameters["accessToken"];
                                 $userId = $parameters["userId"];
                                 $collector_id = $parameters["collector_id"];
-                                $notification_email = $parameters["notification_email"];
-                                $eth_mac_address = $parameters["eth_mac_address"];
-                                $wifi_mac_address = $parameters["wifi_mac_address"];
-                                $Barcode = $parameters["Barcode"];
+                                $imei = $parameters["imei"];
                                 $Latitude = $parameters["Latitude"];
                                 $Longitude = $parameters["Longitude"];
                                 if(!is_numeric($userId)){
@@ -139,7 +136,7 @@ class Collector_model extends CI_Model {
                                 if(!is_numeric($collector_id)){
                                         $response = $this->globalfunctions->returnMessage(1003,"collector_id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL ADD_OR_UPDATE_COLLECTORS('".$accessToken."',".$userId.",".$collector_id.",'".$notification_email."','".$eth_mac_address."','".$wifi_mac_address."','".$Barcode."','".$Latitude."','".$Longitude."')");
+                                        $query = $this->db->query("CALL ADD_OR_UPDATE_COLLECTORS('".$accessToken."',".$userId.",".$collector_id.",'".$imei."','".$Latitude."','".$Longitude."')");
                                         $result = $query->row();
                                         $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
                                 }

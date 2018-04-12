@@ -227,7 +227,7 @@ class Tap_model extends CI_Model {
                                 if($TapStatusID  != "NULL" && !is_numeric($TapStatusID)){
                                         $response = $this->globalfunctions->returnMessage(10010,"TapStatusID parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL ADD_OR_UPDATE_TAPS('".$accessToken."',".$userId.",NULL,'".$Name."','".$ID1."','".$ID2."','".$ID3."','".$Version."',".$HoldingID.",".$CompanyID.",".$BarGroupID.",".$AlcoholGroupID.",".$AlcoholTypeID.",".$AlcoholBrandID.",".$collector_id.",".$TapStatusID.")");
+                                        $query = $this->db->query("CALL ADD_OR_UPDATE_TAPS('".$accessToken."',".$userId.",NULL,'".$Name."','".$ID1."','".$Version."',".$HoldingID.",".$CompanyID.",".$BarGroupID.",".$AlcoholGroupID.",".$AlcoholTypeID.",".$AlcoholBrandID.",'".$NetPrice."','".$SalePrice."',".$collector_id.")");
                                         $result = $query->row();
                                         if($result->isError == 1){
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
@@ -236,6 +236,7 @@ class Tap_model extends CI_Model {
                                                 if(is_array($buttons)){
                                                         foreach ($buttons as $key => $button) {
                                                                 $this->db->close();
+                                                                return "CALL ADD_BUTTON_TO_TAP('".$accessToken."',".$userId.",".$tapId.",".($key+1).",'".$button["buttonName"]."','".$button["buttonClReal"]."','".$button["buttonClShown"]."','".$NetPrice."','".$SalePrice."')";
                                                                 $query = $this->db->query("CALL ADD_BUTTON_TO_TAP('".$accessToken."',".$userId.",".$tapId.",".($key+1).",'".$button["buttonName"]."','".$button["buttonClReal"]."','".$button["buttonClShown"]."','".$NetPrice."','".$SalePrice."')");
                                                         }
                                                 }
@@ -251,7 +252,7 @@ class Tap_model extends CI_Model {
         public function updateTap($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","TapID","Name","ID1","ID2","ID3","Version","HoldingID","CompanyID","BarGroupID","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","collector_id","TapStatusID","buttons","NetPrice","SalePrice"); 
+                $mandatoryParameters = array("accessToken","userId","TapID","Name","ID1","Version","HoldingID","CompanyID","BarGroupID","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","collector_id","TapStatusID","buttons","NetPrice","SalePrice"); 
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -260,7 +261,7 @@ class Tap_model extends CI_Model {
                 if($k>0){
                         $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
                 }else{
-                        $availableParameters = array("accessToken","userId","TapID","Name","ID1","ID2","ID3","Version","HoldingID","CompanyID","BarGroupID","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","collector_id","TapStatusID","buttons","NetPrice","SalePrice");
+                        $availableParameters = array("accessToken","userId","TapID","Name","ID1","Version","HoldingID","CompanyID","BarGroupID","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","collector_id","TapStatusID","buttons","NetPrice","SalePrice");
                         foreach ($parameters as $key => $parameter) {
                                 if(!in_array($key,$availableParameters)){
                                         $i++;
@@ -274,11 +275,12 @@ class Tap_model extends CI_Model {
                                 $TapID = $parameters["TapID"];
                                 $Name = addslashes($parameters["Name"]);
                                 $ID1 = addslashes($parameters["ID1"]);
-                                $ID2 = addslashes($parameters["ID2"]);
-                                $ID3 = addslashes($parameters["ID3"]);
                                 $Version = addslashes($parameters["Version"]);
                                 $HoldingID = $parameters["HoldingID"];
                                 $CompanyID = $parameters["CompanyID"];
+                                if(!$CompanyID){
+                                        $CompanyID = 0;
+                                }
                                 $BarGroupID = $parameters["BarGroupID"];
                                 $AlcoholGroupID = $parameters["AlcoholGroupID"];
                                 $AlcoholTypeID = $parameters["AlcoholTypeID"];
@@ -294,10 +296,10 @@ class Tap_model extends CI_Model {
                                 if(!is_numeric($TapID)){
                                         $response = $this->globalfunctions->returnMessage(10011,"TapID parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($HoldingID)){
+                                if($HoldingID != "NULL" && !is_numeric($HoldingID)){
                                         $response = $this->globalfunctions->returnMessage(1003,"HoldingID parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($CompanyID)){
+                                if(($CompanyID != "" || $CompanyID != 0) && !is_numeric($CompanyID)){
                                         $response = $this->globalfunctions->returnMessage(1004,"CompanyID parametresi numeric olmalıdır.",true);
                                 }else
                                 if(!is_numeric($BarGroupID)){
@@ -318,7 +320,7 @@ class Tap_model extends CI_Model {
                                 if(!is_numeric($TapStatusID)){
                                         $response = $this->globalfunctions->returnMessage(10010,"TapStatusID parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $query = $this->db->query("CALL ADD_OR_UPDATE_TAPS('".$accessToken."',".$userId.",".$TapID.",'".$Name."','".$ID1."','".$ID2."','".$ID3."','".$Version."',".$HoldingID.",".$CompanyID.",".$BarGroupID.",".$AlcoholGroupID.",".$AlcoholTypeID.",".$AlcoholBrandID.",".$collector_id.",".$TapStatusID.")");
+                                        $query = $this->db->query("CALL ADD_OR_UPDATE_TAPS('".$accessToken."',".$userId.",".$TapID.",'".$Name."','".$ID1."','".$Version."',".$HoldingID.",".$CompanyID.",".$BarGroupID.",".$AlcoholGroupID.",".$AlcoholTypeID.",".$AlcoholBrandID.",'".$NetPrice."','".$SalePrice."',".$collector_id.")");
                                         $result = $query->row();
                                         if($result->isError == 1){
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
@@ -327,7 +329,7 @@ class Tap_model extends CI_Model {
                                                 $query = $this->db->query("delete from tapButtonsPrice where TapID = $TapID");
                                                 foreach ($buttons as $key => $button) {
                                                         $this->db->close();
-                                                        $query = $this->db->query("CALL ADD_BUTTON_TO_TAP('".$accessToken."',".$userId.",".$TapID.",".($key+1).",'".$button["buttonName"]."','".$button["buttonClReal"]."','".$button["buttonClShown"]."','".$NetPrice."','".$SalePrice."')");
+                                                        $query = $this->db->query("CALL ADD_BUTTON_TO_TAP('".$accessToken."',".$userId.",".$TapID.",".($key+1).",'".$button["buttonName"]."','".$button["buttonClReal"]."','".$button["buttonClShown"]."')");
                                                 }
                                                 $response["result"] = true;
                                                 $response["resultCode"] = 0;

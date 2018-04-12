@@ -535,8 +535,8 @@ class Dashboard extends CI_Controller {
 	public function collectors(){
 		$data["formFields"]= [
 		          	[
-		            "name"=>"Barcode",
-		            "id"=>"Barcode",
+		            "name"=>"Imei",
+		            "id"=>"Imei",
 		            "type"=>"text"
 		          	]
 	          	];
@@ -954,6 +954,11 @@ class Dashboard extends CI_Controller {
 		          	[
 		            "name"=>"Barcode",
 		            "id"=>"ID1",
+		            "type"=>"text"
+		          	],
+		          	[
+		            "name"=>"Version",
+		            "id"=>"Version",
 		            "type"=>"text"
 		          	],
 		          	/*[

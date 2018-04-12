@@ -1047,24 +1047,9 @@ class General extends CI_Controller {
 	}
 	public function getCollectorById(){
 		$formFields= [
-		[
-	            "name"=>"Bildirim maili",
-	            "id"=>"notification_email",
-	            "type"=>"text"
-	          	],
 	          	[
-	            "name"=>"Ethernet MAC Adresi",
-	            "id"=>"eth_mac_address",
-	            "type"=>"text"
-	          	],
-	          	[
-	            "name"=>"Wifi MAC Adresi",
-	            "id"=>"wifi_mac_address",
-	            "type"=>"text"
-	          	],
-	          	[
-	            "name"=>"Barcode",
-	            "id"=>"Barcode",
+	            "name"=>"Imei",
+	            "id"=>"imei",
 	            "type"=>"text"
 	          	],
 	          	[
@@ -1576,16 +1561,6 @@ class General extends CI_Controller {
 		            "type"=>"text"
 		          	],
 		          	[
-		            "name"=>"ID 2",
-		            "id"=>"ID2",
-		            "type"=>"text"
-		          	],
-		          	[
-		            "name"=>"ID 3",
-		            "id"=>"ID3",
-		            "type"=>"text"
-		          	],
-		          	[
 		            "name"=>"Versiyon",
 		            "id"=>"Version",
 		            "type"=>"text"
@@ -1701,13 +1676,13 @@ class General extends CI_Controller {
 	                  if($field["id"] == "AlcoholGroupID"){
 	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
 	                    <label class="">'.$field["name"].'</label>
-	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Alkol grubu seçin" data-init-plugin="select2">
 	                      <option value="0">Lütfen seçin</option>';
 	                      	foreach ($alcoholGroups as $key => $alcoholGroup) {
 	                      	$selected = '';
-			if($alcoholGroup->AlcoholGroupID == $tap[0]->AlcoholGroupID){
-				$selected = 'selected = "selected"';
-			}
+							if($alcoholGroup->AlcoholGroupID == $tap[0]->AlcoholGroupID){
+								$selected = 'selected = "selected"';
+							}
 	                        echo '<option '.$selected.' value='.$alcoholGroup->AlcoholGroupID.'>'.$alcoholGroup->Name.'</option>';
 	                      }
 	                      echo '</select>
@@ -1716,13 +1691,13 @@ class General extends CI_Controller {
 	                  if($field["id"] == "AlcoholBrandID"){
 	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
 	                    <label class="">'.$field["name"].'</label>
-	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Alkol markası seçin" data-init-plugin="select2">
 	                      <option value="0">Lütfen seçin</option>';
 	                      foreach ($alcoholBrands as $key => $alcoholBrand) {
 	                      	$selected = '';
-			if($alcoholBrand->AlcoholBrandID == $tap[0]->AlcoholBrandID){
-				$selected = 'selected = "selected"';
-			}
+							if($alcoholBrand->AlcoholBrandID == $tap[0]->AlcoholBrandID){
+								$selected = 'selected = "selected"';
+							}
 	                        echo '<option '.$selected.' value='.$alcoholBrand->AlcoholBrandID.'>'.$alcoholBrand->Name.'</option>';
 	                      }
 	                      echo '</select>
@@ -1731,13 +1706,13 @@ class General extends CI_Controller {
 	                  if($field["id"] == "AlcoholTypeID"){
 	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
 	                    <label class="">'.$field["name"].'</label>
-	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Ülke seçin" data-init-plugin="select2">
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Alkol tipi seçin" data-init-plugin="select2">
 	                      <option value="0">Lütfen seçin</option>';
 	                      foreach ($alcoholTypes as $key => $alcoholType) {
 	                      	$selected = '';
-			if($alcoholType->AlcoholTypeID == $tap[0]->AlcoholTypeID){
-				$selected = 'selected = "selected"';
-			}
+							if($alcoholType->AlcoholTypeID == $tap[0]->AlcoholTypeID){
+								$selected = 'selected = "selected"';
+							}
 	                        echo '<option '.$selected.' value='.$alcoholType->AlcoholTypeID.'>'.$alcoholType->Name.'</option>';
 	                      }
 	                      echo '</select>
@@ -1750,9 +1725,9 @@ class General extends CI_Controller {
 	                      <option value="0">Lütfen seçin</option>';
 	                      foreach ($holdings->message as $key => $holding) {
 	                      	$selected = '';
-			if($holding->HoldingID == $tap[0]->HoldingID){
-				$selected = 'selected = "selected"';
-			}
+							if($holding->HoldingID == $tap[0]->HoldingID){
+								$selected = 'selected = "selected"';
+							}
 	                        echo '<option '.$selected.' value='.$holding->HoldingID.'>'.$holding->HoldingName.'</option>';
 	                      }
 	                      echo '</select>
@@ -1761,13 +1736,13 @@ class General extends CI_Controller {
 	                  if($field["id"] == "TapStatusID"){
 	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2">
 	                    <label class="">'.$field["name"].'</label>
-	                    <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Holding seçin" data-init-plugin="select2">
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Musluk Durumu seçin" data-init-plugin="select2">
 	                      <option value="0">Lütfen seçin</option>';
 	                      foreach ($tapStatuses as $key => $tapStatus) {
 	                      	$selected = '';
-			if($tapStatus->TapStatusID == $tap[0]->TapStatusID){
-				$selected = 'selected = "selected"';
-			}
+							if($tapStatus->TapStatusID == $tap[0]->TapStatusID){
+								$selected = 'selected = "selected"';
+							}
 	                        echo '<option '.$selected.' value='.$tapStatus->TapStatusID.'>'.$tapStatus->Name.'</option>';
 	                      }
 	                      echo '</select>
@@ -1776,13 +1751,13 @@ class General extends CI_Controller {
 	                  if($field["id"] == "CompanyID"){
 	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2">
 	                    <label class="">'.$field["name"].'</label>
-	                    <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Holding seçin" data-init-plugin="select2">
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Şirket seçin" data-init-plugin="select2">
 	                      <option value="0">Lütfen seçin</option>';
 	                      foreach ($companies as $key => $company) {
 	                      	$selected = '';
-			if($company->CompanyID == $tap[0]->CompanyID){
-				$selected = 'selected = "selected"';
-			}
+							if($company->CompanyID == $tap[0]->CompanyID){
+								$selected = 'selected = "selected"';
+							}
 	                        echo '<option '.$selected.' value='.$company->CompanyID.'>'.$company->CompanyName.'</option>';
 	                      }
 	                      echo '</select>
@@ -1791,13 +1766,13 @@ class General extends CI_Controller {
 	                  if($field["id"] == "BarGroupID"){
 	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2">
 	                    <label class="">'.$field["name"].'</label>
-	                    <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Holding seçin" data-init-plugin="select2">
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Bar grubu seçin" data-init-plugin="select2">
 	                      <option value="0">Lütfen seçin</option>';
 	                      foreach ($barGroups as $key => $barGroup) {
 	                      	$selected = '';
-			if($barGroup->BarGroupID == $tap[0]->BarGroupID){
-				$selected = 'selected = "selected"';
-			}
+							if($barGroup->BarGroupID == $tap[0]->BarGroupID){
+								$selected = 'selected = "selected"';
+							}
 	                        echo '<option '.$selected.' value='.$barGroup->BarGroupID.'>'.$barGroup->Name.'</option>';
 	                      }
 	                      echo '</select>
@@ -1806,21 +1781,21 @@ class General extends CI_Controller {
 	                  if($field["id"] == "collector_id"){
 	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
 	                    <label class="">'.$field["name"].'</label>
-	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Şirket Tipi seçin" data-init-plugin="select2">
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Toplayıcı seçin" data-init-plugin="select2">
 	                      <option value="0">Lütfen seçin</option>';
 	                      foreach ($collectors as $key => $collector) {
 	                      	$selected = '';
-			if($collector->collector_id == $tap[0]->collector_id){
-				$selected = 'selected = "selected"';
-			}
-	                        echo '<option '.$selected.' value='.$collector->collector_id.'>'.$collector->device_key.'</option>';
+							if($collector->collector_id == $tap[0]->collector_id){
+								$selected = 'selected = "selected"';
+							}
+	                        echo '<option '.$selected.' value='.$collector->collector_id.'>'.$collector->imei.'</option>';
 	                      }
 	                      echo '</select>
 	                    </div></div>';
 	                  }else{
 	                    echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
 	                    <label class="">'.$field["name"].'</label>
-	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" '.$field["disabled"].' data-placeholder="Ülke seçin" data-init-plugin="select2">
+	                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" '.$field["disabled"].' data-placeholder="'.$field["id"].' seçin" data-init-plugin="select2">
 	                      <option value="0">Lütfen seçin</option>
 	                    </select>
 	                  </div></div>';

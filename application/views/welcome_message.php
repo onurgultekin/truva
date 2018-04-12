@@ -133,7 +133,18 @@
 		<script src="<?php echo base_url() ?>assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
 		<!-- END VENDOR JS -->
 		<script src="<?php echo base_url() ?>truva/js/pages.min.js"></script>
+		<script src="<?php echo base_url() ?>communication/1/socket.io.js"></script>
 		<script>
+			/*var webSocket = new WebSocket("ws://truva.co:6061/");
+			/*while (webSocket.readyState == 0)
+			{
+				//console.log("Bağlanıyorum.");
+			}
+			if (webSocket.readyState == 1)
+			{
+			    webSocket.send("Onur");
+			}
+			*/
 			$(function()
 			{
 				$('#form-login').validate({
@@ -146,7 +157,7 @@
 			function login(){
 				var username = $(".username").val();
 				var password = $(".password").val();
-				Pace.restart();
+				//Pace.restart();
 				$.ajax({
 					type:"POST",
 					url:"/welcome/login",
@@ -166,5 +177,6 @@
 				})
 			}
 		</script>
+		
 	</body>
 	</html>

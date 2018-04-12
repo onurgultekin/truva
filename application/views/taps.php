@@ -73,6 +73,7 @@
               <thead>
               <tr>
               <th>Barcode</th>
+              <th>Version</th>
               <th>Status</th>
               <th>Adı</th>
               <th>Holding Adı</th>
@@ -89,6 +90,7 @@
                 foreach ($taps as $key => $tap) {
                   echo '<tr id="'.$tap->TapID.'">
                     <td>'.$tap->ID1.'</td>
+                    <td>'.$tap->Version.'</td>
                     <td>'.$tap->status.'</td>
                     <td>'.$tap->Name.'</td>
                     <td>'.$tap->HoldingName.'</td>
@@ -229,7 +231,7 @@
                   if($field["id"] == "TapStatusID"){
                     echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2">
                     <label class="">'.$field["name"].'</label>
-                    <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Holding seçin" data-init-plugin="select2">
+                    <select class="full-width '.$field["class"].' '.$field["disabled"].'" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Musluk durumu seçin" data-init-plugin="select2">
                       <option value="0">Lütfen seçin</option>';
                       foreach ($tapStatuses as $key => $tapStatus) {
                         echo '<option value='.$tapStatus->TapStatusID.'>'.$tapStatus->Name.'</option>';
@@ -238,9 +240,10 @@
                     </div></div>';
                   }else
                   if($field["id"] == "collector_id"){
+                    echo "here";
                     echo '<div class="col-sm-6"><div class="form-group form-group-default form-group-default-select2 required">
                     <label class="">'.$field["name"].'</label>
-                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Şirket Tipi seçin" data-init-plugin="select2">
+                    <select class="full-width '.$field["class"].' '.$field["disabled"].' required" name="'.$field["id"].'" data-msg="'.$message.'" data-placeholder="Toplayıcı seçin" data-init-plugin="select2">
                       <option value="0">Lütfen seçin</option>';
                       foreach ($collectors as $key => $collector) {
                         echo '<option value='.$collector->collector_id.'>'.$collector->device_key.'</option>';

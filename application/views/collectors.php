@@ -72,10 +72,10 @@
               <table class="table table-striped" id="tableWithExportOptions">
               <thead>
               <tr>
-              <th>IP Adresi</th>
+              <th>Imei</th>
               <th>Durum</th>
-              <th>Bildirim maili</th>
-              <th>Barcode</th>
+              <!-- <th>Bildirim maili</th> -->
+              <!-- <th>Barcode</th> -->
               <th>Latitude</th>
               <th>Longitude</th>
               <th class="no-sort"></th>
@@ -85,10 +85,10 @@
                 <?php
                 foreach ($collectors as $key => $collector) {
                   echo '<tr id="'.$collector->collector_id.'">
-                    <td>'.$collector->ip_address.'</td>
+                    <td>'.$collector->imei.'</td>
                     <td>'.$collector->Name.'</td>
-                    <td>'.$collector->notification_email.'</td>
-                    <td>'.$collector->Barcode.'</td>
+                    <!-- <td>'.@$collector->notification_email.'</td> -->
+                    <!-- <td>'.@$collector->device_key.'</td> -->
                     <td>'.$collector->Latitude.'</td>
                     <td>'.$collector->Longitude.'</td>
                     <td><div class="pull-left"><button class="btn btn-warning getCollectorDetails btn-xs m-r-10" id="duzenle">Düzenle</button><button class="btn btn-danger btn-xs deleteCollectorModal">Sil</button></div></td>
