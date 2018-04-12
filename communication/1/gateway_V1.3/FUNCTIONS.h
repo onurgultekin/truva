@@ -1,0 +1,1582 @@
+#include "MEMORY.h"
+
+
+void GSM_Init()
+{
+  delay(1000);
+  Serial1.println("ATE0");
+  delay(1000);
+  Serial1.println("AT+CGATT=1");
+  Serial1.println("");
+  delay(1000);
+  Serial1.println("AT+CGDCONT=1,\"IP\",\"INTERNET\"");
+  delay(2000);
+  Serial1.println("AT+CGACT=1,1");
+  delay(2000);
+  delay(2000);
+  delay(2000);
+  delay(2000);
+  Serial1.println("AT+CGPADDR=1");
+  Serial1.println("");
+  delay(500);
+}
+
+void GSM_send(int send_GSM_data)
+{
+
+  switch(send_GSM_data)
+  {
+    case 1:
+      Serial1.println("AT+CGPADDR=1");
+      Serial1.println("");
+    break;
+    case 2:
+      Serial1.println("AT+QHTTPURL=148,80");
+      Serial1.println("");
+    break;
+    case 3:
+      Serial1.print("http://truva.co/communication/tapDataInsert.php?imei=");
+      Serial1.print(imei[0]);
+      Serial1.print(imei[1]);
+      Serial1.print(imei[2]);
+      Serial1.print(imei[3]);
+      Serial1.print(imei[4]);
+      Serial1.print(imei[5]);
+      Serial1.print(imei[6]);
+      Serial1.print(imei[7]);
+      Serial1.print(imei[8]);
+      Serial1.print(imei[9]);
+      Serial1.print(imei[10]);
+      Serial1.print(imei[11]);
+      Serial1.print(imei[12]);
+      Serial1.print(imei[13]);
+      Serial1.print(imei[14]);
+      Serial1.print("&TapID_1=");
+      Serial1.print(TapID_1);
+      Serial1.print("&TapID_2=");
+      Serial1.print(TapID_2);
+      Serial1.print("&TapID_3=");
+      Serial1.print(TapID_3);
+      Serial1.print("&ButtonID=");
+      Serial1.print(ButtonID);
+      Serial1.print("&YMD=");
+      Serial1.print(YMD[0]);
+      Serial1.print(YMD[1]);
+      Serial1.print(YMD[2]);
+      Serial1.print(YMD[3]);
+      Serial1.print(YMD[4]);
+      Serial1.print(YMD[5]);
+      Serial1.print(YMD[6]);
+      Serial1.print(YMD[7]);
+      Serial1.print(YMD[8]);
+      Serial1.print(YMD[9]);
+      Serial1.print("&H=");
+      Serial1.print(HMS[0]);
+      Serial1.print(HMS[1]);
+      Serial1.print("&MS=");
+      Serial1.print(HMS[3]);
+      Serial1.print(HMS[4]);
+      Serial1.print(HMS[5]);
+      Serial1.print(HMS[6]);
+      Serial1.print(HMS[7]);
+      Serial1.print("&GMT=");
+      Serial1.print(GMT);
+      Serial1.println("");
+      Serial1.println("");
+      Serial.print("http://truva.co/communication/tapDataInsert.php?imei=");
+      Serial.print(imei[0]);
+      Serial.print(imei[1]);
+      Serial.print(imei[2]);
+      Serial.print(imei[3]);
+      Serial.print(imei[4]);
+      Serial.print(imei[5]);
+      Serial.print(imei[6]);
+      Serial.print(imei[7]);
+      Serial.print(imei[8]);
+      Serial.print(imei[9]);
+      Serial.print(imei[10]);
+      Serial.print(imei[11]);
+      Serial.print(imei[12]);
+      Serial.print(imei[13]);
+      Serial.print(imei[14]);
+      Serial.print("&TapID_1=");
+      Serial.print(TapID_1);
+      Serial.print("&TapID_2=");
+      Serial.print(TapID_2);
+      Serial.print("&TapID_3=");
+      Serial.print(TapID_3);
+      Serial.print("&ButtonID=");
+      Serial.print(ButtonID);
+      Serial.print("&YMD=");
+      Serial.print(YMD[0]);
+      Serial.print(YMD[1]);
+      Serial.print(YMD[2]);
+      Serial.print(YMD[3]);
+      Serial.print(YMD[4]);
+      Serial.print(YMD[5]);
+      Serial.print(YMD[6]);
+      Serial.print(YMD[7]);
+      Serial.print(YMD[8]);
+      Serial.print(YMD[9]);
+      Serial.print("&H=");
+      Serial.print(HMS[0]);
+      Serial.print(HMS[1]);
+      Serial.print("&MS=");
+      Serial.print(HMS[3]);
+      Serial.print(HMS[4]);
+      Serial.print(HMS[5]);
+      Serial.print(HMS[6]);
+      Serial.print(HMS[7]);
+      Serial.print("&GMT=");
+      Serial.print(GMT);
+      Serial.println("");
+      Serial.println("");
+    break;
+    case 4:
+      Serial1.println("AT+QHTTPGET=80");
+    break;
+    case 5:
+      Serial1.println("AT+QHTTPREAD=80");
+    break;
+    
+    case 6:
+      Serial1.println("AT+CGPADDR=1");
+      Serial1.println("");
+    break;
+    case 7:
+      Serial1.println("AT+QHTTPURL=132,80");
+      Serial1.println("");
+    break;
+    case 8:
+      Serial1.print("http://truva.co/communication/collectorPing.php?imei=");
+      Serial1.print(imei[0]);
+      Serial1.print(imei[1]);
+      Serial1.print(imei[2]);
+      Serial1.print(imei[3]);
+      Serial1.print(imei[4]);
+      Serial1.print(imei[5]);
+      Serial1.print(imei[6]);
+      Serial1.print(imei[7]);
+      Serial1.print(imei[8]);
+      Serial1.print(imei[9]);
+      Serial1.print(imei[10]);
+      Serial1.print(imei[11]);
+      Serial1.print(imei[12]);
+      Serial1.print(imei[13]);
+      Serial1.print(imei[14]);
+      Serial1.print("&YMD=");
+      Serial1.print(YMD[0]);
+      Serial1.print(YMD[1]);
+      Serial1.print(YMD[2]);
+      Serial1.print(YMD[3]);
+      Serial1.print(YMD[4]);
+      Serial1.print(YMD[5]);
+      Serial1.print(YMD[6]);
+      Serial1.print(YMD[7]);
+      Serial1.print(YMD[8]);
+      Serial1.print(YMD[9]);
+      Serial1.print("&H=");
+      Serial1.print(HMS[0]);
+      Serial1.print(HMS[1]);
+      Serial1.print("&MS=");
+      Serial1.print(HMS[3]);
+      Serial1.print(HMS[4]);
+      Serial1.print(HMS[5]);
+      Serial1.print(HMS[6]);
+      Serial1.print(HMS[7]);
+      Serial1.print("&GMT=");
+      Serial1.print(GMT);
+      Serial1.print("&Lat=");
+      Serial1.print(GSMLat[0]);
+      Serial1.print(GSMLat[1]);
+      Serial1.print(GSMLat[2]);
+      Serial1.print(GSMLat[3]);
+      Serial1.print(GSMLat[4]);
+      Serial1.print(GSMLat[5]);
+      Serial1.print(GSMLat[6]);
+      Serial1.print(GSMLat[7]);
+      Serial1.print(GSMLat[8]);
+      Serial1.print("&Long=");
+      Serial1.print(GSMLong[0]);
+      Serial1.print(GSMLong[1]);
+      Serial1.print(GSMLong[2]);
+      Serial1.print(GSMLong[3]);
+      Serial1.print(GSMLong[4]);
+      Serial1.print(GSMLong[5]);
+      Serial1.print(GSMLong[6]);
+      Serial1.print(GSMLong[7]);
+      Serial1.print(GSMLong[8]);
+      Serial1.println("");
+      Serial1.println("");
+
+      Serial.print("http://truva.co/communication/collectorPing.php?imei=");
+      Serial.print(imei[0]);
+      Serial.print(imei[1]);
+      Serial.print(imei[2]);
+      Serial.print(imei[3]);
+      Serial.print(imei[4]);
+      Serial.print(imei[5]);
+      Serial.print(imei[6]);
+      Serial.print(imei[7]);
+      Serial.print(imei[8]);
+      Serial.print(imei[9]);
+      Serial.print(imei[10]);
+      Serial.print(imei[11]);
+      Serial.print(imei[12]);
+      Serial.print(imei[13]);
+      Serial.print(imei[14]);
+      Serial.print("&YMD=");
+      Serial.print(YMD[0]);
+      Serial.print(YMD[1]);
+      Serial.print(YMD[2]);
+      Serial.print(YMD[3]);
+      Serial.print(YMD[4]);
+      Serial.print(YMD[5]);
+      Serial.print(YMD[6]);
+      Serial.print(YMD[7]);
+      Serial.print(YMD[8]);
+      Serial.print(YMD[9]);
+      Serial.print("&H=");
+      Serial.print(HMS[0]);
+      Serial.print(HMS[1]);
+      Serial.print("&MS=");
+      Serial.print(HMS[3]);
+      Serial.print(HMS[4]);
+      Serial.print(HMS[5]);
+      Serial.print(HMS[6]);
+      Serial.print(HMS[7]);
+      Serial.print("&GMT=");
+      Serial.print(GMT);
+      Serial.print("&Lat=");
+      Serial.print(GSMLat[0]);
+      Serial.print(GSMLat[1]);
+      Serial.print(GSMLat[2]);
+      Serial.print(GSMLat[3]);
+      Serial.print(GSMLat[4]);
+      Serial.print(GSMLat[5]);
+      Serial.print(GSMLat[6]);
+      Serial.print(GSMLat[7]);
+      Serial.print(GSMLat[8]);
+      Serial.print("&Long=");
+      Serial.print(GSMLong[0]);
+      Serial.print(GSMLong[1]);
+      Serial.print(GSMLong[2]);
+      Serial.print(GSMLong[3]);
+      Serial.print(GSMLong[4]);
+      Serial.print(GSMLong[5]);
+      Serial.print(GSMLong[6]);
+      Serial.print(GSMLong[7]);
+      Serial.print(GSMLong[8]);
+      Serial.println("");
+      Serial.println("");
+    break;
+    case 9:
+      Serial1.println("AT+QHTTPGET=80");
+    break;
+    case 10:
+      Serial1.println("AT+QHTTPREAD=80");
+    break; 
+    case 11:
+      Serial1.println("AT+CGPADDR=1");
+      Serial1.println("");
+    break;
+    case 12:
+     ButtonID_counter = 188;
+    if(ButtonID_1_ > 99)
+    {
+      ButtonID_counter=ButtonID_counter+2;
+    }
+    else if(ButtonID_1_ > 9)
+    {
+      ButtonID_counter=ButtonID_counter+1;
+    }
+    if(ButtonID_2_ > 99)
+    {
+      ButtonID_counter=ButtonID_counter+2;
+    }
+    else if(ButtonID_2_ > 9)
+    {
+      ButtonID_counter=ButtonID_counter+1;
+    }
+    if(ButtonID_3_ > 99)
+    {
+      ButtonID_counter=ButtonID_counter+2;
+    }
+    else if(ButtonID_3_ > 9)
+    {
+      ButtonID_counter=ButtonID_counter+1;
+    }
+    if(ButtonID_4_ > 99)
+    {
+      ButtonID_counter=ButtonID_counter+2;
+    }
+    else if(ButtonID_4_ > 9)
+    {
+      ButtonID_counter=ButtonID_counter+1;
+    }
+      Serial1.print("AT+QHTTPURL=");
+      Serial1.print(ButtonID_counter);
+      Serial1.println(",80");
+      Serial1.println("");
+    break;
+    case 13:
+      Serial1.print("http://truva.co/communication/longDataInsert.php?imei=");
+      Serial1.print(imei[0]);
+      Serial1.print(imei[1]);
+      Serial1.print(imei[2]);
+      Serial1.print(imei[3]);
+      Serial1.print(imei[4]);
+      Serial1.print(imei[5]);
+      Serial1.print(imei[6]);
+      Serial1.print(imei[7]);
+      Serial1.print(imei[8]);
+      Serial1.print(imei[9]);
+      Serial1.print(imei[10]);
+      Serial1.print(imei[11]);
+      Serial1.print(imei[12]);
+      Serial1.print(imei[13]);
+      Serial1.print(imei[14]);
+      Serial1.print("&TapID_1=");
+      Serial1.print(TapID_1);
+      Serial1.print("&TapID_2=");
+      Serial1.print(TapID_2);
+      Serial1.print("&TapID_3=");
+      Serial1.print(TapID_3);
+      Serial1.print("&ButtonID_1=");
+      Serial1.print(ButtonID_1_);
+      Serial1.print("&ButtonID_2=");
+      Serial1.print(ButtonID_2_);
+      Serial1.print("&ButtonID_3=");
+      Serial1.print(ButtonID_3_);
+      Serial1.print("&ButtonID_4=");
+      Serial1.print(ButtonID_4_);
+      Serial1.print("&YMD=");
+      Serial1.print(YMD[0]);
+      Serial1.print(YMD[1]);
+      Serial1.print(YMD[2]);
+      Serial1.print(YMD[3]);
+      Serial1.print(YMD[4]);
+      Serial1.print(YMD[5]);
+      Serial1.print(YMD[6]);
+      Serial1.print(YMD[7]);
+      Serial1.print(YMD[8]);
+      Serial1.print(YMD[9]);
+      Serial1.print("&H=");
+      Serial1.print(HMS[0]);
+      Serial1.print(HMS[1]);
+      Serial1.print("&MS=");
+      Serial1.print(HMS[3]);
+      Serial1.print(HMS[4]);
+      Serial1.print(HMS[5]);
+      Serial1.print(HMS[6]);
+      Serial1.print(HMS[7]);
+      Serial1.print("&GMT=");
+      Serial1.print(GMT);
+      Serial1.println("");
+      Serial1.println("");
+      Serial.println("");
+      Serial.println("");
+      Serial.println("");
+      Serial.println("---------------------------------------------------------------------------------------------");
+      Serial.println("---------------------------------------------------------------------------------------------");
+      Serial.println("---------------------------------------------------------------------------------------------");
+      Serial.print("http://truva.co/communication/tapDataInsert.php?imei=");
+      Serial.print(imei[0]);
+      Serial.print(imei[1]);
+      Serial.print(imei[2]);
+      Serial.print(imei[3]);
+      Serial.print(imei[4]);
+      Serial.print(imei[5]);
+      Serial.print(imei[6]);
+      Serial.print(imei[7]);
+      Serial.print(imei[8]);
+      Serial.print(imei[9]);
+      Serial.print(imei[10]);
+      Serial.print(imei[11]);
+      Serial.print(imei[12]);
+      Serial.print(imei[13]);
+      Serial.print(imei[14]);
+      Serial.print("&TapID_1=");
+      Serial.print(TapID_1);
+      Serial.print("&TapID_2=");
+      Serial.print(TapID_2);
+      Serial.print("&TapID_3=");
+      Serial.print(TapID_3);
+      Serial.print("&ButtonID_1=");
+      Serial.print(ButtonID_1_);
+      Serial.print("&ButtonID_2=");
+      Serial.print(ButtonID_2_);
+      Serial.print("&ButtonID_3=");
+      Serial.print(ButtonID_3_);
+      Serial.print("&ButtonID_4=");
+      Serial.print(ButtonID_4_);
+      Serial.print("&YMD=");
+      Serial.print(YMD[0]);
+      Serial.print(YMD[1]);
+      Serial.print(YMD[2]);
+      Serial.print(YMD[3]);
+      Serial.print(YMD[4]);
+      Serial.print(YMD[5]);
+      Serial.print(YMD[6]);
+      Serial.print(YMD[7]);
+      Serial.print(YMD[8]);
+      Serial.print(YMD[9]);
+      Serial.print("&H=");
+      Serial.print(HMS[0]);
+      Serial.print(HMS[1]);
+      Serial.print("&MS=");
+      Serial.print(HMS[3]);
+      Serial.print(HMS[4]);
+      Serial.print(HMS[5]);
+      Serial.print(HMS[6]);
+      Serial.print(HMS[7]);
+      Serial.print("&GMT=");
+      Serial.print(GMT);
+      Serial.println("---------------------------------------------------------------------------------------------");
+      Serial.println("---------------------------------------------------------------------------------------------");
+      Serial.println("---------------------------------------------------------------------------------------------");
+      Serial.println("");
+      Serial.println("");
+    break;
+    case 14:
+      Serial1.println("AT+QHTTPGET=80");
+    break;
+    case 15:
+      Serial1.println("AT+QHTTPREAD=80");
+    break;
+    default:
+    Serial1.println("ATE0");
+    break;
+  }
+}
+void longDataInsert(int sendLongData)
+{
+  switch(sendLongData)
+  {
+   
+    default:
+    Serial1.println("ATE0");
+    break;
+  }
+}
+
+
+
+
+int To_Integer(char a)
+{
+  int b;
+  switch(a)
+  {
+    case '0':
+      b=0;
+    break;
+    case '1':
+      b=1;
+    break;
+    case '2':
+      b=2;
+    break;
+    case '3':
+      b=3;
+    break;
+    case '4':
+      b=4;
+    break;
+    case '5':
+      b=5;
+    break;
+    case '6':
+      b=6;
+    break;
+    case '7':
+      b=7;
+    break;
+    case '8':
+      b=8;
+    break;
+    case '9':
+      b=9;
+    break;
+  }
+  return b;
+}
+
+void send_tap_settings()
+{
+  
+TapID_1_1=tap_1_4;
+TapID_2_1=tap_1_5;
+TapID_3_1=tap_1_6;
+
+TapID_1_2=tap_2_4;
+TapID_2_2=tap_2_5;
+TapID_3_2=tap_2_6;
+
+TapID_1_3=tap_3_4;
+TapID_2_3=tap_3_5;
+TapID_3_3=tap_3_6;
+
+TapID_1_4=tap_4_4;
+TapID_2_4=tap_4_5;
+TapID_3_4=tap_4_6;
+
+TapID_1_5=tap_5_4;
+TapID_2_5=tap_5_5;
+TapID_3_5=tap_5_6;
+
+TapID_1_6=tap_6_4;
+TapID_2_6=tap_6_5;
+TapID_3_6=tap_6_6;
+
+TapID_1_7=tap_7_4;
+TapID_2_7=tap_7_5;
+TapID_3_7=tap_7_6;
+
+TapID_1_8=tap_8_4;
+TapID_2_8=tap_8_5;
+TapID_3_8=tap_8_6;
+
+
+  for(r=0;r<2;r++)
+  {
+    s=r+1;
+  //  tap_1_1=26;
+  //  tap_2_1=26;
+    switch(s)
+    {
+      case 1:
+        Serial2.write(255);
+        Serial2.write(254);
+        if(tap_1_4!=0)
+        {
+        Serial2.write(tap_1_4);
+        }
+        if(tap_1_5!=0)
+        {
+        Serial2.write(tap_1_5);
+        }
+        if(tap_1_6!=0)
+        {
+        Serial2.write(tap_1_6);
+        }
+        if(tap_1_7!=0)
+        {
+        Serial2.write(tap_1_7);
+        }
+        if(tap_1_8!=0)
+        {
+        Serial2.write(tap_1_8);
+        }
+        if(tap_1_9!=0)
+        {
+        Serial2.write(tap_1_9);
+        }
+        if(tap_1_10!=0)
+        {
+        Serial2.write(tap_1_10);
+        }
+        if(tap_1_11!=0)
+        {
+        Serial2.write(tap_1_11);
+        }
+        if(tap_1_12!=0)
+        {
+        Serial2.write(tap_1_12);
+        }
+        if(tap_1_13!=0)
+        {
+        Serial2.write(tap_1_13);
+        }
+        if(tap_1_14!=0)
+        {
+        Serial2.write(tap_1_14);
+        }
+        if(tap_1_15!=0)
+        {
+        Serial2.write(tap_1_15);
+        }
+        if(tap_1_16!=0)
+        {
+        Serial2.write(tap_1_16);
+        }
+        if(tap_1_17!=0)
+        {
+        Serial2.write(tap_1_17);
+        }
+        if(tap_1_18!=0)
+        {
+        Serial2.write(tap_1_18);
+        }
+        if(tap_1_19!=0)
+        {
+        Serial2.write(tap_1_19);
+        }
+        if(tap_1_20!=0)
+        {
+        Serial2.write(tap_1_20);
+        }
+        if(tap_1_21!=0)
+        {
+        Serial2.write(tap_1_21);
+        }
+        if(tap_1_22!=0)
+        {
+        Serial2.write(tap_1_22);
+        }
+        if(tap_1_23!=0)
+        {
+        Serial2.write(tap_1_23);
+        }
+        if(tap_1_24!=0)
+        {
+        Serial2.write(tap_1_24);
+        }
+        if(tap_1_25!=0)
+        {
+        Serial2.write(tap_1_25);
+        }
+        if(tap_1_26!=0)
+        {
+        Serial2.write(tap_1_26);
+        }
+        if(tap_1_27!=0)
+        {
+        Serial2.write(tap_1_27);
+        }
+        if(tap_1_28!=0)
+        {
+        Serial2.write(tap_1_28);
+        }
+        if(tap_1_29!=0)
+        {
+        Serial2.write(tap_1_29);
+        }
+        if(tap_1_30!=0)
+        {
+        Serial2.write(tap_1_30);
+        }
+        if(tap_1_31!=0)
+        {
+        Serial2.write(tap_1_31);
+        }
+        if(tap_1_32!=0)
+        {
+        Serial2.write(tap_1_32);
+        }
+
+        Serial2.write(13);
+        Serial2.write(10);
+
+
+
+
+        Serial.println("tap cl values -------------------------------------");
+       // Serial.println(tapCl_1_1);
+       // Serial.println(tapCl_1_2);
+      //  Serial.println(tapCl_1_3);
+      //  Serial.println(tapCl_1_4);
+        Serial.println(tapCl_1_5);
+        Serial.println(tapCl_1_6);
+        Serial.println(tapCl_1_7);
+        Serial.println(tapCl_1_8);
+        Serial.println(tapCl_1_9);
+        Serial.println(tapCl_1_10);
+        Serial.println(tapCl_1_11);
+        Serial.println(tapCl_1_12);
+        Serial.println(tapCl_1_13);
+        Serial.println(tapCl_1_14);
+        Serial.println(tapCl_1_15);
+        Serial.println(tapCl_1_16);
+        Serial.println(tapCl_1_17);
+        Serial.println(tapCl_1_18);
+
+
+//        
+//delay(2000);
+
+delay(3000);
+        Serial2.write(255);
+        Serial2.write(254);
+        Serial2.write(tapCl_1_5);
+        Serial2.write(tapCl_1_6);
+        Serial2.write(tapCl_1_7);
+        Serial2.write(tapCl_1_8);
+        Serial2.write(tapCl_1_9);
+        Serial2.write(tapCl_1_10);
+        Serial2.write(tapCl_1_11);
+        Serial2.write(tapCl_1_12);
+        Serial2.write(tapCl_1_13);
+        Serial2.write(tapCl_1_14);
+        Serial2.write(tapCl_1_15);
+        Serial2.write(tapCl_1_16);
+        Serial2.write(tapCl_1_17);
+        Serial2.write(tapCl_1_18);  
+        Serial2.write(13);
+        Serial2.write(10);
+
+delay(3000);
+
+
+//delay(2000);
+
+        Serial.println("tap cl values end -------------------------------------");
+        
+        Serial.println(255);
+        Serial.println(254);
+
+        if(tap_1_4!=0)
+        {
+        Serial.println(tap_1_4);
+        }
+        if(tap_1_5!=0)
+        {
+        Serial.println(tap_1_5);
+        }
+        if(tap_1_6!=0)
+        {
+        Serial.println(tap_1_6);
+        }
+        if(tap_1_7!=0)
+        {
+        Serial.println(tap_1_7);
+        }
+        if(tap_1_8!=0)
+        {
+        Serial.println(tap_1_8);
+        }
+        if(tap_1_9!=0)
+        {
+        Serial.println(tap_1_9);
+        }
+        if(tap_1_10!=0)
+        {
+        Serial.println(tap_1_10);
+        }
+        if(tap_1_11!=0)
+        {
+        Serial.println(tap_1_11);
+        }
+        if(tap_1_12!=0)
+        {
+        Serial.println(tap_1_12);
+        }
+        if(tap_1_13!=0)
+        {
+        Serial.println(tap_1_13);
+        }
+        if(tap_1_14!=0)
+        {
+        Serial.println(tap_1_14);
+        }
+        if(tap_1_15!=0)
+        {
+        Serial.println(tap_1_15);
+        }
+        if(tap_1_16!=0)
+        {
+        Serial.println(tap_1_16);
+        }
+        if(tap_1_17!=0)
+        {
+        Serial.println(tap_1_17);
+        }
+        if(tap_1_18!=0)
+        {
+        Serial.println(tap_1_18);
+        }
+        if(tap_1_19!=0)
+        {
+        Serial.println(tap_1_19);
+        }
+        if(tap_1_20!=0)
+        {
+        Serial.println(tap_1_20);
+        }
+        if(tap_1_21!=0)
+        {
+        Serial.println(tap_1_21);
+        }
+        if(tap_1_22!=0)
+        {
+        Serial.println(tap_1_22);
+        }
+        if(tap_1_23!=0)
+        {
+        Serial.println(tap_1_23);
+        }
+        if(tap_1_24!=0)
+        {
+        Serial.println(tap_1_24);
+        }
+        if(tap_1_25!=0)
+        {
+        Serial.println(tap_1_25);
+        }
+        if(tap_1_26!=0)
+        {
+        Serial.println(tap_1_26);
+        }
+        if(tap_1_27!=0)
+        {
+        Serial.println(tap_1_27);
+        }
+        if(tap_1_28!=0)
+        {
+        Serial.println(tap_1_28);
+        }
+        if(tap_1_29!=0)
+        {
+        Serial.println(tap_1_29);
+        }
+        if(tap_1_30!=0)
+        {
+        Serial.println(tap_1_30);
+        }
+        if(tap_1_31!=0)
+        {
+        Serial.println(tap_1_31);
+        }
+        if(tap_1_32!=0)
+        {
+        Serial.println(tap_1_32);
+        }
+        Serial.println(13);
+        Serial.println(10);
+      break;
+      case 2:
+//delay(2000);
+delay(200);
+
+
+
+        Serial2.write(255);
+        Serial2.write(254);
+
+        if(tap_2_4!=0)
+        {
+        Serial2.write(tap_2_4);
+        }
+        if(tap_2_5!=0)
+        {
+        Serial2.write(tap_2_5);
+        }
+        if(tap_2_6!=0)
+        {
+        Serial2.write(tap_2_6);
+        }
+        if(tap_2_7!=0)
+        {
+        Serial2.write(tap_2_7);
+        }
+        if(tap_2_8!=0)
+        {
+        Serial2.write(tap_2_8);
+        }
+        if(tap_2_9!=0)
+        {
+        Serial2.write(tap_2_9);
+        }
+        if(tap_2_10!=0)
+        {
+        Serial2.write(tap_2_10);
+        }
+        if(tap_2_11!=0)
+        {
+        Serial2.write(tap_2_11);
+        }
+        if(tap_2_12!=0)
+        {
+        Serial2.write(tap_2_12);
+        }
+        if(tap_2_13!=0)
+        {
+        Serial2.write(tap_2_13);
+        }
+        if(tap_2_14!=0)
+        {
+        Serial2.write(tap_2_14);
+        }
+        if(tap_2_15!=0)
+        {
+        Serial2.write(tap_2_15);
+        }
+        if(tap_2_16!=0)
+        {
+        Serial2.write(tap_2_16);
+        }
+        if(tap_2_17!=0)
+        {
+        Serial2.write(tap_2_17);
+        }
+        if(tap_2_18!=0)
+        {
+        Serial2.write(tap_2_18);
+        }
+        if(tap_2_19!=0)
+        {
+        Serial2.write(tap_2_19);
+        }
+        if(tap_2_20!=0)
+        {
+        Serial2.write(tap_2_20);
+        }
+        if(tap_2_21!=0)
+        {
+        Serial2.write(tap_2_21);
+        }
+        if(tap_2_22!=0)
+        {
+        Serial2.write(tap_2_22);
+        }
+        if(tap_2_23!=0)
+        {
+        Serial2.write(tap_2_23);
+        }
+        if(tap_2_24!=0)
+        {
+        Serial2.write(tap_2_24);
+        }
+        if(tap_2_25!=0)
+        {
+        Serial2.write(tap_2_25);
+        }
+        if(tap_2_26!=0)
+        {
+        Serial2.write(tap_2_26);
+        }
+        if(tap_2_27!=0)
+        {
+        Serial2.write(tap_2_27);
+        }
+        if(tap_2_28!=0)
+        {
+        Serial2.write(tap_2_28);
+        }
+        if(tap_2_29!=0)
+        {
+        Serial2.write(tap_2_29);
+        }
+        if(tap_2_30!=0)
+        {
+        Serial2.write(tap_2_30);
+        }
+        if(tap_2_31!=0)
+        {
+        Serial2.write(tap_2_31);
+        }
+        if(tap_2_32!=0)
+        {
+        Serial2.write(tap_2_32);
+        }
+
+        Serial2.write(13);
+        Serial2.write(10);
+
+        Serial.println("tap 2 cl values -------------------------------------");
+        Serial.println(tapCl_2_5);
+        Serial.println(tapCl_2_6);
+        Serial.println(tapCl_2_7);
+        Serial.println(tapCl_2_8);
+        Serial.println(tapCl_2_9);
+        Serial.println(tapCl_2_10);
+        Serial.println(tapCl_2_11);
+        Serial.println(tapCl_2_12);
+        Serial.println(tapCl_2_13);
+        Serial.println(tapCl_2_14);
+        Serial.println(tapCl_2_15);
+        Serial.println(tapCl_2_16);
+        Serial.println(tapCl_2_17);
+        Serial.println(tapCl_2_18);
+//delay(2000);
+
+delay(3000);
+
+
+        Serial2.write(255);
+        Serial2.write(254);
+        Serial2.write(tapCl_2_5);
+        Serial2.write(tapCl_2_6);
+        Serial2.write(tapCl_2_7);
+        Serial2.write(tapCl_2_8);
+        Serial2.write(tapCl_2_9);
+        Serial2.write(tapCl_2_10);
+        Serial2.write(tapCl_2_11);
+        Serial2.write(tapCl_2_12);
+        Serial2.write(tapCl_2_13);
+        Serial2.write(tapCl_2_14);
+        Serial2.write(tapCl_2_15);
+        Serial2.write(tapCl_2_16);
+        Serial2.write(tapCl_2_17);
+        Serial2.write(tapCl_2_18);
+        Serial2.write(13);
+        Serial2.write(10);
+//
+//
+//delay(2000);
+//delay(2000);
+//delay(2000);
+//delay(2000);
+delay(3000);
+
+        
+
+        Serial.println("tap cl values end -------------------------------------");
+
+        
+        Serial.println(255);
+        Serial.println(254);
+
+        if(tap_2_4!=0)
+        {
+        Serial.println(tap_2_4);
+        }
+        if(tap_2_5!=0)
+        {
+        Serial.println(tap_2_5);
+        }
+        if(tap_2_6!=0)
+        {
+        Serial.println(tap_2_6);
+        }
+        if(tap_2_7!=0)
+        {
+        Serial.println(tap_2_7);
+        }
+        if(tap_2_8!=0)
+        {
+        Serial.println(tap_2_8);
+        }
+        if(tap_2_9!=0)
+        {
+        Serial.println(tap_2_9);
+        }
+        if(tap_2_10!=0)
+        {
+        Serial.println(tap_2_10);
+        }
+        if(tap_2_11!=0)
+        {
+        Serial.println(tap_2_11);
+        }
+        if(tap_2_12!=0)
+        {
+        Serial.println(tap_2_12);
+        }
+        if(tap_2_13!=0)
+        {
+        Serial.println(tap_2_13);
+        }
+        if(tap_2_14!=0)
+        {
+        Serial.println(tap_2_14);
+        }
+        if(tap_2_15!=0)
+        {
+        Serial.println(tap_2_15);
+        }
+        if(tap_2_16!=0)
+        {
+        Serial.println(tap_2_16);
+        }
+        if(tap_2_17!=0)
+        {
+        Serial.println(tap_2_17);
+        }
+        if(tap_2_18!=0)
+        {
+        Serial.println(tap_2_18);
+        }
+        if(tap_2_19!=0)
+        {
+        Serial.println(tap_2_19);
+        }
+        if(tap_2_20!=0)
+        {
+        Serial.println(tap_2_20);
+        }
+        if(tap_2_21!=0)
+        {
+        Serial.println(tap_2_21);
+        }
+        if(tap_2_22!=0)
+        {
+        Serial.println(tap_2_22);
+        }
+        if(tap_2_23!=0)
+        {
+        Serial.println(tap_2_23);
+        }
+        if(tap_2_24!=0)
+        {
+        Serial.println(tap_2_24);
+        }
+        if(tap_2_25!=0)
+        {
+        Serial.println(tap_2_25);
+        }
+        if(tap_2_26!=0)
+        {
+        Serial.println(tap_2_26);
+        }
+        if(tap_2_27!=0)
+        {
+        Serial.println(tap_2_27);
+        }
+        if(tap_2_28!=0)
+        {
+        Serial.println(tap_2_28);
+        }
+        if(tap_2_29!=0)
+        {
+        Serial.println(tap_2_29);
+        }
+        if(tap_2_30!=0)
+        {
+        Serial.println(tap_2_30);
+        }
+        if(tap_2_31!=0)
+        {
+        Serial.println(tap_2_31);
+        }
+        if(tap_2_32!=0)
+        {
+        Serial.println(tap_2_32);
+        }
+        Serial.println(13);
+        Serial.println(10);
+      break;
+      case 3:
+        Serial2.write(255);
+        Serial2.write(254);
+
+        Serial2.write(tap_3_4);
+
+        Serial2.write(tap_3_5);
+
+        Serial2.write(tap_3_6);
+        if(tap_3_7!=0)
+        Serial2.write(tap_3_7);
+        if(tap_3_8!=0)
+        Serial2.write(tap_3_8);
+        if(tap_3_9!=0)
+        Serial2.write(tap_3_9);
+        if(tap_3_10!=0)
+        Serial2.write(tap_3_10);
+        if(tap_3_11!=0)
+        Serial2.write(tap_3_11);
+        if(tap_3_12!=0)
+        Serial2.write(tap_3_12);
+        if(tap_3_13!=0)
+        Serial2.write(tap_3_13);
+        if(tap_3_14!=0)
+        Serial2.write(tap_3_14);
+        if(tap_3_15!=0)
+        Serial2.write(tap_3_15);
+        if(tap_3_16!=0)
+        Serial2.write(tap_3_16);
+        if(tap_3_17!=0)
+        Serial2.write(tap_3_17);
+        if(tap_3_18!=0)
+        Serial2.write(tap_3_18);
+        if(tap_3_19!=0)
+        Serial2.write(tap_3_19);
+        if(tap_3_20!=0)
+        Serial2.write(tap_3_20);
+        if(tap_3_21!=0)
+        Serial2.write(tap_3_21);
+        if(tap_3_22!=0)
+        Serial2.write(tap_3_22);
+        if(tap_3_23!=0)
+        Serial2.write(tap_3_23);
+        if(tap_3_24!=0)
+        Serial2.write(tap_3_24);
+        if(tap_3_25!=0)
+        Serial2.write(tap_3_25);
+        if(tap_3_26!=0)
+        Serial2.write(tap_3_26);
+        if(tap_3_27!=0)
+        Serial2.write(tap_3_27);
+        if(tap_3_28!=0)
+        Serial2.write(tap_3_28);
+        if(tap_3_29!=0)
+        Serial2.write(tap_3_29);
+        if(tap_3_30!=0)
+        {
+        Serial2.write(tap_3_30);
+        }
+        if(tap_3_31!=0)
+        {
+        Serial2.write(tap_3_31);
+        }
+        if(tap_3_32!=0)
+        {
+        Serial2.write(tap_3_32);
+        }
+
+        Serial2.write(13);
+        Serial2.write(10);
+      break;
+      case 4:
+        Serial2.write(255);
+        Serial2.write(254);
+
+        Serial2.write(tap_4_4);
+
+        Serial2.write(tap_4_5);
+
+        Serial2.write(tap_4_6);
+        if(tap_4_7!=0)
+        Serial2.write(tap_4_7);
+        if(tap_4_8!=0)
+        Serial2.write(tap_4_8);
+        if(tap_4_9!=0)
+        Serial2.write(tap_4_9);
+        if(tap_4_10!=0)
+        Serial2.write(tap_4_10);
+        if(tap_4_11!=0)
+        Serial2.write(tap_4_11);
+        if(tap_4_12!=0)
+        Serial2.write(tap_4_12);
+        if(tap_4_13!=0)
+        Serial2.write(tap_4_13);
+        if(tap_4_14!=0)
+        Serial2.write(tap_4_14);
+        if(tap_4_15!=0)
+        Serial2.write(tap_4_15);
+        if(tap_4_16!=0)
+        Serial2.write(tap_4_16);
+        if(tap_4_17!=0)
+        Serial2.write(tap_4_17);
+        if(tap_4_18!=0)
+        Serial2.write(tap_4_18);
+        if(tap_4_19!=0)
+        Serial2.write(tap_4_19);
+        if(tap_4_20!=0)
+        Serial2.write(tap_4_20);
+        if(tap_4_21!=0)
+        Serial2.write(tap_4_21);
+        if(tap_4_22!=0)
+        Serial2.write(tap_4_22);
+        if(tap_4_23!=0)
+        Serial2.write(tap_4_23);
+        if(tap_4_24!=0)
+        Serial2.write(tap_4_24);
+        if(tap_4_25!=0)
+        Serial2.write(tap_4_25);
+        if(tap_4_26!=0)
+        Serial2.write(tap_4_26);
+        if(tap_4_27!=0)
+        Serial2.write(tap_4_27);
+        if(tap_4_28!=0)
+        Serial2.write(tap_4_28);
+        if(tap_4_29!=0)
+        Serial2.write(tap_4_29);
+        if(tap_4_30!=0)
+        {
+        Serial2.write(tap_4_30);
+        }
+        if(tap_4_31!=0)
+        {
+        Serial2.write(tap_4_31);
+        }
+        if(tap_4_32!=0)
+        {
+        Serial2.write(tap_4_32);
+        }
+
+        Serial2.write(13);
+        Serial2.write(10);
+      break;
+      case 5:
+        Serial2.write(255);
+        Serial2.write(254);
+
+        Serial2.write(tap_5_4);
+
+        Serial2.write(tap_5_5);
+
+        Serial2.write(tap_5_6);
+        if(tap_5_7!=0)
+        Serial2.write(tap_5_7);
+        if(tap_5_8!=0)
+        Serial2.write(tap_5_8);
+        if(tap_5_9!=0)
+        Serial2.write(tap_5_9);
+        if(tap_5_10!=0)
+        Serial2.write(tap_5_10);
+        if(tap_5_11!=0)
+        Serial2.write(tap_5_11);
+        if(tap_5_12!=0)
+        Serial2.write(tap_5_12);
+        if(tap_5_13!=0)
+        Serial2.write(tap_5_13);
+        if(tap_5_14!=0)
+        Serial2.write(tap_5_14);
+        if(tap_5_15!=0)
+        Serial2.write(tap_5_15);
+        if(tap_5_16!=0)
+        Serial2.write(tap_5_16);
+        if(tap_5_17!=0)
+        Serial2.write(tap_5_17);
+        if(tap_5_18!=0)
+        Serial2.write(tap_5_18);
+        if(tap_5_19!=0)
+        Serial2.write(tap_5_19);
+        if(tap_5_20!=0)
+        Serial2.write(tap_5_20);
+        if(tap_5_21!=0)
+        Serial2.write(tap_5_21);
+        if(tap_5_22!=0)
+        Serial2.write(tap_5_22);
+        if(tap_5_23!=0)
+        Serial2.write(tap_5_23);
+        if(tap_5_24!=0)
+        Serial2.write(tap_5_24);
+        if(tap_5_25!=0)
+        Serial2.write(tap_5_25);
+        if(tap_5_26!=0)
+        Serial2.write(tap_5_26);
+        if(tap_5_27!=0)
+        Serial2.write(tap_5_27);
+        if(tap_5_28!=0)
+        Serial2.write(tap_5_28);
+        if(tap_5_29!=0)
+        Serial2.write(tap_5_29);
+        if(tap_5_30!=0)
+        {
+        Serial2.write(tap_5_30);
+        }
+        if(tap_5_31!=0)
+        {
+        Serial2.write(tap_5_31);
+        }
+        if(tap_5_32!=0)
+        {
+        Serial2.write(tap_5_32);
+        }
+
+        Serial2.write(13);
+        Serial2.write(10);
+      break;
+      case 6:
+        Serial2.write(255);
+        Serial2.write(254);
+
+        Serial2.write(tap_6_4);
+
+        Serial2.write(tap_6_5);
+
+        Serial2.write(tap_6_6);
+        if(tap_6_7!=0)
+        Serial2.write(tap_6_7);
+        if(tap_6_8!=0)
+        Serial2.write(tap_6_8);
+        if(tap_6_9!=0)
+        Serial2.write(tap_6_9);
+        if(tap_6_10!=0)
+        Serial2.write(tap_6_10);
+        if(tap_6_11!=0)
+        Serial2.write(tap_6_11);
+        if(tap_6_12!=0)
+        Serial2.write(tap_6_12);
+        if(tap_6_13!=0)
+        Serial2.write(tap_6_13);
+        if(tap_6_14!=0)
+        Serial2.write(tap_6_14);
+        if(tap_6_15!=0)
+        Serial2.write(tap_6_15);
+        if(tap_6_16!=0)
+        Serial2.write(tap_6_16);
+        if(tap_6_17!=0)
+        Serial2.write(tap_6_17);
+        if(tap_6_18!=0)
+        Serial2.write(tap_6_18);
+        if(tap_6_19!=0)
+        Serial2.write(tap_6_19);
+        if(tap_6_20!=0)
+        Serial2.write(tap_6_20);
+        if(tap_6_21!=0)
+        Serial2.write(tap_6_21);
+        if(tap_6_22!=0)
+        Serial2.write(tap_6_22);
+        if(tap_6_23!=0)
+        Serial2.write(tap_6_23);
+        if(tap_6_24!=0)
+        Serial2.write(tap_6_24);
+        if(tap_6_25!=0)
+        Serial2.write(tap_6_25);
+        if(tap_6_26!=0)
+        Serial2.write(tap_6_26);
+        if(tap_6_27!=0)
+        Serial2.write(tap_6_27);
+        if(tap_6_28!=0)
+        Serial2.write(tap_6_28);
+        if(tap_6_29!=0)
+        Serial2.write(tap_6_29);
+        if(tap_6_30!=0)
+        {
+        Serial2.write(tap_6_30);
+        }
+        if(tap_6_31!=0)
+        {
+        Serial2.write(tap_6_31);
+        }
+        if(tap_6_32!=0)
+        {
+        Serial2.write(tap_6_32);
+        }
+
+        Serial2.write(13);
+        Serial2.write(10);
+      break;
+      case 7:
+        Serial2.write(255);
+        Serial2.write(254);
+
+        Serial2.write(tap_7_4);
+
+        Serial2.write(tap_7_5);
+
+        Serial2.write(tap_7_6);
+        if(tap_7_7!=0)
+        Serial2.write(tap_7_7);
+        if(tap_7_8!=0)
+        Serial2.write(tap_7_8);
+        if(tap_7_9!=0)
+        Serial2.write(tap_7_9);
+        if(tap_7_10!=0)
+        Serial2.write(tap_7_10);
+        if(tap_7_11!=0)
+        Serial2.write(tap_7_11);
+        if(tap_7_12!=0)
+        Serial2.write(tap_7_12);
+        if(tap_7_13!=0)
+        Serial2.write(tap_7_13);
+        if(tap_7_14!=0)
+        Serial2.write(tap_7_14);
+        if(tap_7_15!=0)
+        Serial2.write(tap_7_15);
+        if(tap_7_16!=0)
+        Serial2.write(tap_7_16);
+        if(tap_7_17!=0)
+        Serial2.write(tap_7_17);
+        if(tap_7_18!=0)
+        Serial2.write(tap_7_18);
+        if(tap_7_19!=0)
+        Serial2.write(tap_7_19);
+        if(tap_7_20!=0)
+        Serial2.write(tap_7_20);
+        if(tap_7_21!=0)
+        Serial2.write(tap_7_21);
+        if(tap_7_22!=0)
+        Serial2.write(tap_7_22);
+        if(tap_7_23!=0)
+        Serial2.write(tap_7_23);
+        if(tap_7_24!=0)
+        Serial2.write(tap_7_24);
+        if(tap_7_25!=0)
+        Serial2.write(tap_7_25);
+        if(tap_7_26!=0)
+        Serial2.write(tap_7_26);
+        if(tap_7_27!=0)
+        Serial2.write(tap_7_27);
+        if(tap_7_28!=0)
+        Serial2.write(tap_7_28);
+        if(tap_7_29!=0)
+        Serial2.write(tap_7_29);
+        if(tap_7_30!=0)
+        {
+        Serial2.write(tap_7_30);
+        }
+        if(tap_7_31!=0)
+        {
+        Serial2.write(tap_7_31);
+        }
+        if(tap_7_32!=0)
+        {
+        Serial2.write(tap_7_32);
+        }
+
+        Serial2.write(13);
+        Serial2.write(10);
+      break;
+      case 8:
+        Serial2.write(255);
+        Serial2.write(254);
+
+        Serial2.write(tap_8_4);
+
+        Serial2.write(tap_8_5);
+
+        Serial2.write(tap_8_6);
+        if(tap_8_7!=0)
+        Serial2.write(tap_8_7);
+        if(tap_8_8!=0)
+        Serial2.write(tap_8_8);
+        if(tap_8_9!=0)
+        Serial2.write(tap_8_9);
+        if(tap_8_10!=0)
+        Serial2.write(tap_8_10);
+        if(tap_8_11!=0)
+        Serial2.write(tap_8_11);
+        if(tap_8_12!=0)
+        Serial2.write(tap_8_12);
+        if(tap_8_13!=0)
+        Serial2.write(tap_8_13);
+        if(tap_8_14!=0)
+        Serial2.write(tap_8_14);
+        if(tap_8_15!=0)
+        Serial2.write(tap_8_15);
+        if(tap_8_16!=0)
+        Serial2.write(tap_8_16);
+        if(tap_8_17!=0)
+        Serial2.write(tap_8_17);
+        if(tap_8_18!=0)
+        Serial2.write(tap_8_18);
+        if(tap_8_19!=0)
+        Serial2.write(tap_8_19);
+        if(tap_8_20!=0)
+        Serial2.write(tap_8_20);
+        if(tap_8_21!=0)
+        Serial2.write(tap_8_21);
+        if(tap_8_22!=0)
+        Serial2.write(tap_8_22);
+        if(tap_8_23!=0)
+        Serial2.write(tap_8_23);
+        if(tap_8_24!=0)
+        Serial2.write(tap_8_24);
+        if(tap_8_25!=0)
+        Serial2.write(tap_8_25);
+        if(tap_8_26!=0)
+        Serial2.write(tap_8_26);
+        if(tap_8_27!=0)
+        Serial2.write(tap_8_27);
+        if(tap_8_28!=0)
+        Serial2.write(tap_8_28);
+        if(tap_8_29!=0)
+        Serial2.write(tap_8_29);
+        if(tap_8_30!=0)
+        {
+        Serial2.write(tap_8_30);
+        }
+        if(tap_8_31!=0)
+        {
+        Serial2.write(tap_8_31);
+        }
+        if(tap_8_32!=0)
+        {
+        Serial2.write(tap_8_32);
+        }
+
+        Serial2.write(13);
+        Serial2.write(10);
+      break;
+      default:
+      break;
+    }
+  delay(500);
+  Serial.println("");
+  }
+}
+
