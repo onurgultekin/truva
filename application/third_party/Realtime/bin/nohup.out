@@ -1,0 +1,16 @@
+New connection! (55)
+Connection 55 sending message "{"command":"rename","type":"web","id":"123456","value":"","vtype":"","date":1528114722919,"to":""}" to 0 other connections
+Connection 123456 has disconnected
+New connection! (104)
+Connection 104 sending message "{"command":"rename","type":"web","id":"123456","value":"","vtype":"","date":1528115498190,"to":""}" to 0 other connections
+Connection 123456 sending message "{"command":"speed","type":"web","id":"123456","value":"80","vtype":"int","date":1528115555905,"to":"00:0a:95:9d:68:16"}" to 0 other connections
+Connection 123456 sending message "{"command":"disable","type":"web","id":"123456","value":"0","vtype":"int","date":1528115558385,"to":"00:0a:95:9d:68:16"}" to 0 other connections
+Connection 123456 sending message "{"command":"logo","type":"web","id":"123456","value":"{\"version\":1.1,\"url\":\"http://truwa.com/logo.svg\"}","vtype":"string","date":1528115562262,"to":"00:0a:95:9d:68:16"}" to 0 other connections
+Connection 123456 sending message "{"command":"reset","type":"web","id":"123456","value":"","vtype":"","date":1528115563928,"to":"00:0a:95:9d:68:16"}" to 0 other connections
+Connection 123456 sending message "{"command":"speed","type":"web","id":"123456","value":"80","vtype":"int","date":1528115565261,"to":"00:0a:95:9d:68:16"}" to 0 other connections
+Connection 123456 has disconnected
+New connection! (109)
+Connection 109 sending message "{"command":"rename","type":"web","id":"123456","value":"","vtype":"","date":1528115569330,"to":""}" to 0 other connections
+Connection 123456 sending message "{"command":"speed","type":"web","id":"123456","value":"80","vtype":"int","date":1528115576636,"to":"00:0a:95:9d:68:16"}" to 0 other connections
+Connection 123456 sending message "{"command":"logo","type":"web","id":"123456","value":"{\"version\":1.1,\"url\":\"http://truwa.com/logo.svg\"}","vtype":"string","date":1528115580218,"to":"00:0a:95:9d:68:16"}" to 0 other connections
+Connection 123456 sending message "{"command":"errormsg","type":"web","id":"123456","value":"{\"type\":\"new\",\"language\":\"en\",\"errors\":[{\"key\":\"\",\"value\":\"\"},{\"key\":\"\",\"value\":\"\"}]}","vtype":"string","date":1528115586350,"to":"00:0a:95:9d:68:16"}" to 0 other connections

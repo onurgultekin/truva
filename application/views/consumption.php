@@ -90,7 +90,7 @@
                           <select class="full-width holdings" data-placeholder="Holding seçin" data-init-plugin="select2" multiple="multiple">
                           <option value="0">Lütfen seçin</option>
                             <?php 
-                            foreach ($holdings->message as $key => $holding) {
+                            foreach ($holdings as $key => $holding) {
                               echo '<option value='.$holding->HoldingID.'>'.$holding->HoldingName.'</option>';
                             }
                             ?>

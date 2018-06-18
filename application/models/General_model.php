@@ -170,7 +170,7 @@ class General_model extends CI_Model
 		CURLOPT_POSTFIELDS => http_build_query($data)
 		));
 		$response = json_decode(curl_exec($curl));
-		return $response;
+		return $response->message;
 	}
 	public function getHoldingById($holdingId){
 		$accessToken = $this->session->userdata("accessToken");
@@ -818,7 +818,8 @@ class General_model extends CI_Model
 		CURLOPT_POSTFIELDS => http_build_query($data)
 		));
 		$response = json_decode(curl_exec($curl));
-		return $response->message;
+
+		return @$response->message;
 	}
 	public function getTechnicalServiceList(){
 		$accessToken = $this->session->userdata("accessToken");

@@ -452,9 +452,9 @@ class Tap_model extends CI_Model {
                                         $response["result"] = true;
                                         $response["resultCode"] = 0;
                                         $response["message"] = "Musluk başarıyla eklendi.";
-                                        }
                                 }
                         }
+                }
                 return $response;
         }
         public function activeTaps($parameters){
@@ -484,6 +484,117 @@ class Tap_model extends CI_Model {
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
                                 }else{
                                         $query = $this->db->query("CALL GET_ACTIVE_TAPS('".$accessToken."',".$userId.")");
+                                        $result = $query->row();
+                                        if(@$result->isError == 1){
+                                                $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
+                                        }else{
+                                                $response["result"] = true;
+                                                $response["resultCode"] = 0;
+                                                $response["message"] = $query->result();
+                                        }
+                                }
+                        }
+                }
+                return $response;
+        }
+        public function addTapData($parameters){
+                $i = 0;
+                $k = 0;
+                $mandatoryParameters = array("accessToken","userId","HoldingID","CompanyID","BarGroupID","tapId","tapName","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","buttonId","buttonName","buttonClReal","buttonClShown","NetPrice","SalePrice");
+                foreach ($mandatoryParameters as $mandatoryParameter) {
+                        if(!array_key_exists($mandatoryParameter,$parameters)){
+                                $k++;
+                        }
+                } 
+                if($k>0){
+                        $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
+                }else{
+                        $availableParameters = array("accessToken","userId","HoldingID","CompanyID","BarGroupID","tapId","tapName","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","buttonId","buttonName","buttonClReal","buttonClShown","NetPrice","SalePrice");
+                        foreach ($parameters as $key => $parameter) {
+                                if(!in_array($key,$availableParameters)){
+                                        $i++;
+                                }
+                        }
+                        if($i>0){
+                                $response = $this->globalfunctions->returnMessage(1001,"Geçersiz istek. Bilinmeyen parametre girdiniz.",true);
+                        }else{
+                                $accessToken = $parameters["accessToken"];
+                                $userId = $parameters["userId"];
+                                $HoldingID = $parameters["HoldingID"];
+                                $CompanyID = $parameters["CompanyID"];
+                                $BarGroupID = $parameters["BarGroupID"];
+                                $tapId = $parameters["tapId"];
+                                $tapName = $parameters["tapName"];
+                                $AlcoholGroupID = $parameters["AlcoholGroupID"];
+                                $AlcoholTypeID = $parameters["AlcoholTypeID"];
+                                $AlcoholBrandID = $parameters["AlcoholBrandID"];
+                                $buttonId = $parameters["buttonId"];
+                                $buttonName = $parameters["buttonName"];
+                                $buttonClReal = $parameters["buttonClReal"];
+                                $buttonClShown = $parameters["buttonClShown"];
+                                $NetPrice = $parameters["NetPrice"];
+                                $SalePrice = $parameters["SalePrice"];
+                                if(!is_numeric($userId)){
+                                        $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($HoldingID)){
+                                        $response = $this->globalfunctions->returnMessage(1003,"HoldingID parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($CompanyID)){
+                                        $response = $this->globalfunctions->returnMessage(1004,"CompanyID parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($BarGroupID)){
+                                        $response = $this->globalfunctions->returnMessage(1005,"BarGroupID parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($tapId)){
+                                        $response = $this->globalfunctions->returnMessage(1010,"TapId parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($buttonId)){
+                                        $response = $this->globalfunctions->returnMessage(1011,"buttonId parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($AlcoholTypeID)){
+                                        $response = $this->globalfunctions->returnMessage(1007,"AlcoholTypeID parametresi numeric olmalıdır.",true);
+                                }else
+                                if(!is_numeric($AlcoholBrandID)){
+                                        $response = $this->globalfunctions->returnMessage(1008,"AlcoholBrandID parametresi numeric olmalıdır.",true);
+                                }else{
+                                        $this->db->query("CALL ADD_TAP_DATA('".$accessToken."',".$userId.",".$HoldingID.",".$CompanyID.",".$BarGroupID.",".$tapId.",'".$tapName."',".$AlcoholGroupID.",".$AlcoholTypeID.",".$AlcoholBrandID.",".$buttonId.",'".$buttonName."','".$buttonClReal."','".$buttonClShown."','".$NetPrice."','".$SalePrice."')");
+                                        $response["result"] = true;
+                                        $response["resultCode"] = 0;
+                                        $response["message"] = "Musluk başarıyla eklendi.";
+                                }
+                        }
+                }
+                return $response;
+        }
+        public function getTapConfiguration($parameters){
+                $i = 0;
+                $k = 0;
+                $mandatoryParameters = array("accessToken","userId","mac"); 
+                foreach ($mandatoryParameters as $mandatoryParameter) {
+                        if(!array_key_exists($mandatoryParameter,$parameters)){
+                                $k++;
+                        }
+                } 
+                if($k>0){
+                        $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
+                }else{
+                        $availableParameters = array("accessToken","userId","mac");
+                        foreach ($parameters as $key => $parameter) {
+                                if(!in_array($key,$availableParameters)){
+                                        $i++;
+                                }
+                        }
+                        if($i>0){
+                                $response = $this->globalfunctions->returnMessage(1001,"Geçersiz istek. Bilinmeyen parametre girdiniz.",true);
+                        }else{
+                                $accessToken = $parameters["accessToken"];
+                                $userId = $parameters["userId"];
+                                $mac = $parameters["mac"];
+                                if(!is_numeric($userId)){
+                                        $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
+                                }else{
+                                        $query = $this->db->query("CALL GET_CONNECTIONLOG('".$accessToken."',".$userId.",'".$mac."')");
                                         $result = $query->row();
                                         if(@$result->isError == 1){
                                                 $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);

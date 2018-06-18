@@ -22,7 +22,7 @@ class Tap extends REST_Controller {
 	function insertLogs($message,$method,$userId,$requestTime,$responseTime){
 		$this->db->close();
 		$message = json_decode($message);
-		$message = json_encode($message,JSON_UNESCAPED_UNICODE);
+		$message = json_encode($message);
 		$query = @$this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".addslashes(json_encode($this->post(),JSON_UNESCAPED_UNICODE))."','".addslashes($message)."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
 	public function getTap_post(){
@@ -55,6 +55,14 @@ class Tap extends REST_Controller {
 	}
 	public function activeTaps_post(){
 		$message = $this->Tap_model->activeTaps($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function addTapData_post(){
+		$message = $this->Tap_model->addTapData($this->post());
+		$this->set_response($message, REST_Controller::HTTP_OK);
+	}
+	public function getTapConfiguration_post(){
+		$message = $this->Tap_model->getTapConfiguration($this->post());
 		$this->set_response($message, REST_Controller::HTTP_OK);
 	}
 }

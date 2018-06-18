@@ -1287,6 +1287,7 @@ class Helper_model extends CI_Model {
                                         $alcoholTypeList = $this->AlcoholType_model->getAlcoholTypelist($params);
                                         $this->db->close();
                                         $alcoholTypes = $alcoholTypeList["message"];
+                                        error_log("CALL GET_TOTAL_DAILY_AVERAGE_CONSUMED_ALCOHOL_BY_DATE('".$accessToken."',".$userId.",'".$dateBegin."','".$dateEnd."',NULL,NULL)");
                                         $query = $this->db->query("CALL GET_TOTAL_DAILY_AVERAGE_CONSUMED_ALCOHOL_BY_DATE('".$accessToken."',".$userId.",'".$dateBegin."','".$dateEnd."',NULL,NULL)");
                                         $result = $query->row();
                                         if(@$result->isError == 1){

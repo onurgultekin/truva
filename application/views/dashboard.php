@@ -312,8 +312,15 @@
     <script src="<?php echo base_url() ?>assets/js/google_map.js" type="text/javascript"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="<?php echo base_url() ?>assets/js/scripts.js?v=<?php echo time(); ?>" type="text/javascript"></script>
+    <script src="<?php echo base_url() ?>assets/js/swfobject.js?v=<?php echo time(); ?>" type="text/javascript"></script>
+    <script src="<?php echo base_url() ?>assets/js/web_socket.js?v=<?php echo time(); ?>" type="text/javascript"></script>
+    <script src="<?php echo base_url() ?>assets/js/socketApp.js?v=<?php echo time(); ?>" type="text/javascript"></script>
     <script type="text/javascript">
         $(function () {
+        SocketApp.init("123456");
+        $(window).unload(function(){
+          SocketApp.close();
+        });
         $(".countries").on("change",function(){
           countryId = $(this).val();
           $(".panel").parent().find(".overlay").removeClass("unvisible");

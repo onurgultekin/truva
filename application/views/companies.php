@@ -109,7 +109,7 @@
                         <label class="">Holding seçin</label>
                           <select class="full-width holdingsforcompanies" data-placeholder="Holding seçin" data-init-plugin="select2" multiple="multiple">
                             <?php 
-                            foreach ($holdings->message as $key => $holding) {
+                            foreach ($holdings as $key => $holding) {
                               echo '<option value='.$holding->HoldingID.'>'.$holding->HoldingName.'</option>';
                             }
                             ?>

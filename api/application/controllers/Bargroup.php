@@ -22,7 +22,7 @@ class Bargroup extends REST_Controller {
 	function insertLogs($message,$method,$userId,$requestTime,$responseTime){
 		$this->db->close();
 		$message = json_decode($message);
-		$message = json_encode($message,JSON_UNESCAPED_UNICODE);
+		$message = json_encode($message);
 		$query = $this->db->query("CALL INSERT_LOG('".md5($this->post("accessToken"))."','".$this->input->ip_address()."','".addslashes(json_encode($this->post(),JSON_UNESCAPED_UNICODE))."','".addslashes($message)."','".$method."',".$userId.",'".$requestTime."','".$responseTime."')");
 	}
 	public function getBarGrouplist_post(){

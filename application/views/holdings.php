@@ -135,7 +135,7 @@
               </thead>
               <tbody>
                 <?php
-                foreach ($holdings->message as $key => $holding) {
+                foreach ($holdings as $key => $holding) {
                   echo '<tr id="'.$holding->HoldingID.'">
                     <td>'.$holding->HoldingName.'</td>
                     <td>'.$holding->HoldingEmail.'</td>

@@ -1,4 +1,4 @@
-var base_url = 'http://truva.co';
+var base_url = 'http://truwa.co';
 var modalCloseTimeout = 2000;
 $.fn.serializeObject = function() {
     var o = {};
