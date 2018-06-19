@@ -381,7 +381,7 @@ class Tap_model extends CI_Model {
         public function tapWizard($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","HoldingID","CompanyID","BarGroupID","AlcoholTypeID","AlcoholBrandID","collector_id","buttons","NetPrice","SalePrice"); 
+                $mandatoryParameters = array("accessToken","userId","HoldingID","CompanyID","BarGroupID","collector_id","imei","tap");
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -390,7 +390,7 @@ class Tap_model extends CI_Model {
                 if($k>0){
                         $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
                 }else{
-                        $availableParameters = array("accessToken","userId","HoldingID","CompanyID","BarGroupID","AlcoholTypeID","AlcoholBrandID","collector_id","buttons","NetPrice","SalePrice");
+                        $availableParameters = array("accessToken","userId","HoldingID","CompanyID","BarGroupID","collector_id","imei","tap");
                         foreach ($parameters as $key => $parameter) {
                                 if(!in_array($key,$availableParameters)){
                                         $i++;
@@ -404,12 +404,9 @@ class Tap_model extends CI_Model {
                                 $HoldingID = $parameters["HoldingID"];
                                 $CompanyID = $parameters["CompanyID"];
                                 $BarGroupID = $parameters["BarGroupID"];
-                                $AlcoholTypeID = $parameters["AlcoholTypeID"];
-                                $AlcoholBrandID = $parameters["AlcoholBrandID"];
                                 $collector_id = $parameters["collector_id"];
-                                $buttons = $parameters["buttons"];
-                                $NetPrice = $parameters["NetPrice"];
-                                $SalePrice = $parameters["SalePrice"];
+                                $imei = $parameters["imei"];
+                                $taps = $parameters["tap"];
                                 if(!is_numeric($userId)){
                                         $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
                                 }else
@@ -422,18 +419,23 @@ class Tap_model extends CI_Model {
                                 if(!is_numeric($BarGroupID)){
                                         $response = $this->globalfunctions->returnMessage(1005,"BarGroupID parametresi numeric olmalıdır.",true);
                                 }else
-                                if(!is_numeric($AlcoholTypeID)){
-                                        $response = $this->globalfunctions->returnMessage(1007,"AlcoholTypeID parametresi numeric olmalıdır.",true);
-                                }else
-                                if(!is_numeric($AlcoholBrandID)){
-                                        $response = $this->globalfunctions->returnMessage(1008,"AlcoholBrandID parametresi numeric olmalıdır.",true);
-                                }else
                                 if(!is_numeric($collector_id)){
                                         $response = $this->globalfunctions->returnMessage(1009,"collector_id parametresi numeric olmalıdır.",true);
                                 }else{
-                                        foreach ($buttons as $key => $button) {
-                                                $tapId = $button["tapId"];
-                                                $tapButtons = $button["buttons"];
+                                        foreach ($taps as $key => $tap) {
+                                                $tapId = $tap["tapId"];
+                                                $tapMac = $tap["ID1"];
+                                                $tapName = $tap["TapName"];
+                                                $TempBeg = $tap["TempBeg"];
+                                                $TempEnd = $tap["TempEnd"];
+                                                $Speed = $tap["Speed"];
+                                                $AlcoholTypeID = $tap["AlcoholTypeID"];
+                                                $AlcoholBrandID = $tap["AlcoholBrandID"];
+                                                $AlcoholGroupID = $tap["AlcoholGroupID"];
+                                                $buttons = $tap["buttons"];
+                                                $NetPrice = $tap["NetPrice"];
+                                                $SalePrice = $tap["SalePrice"];
+                                                $tapButtons = $tap["buttons"];
                                                 $query = $this->db->query("CALL TAP_WIZARD('".$accessToken."',".$userId.",".$tapId.",".$HoldingID.",".$CompanyID.",".$BarGroupID.",".$AlcoholTypeID.",".$AlcoholBrandID.",".$collector_id.")");
                                                 $result = $query->row();
                                                 if($result->isError == 1){
@@ -443,12 +445,13 @@ class Tap_model extends CI_Model {
                                                         $this->db->query("delete from tapButtonsPrice where TapID = $tapId");
                                                         foreach ($tapButtons as $key => $tapButton) {
                                                                 $this->db->close();
-                                                                $query = $this->db->query("CALL ADD_BUTTON_TO_TAP('".$accessToken."',".$userId.",".$tapId.",".($key+1).",'".$tapButton["buttonName"]."','".$tapButton["buttonClReal"]."','".$tapButton["buttonClShown"]."','".$NetPrice."','".$SalePrice."')");
+                                                                $query = $this->db->query("CALL ADD_BUTTON_TO_TAP('".$accessToken."',".$userId.",".$tapId.",".($key+1).",'".$tapButton["buttonName"]."','".$tapButton["buttonClReal"]."','".$tapButton["buttonClShown"]."')");
                                                         }       
                                                 }
+                                                $this->db->close();
+                                                $this->db->query("insert into connectionLog(ID1,CreateDate,ConnectionLogJson) values ('$tapMac',NOW(),'".json_encode($parameters)."')");
                                         }
-                                        $this->db->close();
-                                        $this->db->query("insert into connectionLog(CreateDate,ConnectionLogJson) values (NOW(),'".json_encode($parameters)."')");
+                                        //error_log("insert into connectionLog(CreateDate,ConnectionLogJson) values (NOW(),'".json_encode($parameters)."')");
                                         $response["result"] = true;
                                         $response["resultCode"] = 0;
                                         $response["message"] = "Musluk başarıyla eklendi.";

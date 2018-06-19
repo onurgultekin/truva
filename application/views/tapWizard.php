@@ -270,7 +270,7 @@
                           <option value="0">Lütfen seçin</option>
                             <?php
                             foreach ($activeCollectors as $key => $activeCollector) {
-                              echo '<option value='.$activeCollector->collector_id.'>'.$activeCollector->device_key.'</option>';
+                              echo '<option value='.$activeCollector->collector_id.'>'.$activeCollector->imei.'</option>';
                             }
                             ?>
                           </select>
