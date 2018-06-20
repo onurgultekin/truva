@@ -451,7 +451,6 @@ class Tap_model extends CI_Model {
                                                 $this->db->close();
                                                 $this->db->query("insert into connectionLog(ID1,CreateDate,ConnectionLogJson) values ('$tapMac',NOW(),'".json_encode($parameters)."')");
                                         }
-                                        //error_log("insert into connectionLog(CreateDate,ConnectionLogJson) values (NOW(),'".json_encode($parameters)."')");
                                         $response["result"] = true;
                                         $response["resultCode"] = 0;
                                         $response["message"] = "Musluk başarıyla eklendi.";
@@ -503,7 +502,7 @@ class Tap_model extends CI_Model {
         public function addTapData($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","HoldingID","CompanyID","BarGroupID","tapId","tapName","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","buttonId","buttonName","buttonClReal","buttonClShown","NetPrice","SalePrice");
+                $mandatoryParameters = array("HoldingID","CompanyID","BarGroupID","tapId","tapName","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","buttonId","buttonName","buttonClReal","buttonClShown","NetPrice","SalePrice");
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -512,7 +511,7 @@ class Tap_model extends CI_Model {
                 if($k>0){
                         $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
                 }else{
-                        $availableParameters = array("accessToken","userId","HoldingID","CompanyID","BarGroupID","tapId","tapName","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","buttonId","buttonName","buttonClReal","buttonClShown","NetPrice","SalePrice");
+                        $availableParameters = array("HoldingID","CompanyID","BarGroupID","tapId","tapName","AlcoholGroupID","AlcoholTypeID","AlcoholBrandID","buttonId","buttonName","buttonClReal","buttonClShown","NetPrice","SalePrice");
                         foreach ($parameters as $key => $parameter) {
                                 if(!in_array($key,$availableParameters)){
                                         $i++;
@@ -521,8 +520,6 @@ class Tap_model extends CI_Model {
                         if($i>0){
                                 $response = $this->globalfunctions->returnMessage(1001,"Geçersiz istek. Bilinmeyen parametre girdiniz.",true);
                         }else{
-                                $accessToken = $parameters["accessToken"];
-                                $userId = $parameters["userId"];
                                 $HoldingID = $parameters["HoldingID"];
                                 $CompanyID = $parameters["CompanyID"];
                                 $BarGroupID = $parameters["BarGroupID"];
@@ -537,9 +534,6 @@ class Tap_model extends CI_Model {
                                 $buttonClShown = $parameters["buttonClShown"];
                                 $NetPrice = $parameters["NetPrice"];
                                 $SalePrice = $parameters["SalePrice"];
-                                if(!is_numeric($userId)){
-                                        $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
-                                }else
                                 if(!is_numeric($HoldingID)){
                                         $response = $this->globalfunctions->returnMessage(1003,"HoldingID parametresi numeric olmalıdır.",true);
                                 }else
@@ -561,7 +555,7 @@ class Tap_model extends CI_Model {
                                 if(!is_numeric($AlcoholBrandID)){
                                         $response = $this->globalfunctions->returnMessage(1008,"AlcoholBrandID parametresi numeric olmalıdır.",true);
                                 }else{
-                                        $this->db->query("CALL ADD_TAP_DATA('".$accessToken."',".$userId.",".$HoldingID.",".$CompanyID.",".$BarGroupID.",".$tapId.",'".$tapName."',".$AlcoholGroupID.",".$AlcoholTypeID.",".$AlcoholBrandID.",".$buttonId.",'".$buttonName."','".$buttonClReal."','".$buttonClShown."','".$NetPrice."','".$SalePrice."')");
+                                        $this->db->query("CALL ADD_TAP_DATA(".$HoldingID.",".$CompanyID.",".$BarGroupID.",".$tapId.",'".$tapName."',".$AlcoholGroupID.",".$AlcoholTypeID.",".$AlcoholBrandID.",".$buttonId.",'".$buttonName."','".$buttonClReal."','".$buttonClShown."','".$NetPrice."','".$SalePrice."')");
                                         $response["result"] = true;
                                         $response["resultCode"] = 0;
                                         $response["message"] = "Musluk başarıyla eklendi.";
@@ -573,7 +567,7 @@ class Tap_model extends CI_Model {
         public function getTapConfiguration($parameters){
                 $i = 0;
                 $k = 0;
-                $mandatoryParameters = array("accessToken","userId","mac"); 
+                $mandatoryParameters = array("mac"); 
                 foreach ($mandatoryParameters as $mandatoryParameter) {
                         if(!array_key_exists($mandatoryParameter,$parameters)){
                                 $k++;
@@ -582,7 +576,7 @@ class Tap_model extends CI_Model {
                 if($k>0){
                         $response = $this->globalfunctions->returnMessage(1000,"Geçersiz istek. Zorunlu parametre eksik.",true);
                 }else{
-                        $availableParameters = array("accessToken","userId","mac");
+                        $availableParameters = array("mac");
                         foreach ($parameters as $key => $parameter) {
                                 if(!in_array($key,$availableParameters)){
                                         $i++;
@@ -591,21 +585,15 @@ class Tap_model extends CI_Model {
                         if($i>0){
                                 $response = $this->globalfunctions->returnMessage(1001,"Geçersiz istek. Bilinmeyen parametre girdiniz.",true);
                         }else{
-                                $accessToken = $parameters["accessToken"];
-                                $userId = $parameters["userId"];
                                 $mac = $parameters["mac"];
-                                if(!is_numeric($userId)){
-                                        $response = $this->globalfunctions->returnMessage(1002,"User Id parametresi numeric olmalıdır.",true);
+                                $query = $this->db->query("CALL GET_CONNECTIONLOG('".$mac."')");
+                                $result = $query->row();
+                                if(@$result->isError == 1){
+                                        $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
                                 }else{
-                                        $query = $this->db->query("CALL GET_CONNECTIONLOG('".$accessToken."',".$userId.",'".$mac."')");
-                                        $result = $query->row();
-                                        if(@$result->isError == 1){
-                                                $response = $this->globalfunctions->returnMessage($result->responseCode,$result->responseMessage,@$result->isError);
-                                        }else{
-                                                $response["result"] = true;
-                                                $response["resultCode"] = 0;
-                                                $response["message"] = $query->result();
-                                        }
+                                        $response["result"] = true;
+                                        $response["resultCode"] = 0;
+                                        $response["message"] = $query->result();
                                 }
                         }
                 }
